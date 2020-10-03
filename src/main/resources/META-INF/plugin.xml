@@ -1,0 +1,28 @@
+<idea-plugin>
+    <id>co.anbora.labs.firebase-syntax-highlighting</id>
+    <name>Firebase Rules Syntax Highlighter</name>
+    <vendor email="anboralabs@gmail.com" url="http://anbora.co">Anbora Labs</vendor>
+
+    <description><![CDATA[
+    Security firebase rules .<br>
+    <em>security rules</em>
+    ]]></description>
+
+    <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <fileType name="Firebase Rule File" implementationClass="co.anbora.labs.firebase.syntax.FirebaseRulesFileType"
+                  fieldName="INSTANCE" language="firebase_rules" extensions="rules"/>
+        <fileTypeFactory implementation="co.anbora.labs.firebase.syntax.FirebaseRulesFileTypeFactory"/>
+        <lang.parserDefinition language="firebase_rules"
+                               implementationClass="co.anbora.labs.firebase.syntax.FirebaseRulesParserDefinition"/>
+        <lang.syntaxHighlighterFactory language="firebase_rules"
+                                       implementationClass="co.anbora.labs.firebase.syntax.FirebaseRulesSyntaxHighlighterFactory"/>
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
+</idea-plugin>
