@@ -21,6 +21,9 @@
           LB = '['
           RB = ']'
           portToken='regexp:(INPORT|EXPORT|OUTPORT)'
+          service='service'
+          allow='allow'
+          match='match'
           comment='regexp:#.*'
           number='regexp:\d+(\.\d*)?'
   //        id='regexp:[a-zA-Z0-9_/]*'
@@ -41,13 +44,31 @@
 
 }
 
-root ::= root_item *
+root ::= root_item
 
 private root_item ::= !<<eof>> property
 
-property ::= stmt lineTerm
+/*property ::= stmt lineTerm
 
-stmt ::= imp | connection
+stmt ::= imp | connection | service | match | allow*/
+
+property ::= RuleVersionStatement? ServiceStatement
+
+stmt ::= RuleVersionStatement | ServiceStatement
+
+RuleVersionStatement ::= RULES_VERSION EQ VERSIONS DOT_COMMA
+
+ServiceStatement ::= service SERVICE_NAME LEFT_BRACE (MatchStatement)+ RIGHT_BRACE
+
+MatchStatement ::= match FullPathStatement LEFT_BRACE (AllowStatement)+ RIGHT_BRACE
+
+FullPathStatement ::= FULL_PATH
+
+//PathStatement ::= pathname
+
+//PathVariableStatement ::= var_path_name
+
+AllowStatement ::= allow
 
 // not the correct grammar but this will have to work until
 imp ::= compMeta portname COLON portname lineTerm

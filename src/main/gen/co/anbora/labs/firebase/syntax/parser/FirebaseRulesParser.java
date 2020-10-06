@@ -36,6 +36,122 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // allow
+  public static boolean AllowStatement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "AllowStatement")) return false;
+    if (!nextTokenIs(b, ALLOW)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, ALLOW);
+    exit_section_(b, m, ALLOW_STATEMENT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // FULL_PATH
+  public static boolean FullPathStatement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FullPathStatement")) return false;
+    if (!nextTokenIs(b, FULL_PATH)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, FULL_PATH);
+    exit_section_(b, m, FULL_PATH_STATEMENT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // match FullPathStatement LEFT_BRACE (AllowStatement)+ RIGHT_BRACE
+  public static boolean MatchStatement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "MatchStatement")) return false;
+    if (!nextTokenIs(b, MATCH)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, MATCH);
+    r = r && FullPathStatement(b, l + 1);
+    r = r && consumeToken(b, LEFT_BRACE);
+    r = r && MatchStatement_3(b, l + 1);
+    r = r && consumeToken(b, RIGHT_BRACE);
+    exit_section_(b, m, MATCH_STATEMENT, r);
+    return r;
+  }
+
+  // (AllowStatement)+
+  private static boolean MatchStatement_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "MatchStatement_3")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = MatchStatement_3_0(b, l + 1);
+    while (r) {
+      int c = current_position_(b);
+      if (!MatchStatement_3_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "MatchStatement_3", c)) break;
+    }
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (AllowStatement)
+  private static boolean MatchStatement_3_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "MatchStatement_3_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = AllowStatement(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // RULES_VERSION EQ VERSIONS DOT_COMMA
+  public static boolean RuleVersionStatement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "RuleVersionStatement")) return false;
+    if (!nextTokenIs(b, RULES_VERSION)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, RULES_VERSION, EQ, VERSIONS, DOT_COMMA);
+    exit_section_(b, m, RULE_VERSION_STATEMENT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // service SERVICE_NAME LEFT_BRACE (MatchStatement)+ RIGHT_BRACE
+  public static boolean ServiceStatement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ServiceStatement")) return false;
+    if (!nextTokenIs(b, SERVICE)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, SERVICE, SERVICE_NAME, LEFT_BRACE);
+    r = r && ServiceStatement_3(b, l + 1);
+    r = r && consumeToken(b, RIGHT_BRACE);
+    exit_section_(b, m, SERVICE_STATEMENT, r);
+    return r;
+  }
+
+  // (MatchStatement)+
+  private static boolean ServiceStatement_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ServiceStatement_3")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = ServiceStatement_3_0(b, l + 1);
+    while (r) {
+      int c = current_position_(b);
+      if (!ServiceStatement_3_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "ServiceStatement_3", c)) break;
+    }
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (MatchStatement)
+  private static boolean ServiceStatement_3_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ServiceStatement_3_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = MatchStatement(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // port nodeRule port |
   //     string |
   //     rightlet |
@@ -232,15 +348,23 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // stmt lineTerm
+  // RuleVersionStatement? ServiceStatement
   public static boolean property(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "property")) return false;
+    if (!nextTokenIs(b, "<property>", RULES_VERSION, SERVICE)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, PROPERTY, "<property>");
-    r = stmt(b, l + 1);
-    r = r && lineTerm(b, l + 1);
+    r = property_0(b, l + 1);
+    r = r && ServiceStatement(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
+  }
+
+  // RuleVersionStatement?
+  private static boolean property_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "property_0")) return false;
+    RuleVersionStatement(b, l + 1);
+    return true;
   }
 
   /* ********************************************************** */
@@ -279,15 +403,9 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // root_item *
+  // root_item
   static boolean root(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "root")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!root_item(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "root", c)) break;
-    }
-    return true;
+    return root_item(b, l + 1);
   }
 
   /* ********************************************************** */
@@ -313,13 +431,14 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // imp | connection
+  // RuleVersionStatement | ServiceStatement
   public static boolean stmt(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "stmt")) return false;
+    if (!nextTokenIs(b, "<stmt>", RULES_VERSION, SERVICE)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, STMT, "<stmt>");
-    r = imp(b, l + 1);
-    if (!r) r = connection(b, l + 1);
+    r = RuleVersionStatement(b, l + 1);
+    if (!r) r = ServiceStatement(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }

@@ -31,9 +31,19 @@ COMMENT=#.*
 NUMBER=[0-9]+(\.[0-9]*)?
 STRING=('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")
 CHAR=[\n\r\u2028\u2029]
+PATH_NAME=[/][a-zA-Z_\-,0-9]+
+VAR_PATH_NAME=[/][{][a-zA-Z_\-,0-9]+[=**]?[}]
+FULL_PATH=({PATH_NAME}|{VAR_PATH_NAME})+
 PORTNAME=[A-Z.0-9_]+
 NODENAME=[a-zA-Z0-9_\-/]+
 COMPMETA=[a-zA-Z/=_,0-9]+
+
+SERVICE=service
+SERVICE_NAME=(cloud.firestore|firebase.storage)
+MATCH=match
+ALLOW=allow
+RULES_VERSION=rules_version
+VERSIONS=('1'|'2')
 
 %%
 <YYINITIAL> {
@@ -43,11 +53,24 @@ COMPMETA=[a-zA-Z/=_,0-9]+
   ")"                { return RP; }
   "["                { return LB; }
   "]"                { return RB; }
+  "{"                { return LEFT_BRACE; }
+  "}"                { return RIGHT_BRACE; }
   "->"               { return OP; }
   ":"                { return COLON; }
   ","                { return COMMA; }
   "="                { return EQ; }
   "."                { return DOT; }
+  ";"                { return DOT_COMMA; }
+
+  {SERVICE}          { return SERVICE; }
+  {SERVICE_NAME}     { return SERVICE_NAME; }
+  {MATCH}            { return MATCH; }
+  {ALLOW}            { return ALLOW; }
+  {RULES_VERSION}    { return RULES_VERSION; }
+  {VERSIONS}         { return VERSIONS; }
+  //{PATH_NAME}        { return PATH_NAME; }
+  //{VAR_PATH_NAME}    { return VAR_PATH_NAME; }
+  {FULL_PATH}        { return FULL_PATH; }
 
   {WHITE_SPACE}      { return WHITE_SPACE; }
   {PORTTOKEN}        { return PORTTOKEN; }

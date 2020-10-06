@@ -7,6 +7,26 @@ import com.intellij.psi.PsiElement;
 
 public class FirebaseRulesVisitor extends PsiElementVisitor {
 
+  public void visitAllowStatement(@NotNull FirebaseRulesAllowStatement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitFullPathStatement(@NotNull FirebaseRulesFullPathStatement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitMatchStatement(@NotNull FirebaseRulesMatchStatement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitRuleVersionStatement(@NotNull FirebaseRulesRuleVersionStatement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitServiceStatement(@NotNull FirebaseRulesServiceStatement o) {
+    visitPsiElement(o);
+  }
+
   public void visitBridge(@NotNull FirebaseRulesBridge o) {
     visitPsiElement(o);
   }

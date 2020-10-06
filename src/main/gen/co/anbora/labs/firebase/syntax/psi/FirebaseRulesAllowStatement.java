@@ -5,12 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FirebaseRulesStmt extends PsiElement {
-
-  @Nullable
-  FirebaseRulesRuleVersionStatement getRuleVersionStatement();
-
-  @Nullable
-  FirebaseRulesServiceStatement getServiceStatement();
+public interface FirebaseRulesAllowStatement extends PsiElement {
 
 }

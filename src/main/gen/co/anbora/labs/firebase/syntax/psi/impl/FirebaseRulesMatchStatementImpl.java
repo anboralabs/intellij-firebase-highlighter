@@ -11,14 +11,14 @@ import static co.anbora.labs.firebase.syntax.psi.FirebaseRulesTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import co.anbora.labs.firebase.syntax.psi.*;
 
-public class FirebaseRulesStmtImpl extends ASTWrapperPsiElement implements FirebaseRulesStmt {
+public class FirebaseRulesMatchStatementImpl extends ASTWrapperPsiElement implements FirebaseRulesMatchStatement {
 
-  public FirebaseRulesStmtImpl(@NotNull ASTNode node) {
+  public FirebaseRulesMatchStatementImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull FirebaseRulesVisitor visitor) {
-    visitor.visitStmt(this);
+    visitor.visitMatchStatement(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -27,15 +27,15 @@ public class FirebaseRulesStmtImpl extends ASTWrapperPsiElement implements Fireb
   }
 
   @Override
-  @Nullable
-  public FirebaseRulesRuleVersionStatement getRuleVersionStatement() {
-    return findChildByClass(FirebaseRulesRuleVersionStatement.class);
+  @NotNull
+  public List<FirebaseRulesAllowStatement> getAllowStatementList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FirebaseRulesAllowStatement.class);
   }
 
   @Override
-  @Nullable
-  public FirebaseRulesServiceStatement getServiceStatement() {
-    return findChildByClass(FirebaseRulesServiceStatement.class);
+  @NotNull
+  public FirebaseRulesFullPathStatement getFullPathStatement() {
+    return findNotNullChildByClass(FirebaseRulesFullPathStatement.class);
   }
 
 }

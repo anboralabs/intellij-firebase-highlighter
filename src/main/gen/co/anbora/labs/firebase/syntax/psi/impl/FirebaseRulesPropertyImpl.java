@@ -27,15 +27,15 @@ public class FirebaseRulesPropertyImpl extends ASTWrapperPsiElement implements F
   }
 
   @Override
-  @NotNull
-  public FirebaseRulesLineTerm getLineTerm() {
-    return findNotNullChildByClass(FirebaseRulesLineTerm.class);
+  @Nullable
+  public FirebaseRulesRuleVersionStatement getRuleVersionStatement() {
+    return findChildByClass(FirebaseRulesRuleVersionStatement.class);
   }
 
   @Override
   @NotNull
-  public FirebaseRulesStmt getStmt() {
-    return findNotNullChildByClass(FirebaseRulesStmt.class);
+  public FirebaseRulesServiceStatement getServiceStatement() {
+    return findNotNullChildByClass(FirebaseRulesServiceStatement.class);
   }
 
 }

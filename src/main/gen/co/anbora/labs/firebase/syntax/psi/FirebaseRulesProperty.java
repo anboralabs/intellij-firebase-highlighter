@@ -7,10 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface FirebaseRulesProperty extends PsiElement {
 
-  @NotNull
-  FirebaseRulesLineTerm getLineTerm();
+  @Nullable
+  FirebaseRulesRuleVersionStatement getRuleVersionStatement();
 
   @NotNull
-  FirebaseRulesStmt getStmt();
+  FirebaseRulesServiceStatement getServiceStatement();
 
 }
