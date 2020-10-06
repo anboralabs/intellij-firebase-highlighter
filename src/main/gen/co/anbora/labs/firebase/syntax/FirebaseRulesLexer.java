@@ -5,7 +5,7 @@ package co.anbora.labs.firebase.syntax;
 
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
-import co.anbora.labs.firebase.syntax.psi.FirebaseRulesTypes;
+import static co.anbora.labs.firebase.syntax.psi.FirebaseRulesTypes.*;
 import com.intellij.psi.TokenType;
 
 
@@ -24,7 +24,6 @@ class FirebaseRulesLexer implements FlexLexer {
 
   /** lexical states */
   public static final int YYINITIAL = 0;
-  public static final int WAITING_VALUE = 2;
 
   /**
    * ZZ_LEXSTATE[l] is the state in the DFA for the lexical state l
@@ -33,7 +32,7 @@ class FirebaseRulesLexer implements FlexLexer {
    * l is of the form l = 2*k, k a non negative integer
    */
   private static final int ZZ_LEXSTATE[] = { 
-     0,  0,  1, 1
+     0, 0
   };
 
   /** 
@@ -55,8 +54,10 @@ class FirebaseRulesLexer implements FlexLexer {
 
   /* The ZZ_CMAP_A table has 320 entries */
   static final char ZZ_CMAP_A[] = zzUnpackCMap(
-    "\12\0\4\1\123\0\1\2\1\0\1\4\1\0\1\3\2\0\1\15\1\7\2\0\1\5\1\14\1\0\1\6\2\0"+
-    "\1\10\1\11\1\12\1\0\1\13\1\16\15\0\1\1\242\0\2\1\26\0");
+    "\11\0\1\2\4\1\22\0\1\2\1\0\1\23\1\14\3\0\1\21\1\30\1\31\2\0\1\36\1\25\1\20"+
+    "\1\27\12\17\1\35\2\0\1\26\1\34\2\0\4\24\1\11\3\24\1\3\4\24\1\4\1\6\1\5\1\24"+
+    "\1\7\1\24\1\10\1\13\2\24\1\12\2\24\1\32\1\22\1\33\1\0\1\24\1\0\32\27\12\0"+
+    "\1\15\242\0\2\16\26\0");
 
   /** 
    * Translates DFA states to action switch labels.
@@ -64,10 +65,13 @@ class FirebaseRulesLexer implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\2\0\4\1\11\0\1\2\1\0\1\3\1\0\1\4";
+    "\1\0\1\1\1\2\4\3\1\4\1\5\1\6\1\7"+
+    "\2\1\1\10\1\11\1\10\1\12\1\13\1\14\1\15"+
+    "\1\16\1\17\2\3\1\10\1\20\1\3\1\6\1\0"+
+    "\1\21\3\0\1\22\3\3\1\23";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[20];
+    int [] result = new int[38];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -92,12 +96,14 @@ class FirebaseRulesLexer implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\17\0\36\0\55\0\74\0\113\0\132\0\151"+
-    "\0\170\0\207\0\226\0\245\0\264\0\303\0\322\0\36"+
-    "\0\341\0\36\0\360\0\36";
+    "\0\0\0\37\0\76\0\135\0\174\0\233\0\272\0\331"+
+    "\0\37\0\370\0\u0117\0\u0136\0\u0155\0\u0174\0\u0193\0\u01b2"+
+    "\0\37\0\37\0\37\0\37\0\37\0\u0193\0\u01d1\0\u0117"+
+    "\0\u01f0\0\u0193\0\u020f\0\u022e\0\u0136\0\37\0\u024d\0\u0155"+
+    "\0\u026c\0\37\0\u028b\0\u02aa\0\u02c9\0\174";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[20];
+    int [] result = new int[38];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -120,14 +126,40 @@ class FirebaseRulesLexer implements FlexLexer {
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\3\1\0\1\4\6\3\1\5\2\3\1\6\3\3"+
-    "\1\0\15\3\24\0\1\7\14\0\1\10\15\0\1\11"+
-    "\21\0\1\12\21\0\1\13\20\0\1\14\12\0\1\15"+
-    "\23\0\1\16\7\0\1\17\30\0\1\20\7\0\1\21"+
-    "\24\0\1\22\5\0\1\23\15\0\1\24\13\0";
+    "\1\2\2\3\1\4\2\5\1\6\2\5\1\7\2\5"+
+    "\1\10\1\2\1\11\1\12\1\13\1\14\1\2\1\15"+
+    "\1\5\1\16\1\17\1\20\1\21\1\22\1\23\1\24"+
+    "\1\2\1\25\1\26\40\0\2\3\37\0\1\5\1\27"+
+    "\7\5\3\0\1\5\1\30\3\0\1\5\1\31\1\32"+
+    "\1\20\6\0\1\32\3\0\11\5\3\0\1\5\1\30"+
+    "\3\0\1\5\1\31\1\32\1\20\6\0\1\32\3\0"+
+    "\10\5\1\33\3\0\1\5\1\30\3\0\1\5\1\31"+
+    "\1\32\1\20\6\0\1\32\3\0\7\5\1\27\1\5"+
+    "\3\0\1\5\1\30\3\0\1\5\1\31\1\32\1\20"+
+    "\6\0\1\32\1\10\1\0\13\10\2\0\20\10\3\0"+
+    "\11\5\3\0\1\12\1\34\3\0\1\5\1\31\1\32"+
+    "\1\20\6\0\1\32\3\0\11\30\3\0\2\30\3\0"+
+    "\1\30\12\0\21\35\1\36\1\37\14\35\22\40\1\41"+
+    "\1\36\13\40\3\0\11\31\3\0\1\31\4\0\2\31"+
+    "\1\0\1\31\4\0\1\42\5\0\11\32\3\0\1\32"+
+    "\4\0\1\32\1\0\2\32\6\0\1\32\3\0\11\20"+
+    "\3\0\1\20\4\0\1\20\1\31\1\32\1\20\6\0"+
+    "\1\32\3\0\2\5\1\43\6\5\3\0\1\5\1\30"+
+    "\3\0\1\5\1\31\1\32\1\20\6\0\1\32\3\0"+
+    "\11\31\3\0\1\31\4\0\2\31\1\0\1\31\12\0"+
+    "\5\5\1\27\3\5\3\0\1\5\1\30\3\0\1\5"+
+    "\1\31\1\32\1\20\6\0\1\32\3\0\11\30\3\0"+
+    "\1\34\1\30\3\0\1\30\12\0\1\35\1\0\13\35"+
+    "\2\0\20\35\1\40\1\0\13\40\2\0\20\40\3\0"+
+    "\3\5\1\44\5\5\3\0\1\5\1\30\3\0\1\5"+
+    "\1\31\1\32\1\20\6\0\1\32\3\0\4\5\1\45"+
+    "\4\5\3\0\1\5\1\30\3\0\1\5\1\31\1\32"+
+    "\1\20\6\0\1\32\3\0\5\5\1\46\3\5\3\0"+
+    "\1\5\1\30\3\0\1\5\1\31\1\32\1\20\6\0"+
+    "\1\32";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[255];
+    int [] result = new int[744];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -165,11 +197,11 @@ class FirebaseRulesLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\2\0\1\11\3\1\11\0\1\11\1\0\1\11\1\0"+
-    "\1\11";
+    "\1\0\1\11\6\1\1\11\7\1\5\11\7\1\1\0"+
+    "\1\11\3\0\1\11\4\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[20];
+    int [] result = new int[38];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -223,6 +255,11 @@ class FirebaseRulesLexer implements FlexLexer {
 
   /** denotes if the user-EOF-code has already been executed */
   private boolean zzEOFDone;
+
+  /* user code: */
+  public FirebaseRulesLexer() {
+    this((java.io.Reader)null);
+  }
 
 
   /**
@@ -380,18 +417,6 @@ class FirebaseRulesLexer implements FlexLexer {
 
 
   /**
-   * Contains user EOF-code, which will be executed exactly once,
-   * when the end of file is reached
-   */
-  private void zzDoEOF() {
-    if (!zzEOFDone) {
-      zzEOFDone = true;
-    
-    }
-  }
-
-
-  /**
    * Resumes scanning until the next regular expression is matched,
    * the end of input is encountered or an I/O-Error occurs.
    *
@@ -477,31 +502,105 @@ class FirebaseRulesLexer implements FlexLexer {
 
       if (zzInput == YYEOF && zzStartRead == zzCurrentPos) {
         zzAtEOF = true;
-        zzDoEOF();
         return null;
       }
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1: 
-            { return TokenType.BAD_CHARACTER;
+            { return com.intellij.psi.TokenType.BAD_CHARACTER;
             } 
             // fall through
-          case 5: break;
+          case 20: break;
           case 2: 
-            { return FirebaseRulesTypes.ALLOW;
+            { return com.intellij.psi.TokenType.WHITE_SPACE;
             } 
             // fall through
-          case 6: break;
+          case 21: break;
           case 3: 
-            { return FirebaseRulesTypes.MATCH;
+            { return PORTNAME;
             } 
             // fall through
-          case 7: break;
+          case 22: break;
           case 4: 
-            { return FirebaseRulesTypes.SERVICE;
+            { return COMMENT;
             } 
             // fall through
-          case 8: break;
+          case 23: break;
+          case 5: 
+            { return CHAR;
+            } 
+            // fall through
+          case 24: break;
+          case 6: 
+            { return NUMBER;
+            } 
+            // fall through
+          case 25: break;
+          case 7: 
+            { return DOT;
+            } 
+            // fall through
+          case 26: break;
+          case 8: 
+            { return NODENAME;
+            } 
+            // fall through
+          case 27: break;
+          case 9: 
+            { return EQ;
+            } 
+            // fall through
+          case 28: break;
+          case 10: 
+            { return LP;
+            } 
+            // fall through
+          case 29: break;
+          case 11: 
+            { return RP;
+            } 
+            // fall through
+          case 30: break;
+          case 12: 
+            { return LB;
+            } 
+            // fall through
+          case 31: break;
+          case 13: 
+            { return RB;
+            } 
+            // fall through
+          case 32: break;
+          case 14: 
+            { return COLON;
+            } 
+            // fall through
+          case 33: break;
+          case 15: 
+            { return COMMA;
+            } 
+            // fall through
+          case 34: break;
+          case 16: 
+            { return COMPMETA;
+            } 
+            // fall through
+          case 35: break;
+          case 17: 
+            { return STRING;
+            } 
+            // fall through
+          case 36: break;
+          case 18: 
+            { return OP;
+            } 
+            // fall through
+          case 37: break;
+          case 19: 
+            { return PORTTOKEN;
+            } 
+            // fall through
+          case 38: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }

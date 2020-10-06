@@ -5,6 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FirebaseRulesServiceStatement extends PsiElement {
+public interface FirebaseRulesComponent extends PsiElement {
+
+  @Nullable
+  FirebaseRulesMetadata getMetadata();
+
+  @Nullable
+  PsiElement getNodename();
 
 }

@@ -3,81 +3,61 @@ package co.anbora.labs.firebase.syntax;
 
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
-import co.anbora.labs.firebase.syntax.psi.FirebaseRulesTypes;
+import static co.anbora.labs.firebase.syntax.psi.FirebaseRulesTypes.*;
 import com.intellij.psi.TokenType;
 
 %%
+
+%{
+  public FirebaseRulesLexer() {
+    this((java.io.Reader)null);
+  }
+%}
 
 %class FirebaseRulesLexer
 %implements FlexLexer
 %unicode
 %function advance
 %type IElementType
-%eof{  return;
-%eof}
+%unicode
 
-CRLF=\R
-WHITE_SPACE=[\ \n\t\f]
-FIRST_VALUE_CHARACTER=[^ \n\f\\] | "\\"{CRLF} | "\\".
-VALUE_CHARACTER=[^\n\f\\] | "\\"{CRLF} | "\\".
-END_OF_LINE_COMMENT=("#"|"!")[^\r\n]*
-SEPARATOR=[:=]
-KEY_CHARACTER=[^:=\ \n\t\f\\] | "\\ "
+EOL="\r"|"\n"|"\r\n"
+LINE_WS=[\ \t\f]
+WHITE_SPACE=({LINE_WS}|{EOL})+
 
-Newline = (\n|\r|\r\n)
-Space = " "
-WhiteSpace = {Space}+
-Tab = \t
-LineComment = ("--")[^\r\n]*
-IdentifierChar = [[:letter:][:digit:]_]
-HexChar = [[:digit:]A-Fa-f]
-LowerCaseIdentifier = [:lowercase:]{IdentifierChar}+
-UpperCaseIdentifier = [:uppercase:]{IdentifierChar}+
-NumberLiteral = ("-")?[:digit:]+(\.[:digit:]+)?(e"-"?[:digit:]+)?
-HexLiteral = 0x{HexChar}+
-Operator = ("!"|"$"|"^"|"|"|"*"|"/"|"?"|"+"|"~"|"."|-|=|@|#|%|&|<|>|:|€|¥|¢|£|¤)+
-
-ValidEscapeSequence = \\(u\{{HexChar}{4,6}\}|[nrt\"'\\])
-InvalidEscapeSequence = \\(u\{[^}]*\}|[^nrt\"'\\])
-ThreeQuotes = \"\"\"
-
-Slash=[/]
-ServiceName = (cloud.firestore|firebase.storage)
-
-%state WAITING_VALUE
+WHITE_SPACE=[ \t\n\x0B\f\r]+
+PORTTOKEN=(INPORT|EXPORT|OUTPORT)
+COMMENT=#.*
+NUMBER=[0-9]+(\.[0-9]*)?
+STRING=('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")
+CHAR=[\n\r\u2028\u2029]
+PORTNAME=[A-Z.0-9_]+
+NODENAME=[a-zA-Z0-9_\-/]+
+COMPMETA=[a-zA-Z/=_,0-9]+
 
 %%
-
 <YYINITIAL> {
-    "service"                   { return FirebaseRulesTypes.SERVICE; }
-    "match"                     { return FirebaseRulesTypes.MATCH; }
-    "allow"                     { return FirebaseRulesTypes.ALLOW; }
-    /*"if"                        { return FirebaseRulesTypes.IF; }
-    "read"                      { return FirebaseRulesTypes.READ; }
-    "write"                     { return FirebaseRulesTypes.WRITE; }
-    "get"                       { return FirebaseRulesTypes.GET; }
-    "list"                      { return FirebaseRulesTypes.LIST; }
-    "create"                    { return FirebaseRulesTypes.CREATE; }
-    "update"                    { return FirebaseRulesTypes.UPDATE; }
-    "delete"                    { return FirebaseRulesTypes.DELETE; }
-    "("                         { return FirebaseRulesTypes.LEFT_PARENTHESIS; }
-    ")"                         { return FirebaseRulesTypes.RIGHT_PARENTHESIS; }
-    "["                         { return FirebaseRulesTypes.LEFT_SQUARE_BRACKET; }
-    "]"                         { return FirebaseRulesTypes.RIGHT_SQUARE_BRACKET; }
-    "{"                         { return FirebaseRulesTypes.LEFT_BRACE; }
-    "}"                         { return FirebaseRulesTypes.RIGHT_BRACE; }
-    ".."                        { return FirebaseRulesTypes.DOUBLE_DOT; }
-    ","                         { return FirebaseRulesTypes.COMMA; }
-    "="                         { return FirebaseRulesTypes.EQ; }
-    "->"                        { return FirebaseRulesTypes.ARROW; }
-    ":"                         { return FirebaseRulesTypes.COLON; }
-    "|"                         { return FirebaseRulesTypes.PIPE; }
-    "\\"                        { return FirebaseRulesTypes.BACKSLASH; }
-    "_"                         { return FirebaseRulesTypes.UNDERSCORE; }
-    "."                         { return FirebaseRulesTypes.DOT; }
-    {LowerCaseIdentifier}       { return FirebaseRulesTypes.LOWER_CASE_IDENTIFIER; }*/
-}
+  {WHITE_SPACE}      { return com.intellij.psi.TokenType.WHITE_SPACE; }
 
-. {
-    return TokenType.BAD_CHARACTER;
+  "("                { return LP; }
+  ")"                { return RP; }
+  "["                { return LB; }
+  "]"                { return RB; }
+  "->"               { return OP; }
+  ":"                { return COLON; }
+  ","                { return COMMA; }
+  "="                { return EQ; }
+  "."                { return DOT; }
+
+  {WHITE_SPACE}      { return WHITE_SPACE; }
+  {PORTTOKEN}        { return PORTTOKEN; }
+  {COMMENT}          { return COMMENT; }
+  {NUMBER}           { return NUMBER; }
+  {STRING}           { return STRING; }
+  {CHAR}             { return CHAR; }
+  {PORTNAME}         { return PORTNAME; }
+  {NODENAME}         { return NODENAME; }
+  {COMPMETA}         { return COMPMETA; }
+
+  [^] { return com.intellij.psi.TokenType.BAD_CHARACTER; }
 }

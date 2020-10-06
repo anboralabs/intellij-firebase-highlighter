@@ -1,7 +1,7 @@
 // Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 {
   parserClass="co.anbora.labs.firebase.syntax.parser.FirebaseRulesParser"
-
+  parserUtilClass="co.anbora.labs.firebase.syntax.FirebaseRulesParserUtil"
   extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
 
   psiClassPrefix="FirebaseRules"
@@ -12,10 +12,67 @@
   elementTypeHolderClass="co.anbora.labs.firebase.syntax.psi.FirebaseRulesTypes"
   elementTypeClass="co.anbora.labs.firebase.syntax.psi.FirebaseRulesElementType"
   tokenTypeClass="co.anbora.labs.firebase.syntax.psi.FirebaseRulesTokenType"
+  psiImplUtilClass="co.anbora.labs.firebase.syntax.psi.impl.FBPPsiImplUtil"
+
+  tokens = [
+          WHITE_SPACE='regexp:\s+'
+          LP = '('
+          RP = ')'
+          LB = '['
+          RB = ']'
+          portToken='regexp:(INPORT|EXPORT|OUTPORT)'
+          comment='regexp:#.*'
+          number='regexp:\d+(\.\d*)?'
+  //        id='regexp:[a-zA-Z0-9_/]*'
+          string="regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")"
+          op = '->'
+          COLON = ':'
+          COMMA = ','
+          EQ = '='
+          DOT = '.'
+          char = 'regexp:[\n\r\u2028\u2029]'
+  //        priv='regexp:[A-Za-z.0-9_]+'
+  //        pub='regexp:[A-Z0-9_]+'
+          portname='regexp:[A-Z.0-9_]+'
+          nodename='regexp:[a-zA-Z0-9_\-/]+'
+  //        comp='regexp:[a-zA-Z/\-0-9_]+'
+          compMeta='regexp:[a-zA-Z/=_,0-9]+'
+      ]
+
 }
 
-AllowStatement ::= ALLOW
+root ::= root_item *
 
-MatchStatement ::= MATCH
+private root_item ::= !<<eof>> property
 
-ServiceStatement ::= SERVICE
+property ::= stmt lineTerm
+
+stmt ::= imp | connection
+
+// not the correct grammar but this will have to work until
+imp ::= compMeta portname COLON portname lineTerm
+
+connection ::= bridge op connection | bridge
+
+bridge ::= port nodeRule port |
+    string |
+    rightlet |
+    leftlet
+
+leftlet ::= nodeRule portWithIndex | nodeRule port
+
+rightlet ::= portWithIndex nodeRule | port nodeRule
+
+port ::= portname
+
+nodeRule ::= nodename component?
+
+component ::= LP nodename? metadata? RP
+
+metadata ::= COLON compMeta
+
+lineTerm ::= char?
+
+portWithIndex ::= portname LB number RB
+
+//white_space ::= space
