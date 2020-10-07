@@ -11,25 +11,19 @@ import static co.anbora.labs.firebase.syntax.psi.FirebaseRulesTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import co.anbora.labs.firebase.syntax.psi.*;
 
-public class FirebaseRulesLineTermImpl extends ASTWrapperPsiElement implements FirebaseRulesLineTerm {
+public class FirebaseRulesPermissionStatementImpl extends ASTWrapperPsiElement implements FirebaseRulesPermissionStatement {
 
-  public FirebaseRulesLineTermImpl(@NotNull ASTNode node) {
+  public FirebaseRulesPermissionStatementImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull FirebaseRulesVisitor visitor) {
-    visitor.visitLineTerm(this);
+    visitor.visitPermissionStatement(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof FirebaseRulesVisitor) accept((FirebaseRulesVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getChar() {
-    return findChildByType(CHAR);
   }
 
 }

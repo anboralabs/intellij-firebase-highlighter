@@ -26,4 +26,16 @@ public class FirebaseRulesAllowStatementImpl extends ASTWrapperPsiElement implem
     else super.accept(visitor);
   }
 
+  @Override
+  @NotNull
+  public FirebaseRulesPermissionStatement getPermissionStatement() {
+    return findNotNullChildByClass(FirebaseRulesPermissionStatement.class);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getCompMeta() {
+    return findNotNullChildByType(COMPMETA);
+  }
+
 }

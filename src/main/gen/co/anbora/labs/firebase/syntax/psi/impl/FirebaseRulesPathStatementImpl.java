@@ -11,14 +11,14 @@ import static co.anbora.labs.firebase.syntax.psi.FirebaseRulesTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import co.anbora.labs.firebase.syntax.psi.*;
 
-public class FirebaseRulesLeftletImpl extends ASTWrapperPsiElement implements FirebaseRulesLeftlet {
+public class FirebaseRulesPathStatementImpl extends ASTWrapperPsiElement implements FirebaseRulesPathStatement {
 
-  public FirebaseRulesLeftletImpl(@NotNull ASTNode node) {
+  public FirebaseRulesPathStatementImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull FirebaseRulesVisitor visitor) {
-    visitor.visitLeftlet(this);
+    visitor.visitPathStatement(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -27,21 +27,9 @@ public class FirebaseRulesLeftletImpl extends ASTWrapperPsiElement implements Fi
   }
 
   @Override
-  @NotNull
-  public FirebaseRulesNodeRule getNodeRule() {
-    return findNotNullChildByClass(FirebaseRulesNodeRule.class);
-  }
-
-  @Override
   @Nullable
-  public FirebaseRulesPort getPort() {
-    return findChildByClass(FirebaseRulesPort.class);
-  }
-
-  @Override
-  @Nullable
-  public FirebaseRulesPortWithIndex getPortWithIndex() {
-    return findChildByClass(FirebaseRulesPortWithIndex.class);
+  public FirebaseRulesPathVariableStatement getPathVariableStatement() {
+    return findChildByClass(FirebaseRulesPathVariableStatement.class);
   }
 
 }

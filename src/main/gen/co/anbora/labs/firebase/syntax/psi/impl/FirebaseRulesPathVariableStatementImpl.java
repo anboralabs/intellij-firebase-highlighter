@@ -11,31 +11,19 @@ import static co.anbora.labs.firebase.syntax.psi.FirebaseRulesTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import co.anbora.labs.firebase.syntax.psi.*;
 
-public class FirebaseRulesConnectionImpl extends ASTWrapperPsiElement implements FirebaseRulesConnection {
+public class FirebaseRulesPathVariableStatementImpl extends ASTWrapperPsiElement implements FirebaseRulesPathVariableStatement {
 
-  public FirebaseRulesConnectionImpl(@NotNull ASTNode node) {
+  public FirebaseRulesPathVariableStatementImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull FirebaseRulesVisitor visitor) {
-    visitor.visitConnection(this);
+    visitor.visitPathVariableStatement(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof FirebaseRulesVisitor) accept((FirebaseRulesVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public FirebaseRulesBridge getBridge() {
-    return findNotNullChildByClass(FirebaseRulesBridge.class);
-  }
-
-  @Override
-  @Nullable
-  public FirebaseRulesConnection getConnection() {
-    return findChildByClass(FirebaseRulesConnection.class);
   }
 
 }

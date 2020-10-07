@@ -7,4 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface FirebaseRulesFullPathStatement extends PsiElement {
 
+  @NotNull
+  List<FirebaseRulesPathStatement> getPathStatementList();
+
 }

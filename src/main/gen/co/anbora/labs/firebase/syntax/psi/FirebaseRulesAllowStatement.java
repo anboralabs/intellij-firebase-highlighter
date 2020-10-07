@@ -7,4 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface FirebaseRulesAllowStatement extends PsiElement {
 
+  @NotNull
+  FirebaseRulesPermissionStatement getPermissionStatement();
+
+  @NotNull
+  PsiElement getCompMeta();
+
 }

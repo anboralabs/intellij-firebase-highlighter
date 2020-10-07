@@ -31,12 +31,10 @@ COMMENT=#.*
 NUMBER=[0-9]+(\.[0-9]*)?
 STRING=('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")
 CHAR=[\n\r\u2028\u2029]
-PATH_NAME=[/][a-zA-Z_\-,0-9]+
-VAR_PATH_NAME=[/][{][a-zA-Z_\-,0-9]+[=**]?[}]
-FULL_PATH=({PATH_NAME}|{VAR_PATH_NAME})+
-PORTNAME=[A-Z.0-9_]+
-NODENAME=[a-zA-Z0-9_\-/]+
-COMPMETA=[a-zA-Z/=_,0-9]+
+COMPMETA=[a-zA-Z=_\-,0-9]+
+SLASH=\/
+VAR_PATH_NAME="{"[a-zA-Z_\-,0-9]+[=**]?"}"
+FULL_PATH=("/"{PATH_NAME}|"/"{VAR_PATH_NAME})+
 
 SERVICE=service
 SERVICE_NAME=(cloud.firestore|firebase.storage)
@@ -44,6 +42,8 @@ MATCH=match
 ALLOW=allow
 RULES_VERSION=rules_version
 VERSIONS=('1'|'2')
+PERMISSIONS_KEYS=(read|write|get|list|create|update|delete)
+PATH_NAME=[a-zA-Z_\-,0-9]+
 
 %%
 <YYINITIAL> {
@@ -66,20 +66,17 @@ VERSIONS=('1'|'2')
   {SERVICE_NAME}     { return SERVICE_NAME; }
   {MATCH}            { return MATCH; }
   {ALLOW}            { return ALLOW; }
+  {PERMISSIONS_KEYS} { return PERMISSIONS_KEYS; }
   {RULES_VERSION}    { return RULES_VERSION; }
   {VERSIONS}         { return VERSIONS; }
-  //{PATH_NAME}        { return PATH_NAME; }
-  //{VAR_PATH_NAME}    { return VAR_PATH_NAME; }
-  {FULL_PATH}        { return FULL_PATH; }
+  {PATH_NAME}        { return PATH_NAME; }
+  {SLASH}            { return SLASH; }
 
   {WHITE_SPACE}      { return WHITE_SPACE; }
   {PORTTOKEN}        { return PORTTOKEN; }
   {COMMENT}          { return COMMENT; }
   {NUMBER}           { return NUMBER; }
   {STRING}           { return STRING; }
-  {CHAR}             { return CHAR; }
-  {PORTNAME}         { return PORTNAME; }
-  {NODENAME}         { return NODENAME; }
   {COMPMETA}         { return COMPMETA; }
 
   [^] { return com.intellij.psi.TokenType.BAD_CHARACTER; }

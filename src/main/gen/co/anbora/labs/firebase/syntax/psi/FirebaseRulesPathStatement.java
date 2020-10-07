@@ -5,15 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FirebaseRulesLeftlet extends PsiElement {
-
-  @NotNull
-  FirebaseRulesNodeRule getNodeRule();
+public interface FirebaseRulesPathStatement extends PsiElement {
 
   @Nullable
-  FirebaseRulesPort getPort();
-
-  @Nullable
-  FirebaseRulesPortWithIndex getPortWithIndex();
+  FirebaseRulesPathVariableStatement getPathVariableStatement();
 
 }

@@ -26,4 +26,10 @@ public class FirebaseRulesFullPathStatementImpl extends ASTWrapperPsiElement imp
     else super.accept(visitor);
   }
 
+  @Override
+  @NotNull
+  public List<FirebaseRulesPathStatement> getPathStatementList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FirebaseRulesPathStatement.class);
+  }
+
 }

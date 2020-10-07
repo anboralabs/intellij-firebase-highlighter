@@ -36,10 +36,10 @@
           char = 'regexp:[\n\r\u2028\u2029]'
   //        priv='regexp:[A-Za-z.0-9_]+'
   //        pub='regexp:[A-Z0-9_]+'
-          portname='regexp:[A-Z.0-9_]+'
-          nodename='regexp:[a-zA-Z0-9_\-/]+'
+  //        portname='regexp:[A-Z.0-9_]+'
+  //        nodename='regexp:[a-zA-Z0-9_\-/]+'
   //        comp='regexp:[a-zA-Z/\-0-9_]+'
-          compMeta='regexp:[a-zA-Z/=_,0-9]+'
+          compMeta='regexp:[a-zA-Z=_\-,0-9]+'
       ]
 
 }
@@ -48,13 +48,7 @@ root ::= root_item
 
 private root_item ::= !<<eof>> property
 
-/*property ::= stmt lineTerm
-
-stmt ::= imp | connection | service | match | allow*/
-
 property ::= RuleVersionStatement? ServiceStatement
-
-stmt ::= RuleVersionStatement | ServiceStatement
 
 RuleVersionStatement ::= RULES_VERSION EQ VERSIONS DOT_COMMA
 
@@ -62,38 +56,12 @@ ServiceStatement ::= service SERVICE_NAME LEFT_BRACE (MatchStatement)+ RIGHT_BRA
 
 MatchStatement ::= match FullPathStatement LEFT_BRACE (AllowStatement)+ RIGHT_BRACE
 
-FullPathStatement ::= FULL_PATH
+FullPathStatement ::= (SLASH PathStatement)+
 
-//PathStatement ::= pathname
+PathStatement ::= (PATH_NAME|PathVariableStatement)
 
-//PathVariableStatement ::= var_path_name
+PathVariableStatement ::= LEFT_BRACE PATH_NAME RIGHT_BRACE
 
-AllowStatement ::= allow
+AllowStatement ::= allow PermissionStatement COLON compMeta DOT_COMMA
 
-// not the correct grammar but this will have to work until
-imp ::= compMeta portname COLON portname lineTerm
-
-connection ::= bridge op connection | bridge
-
-bridge ::= port nodeRule port |
-    string |
-    rightlet |
-    leftlet
-
-leftlet ::= nodeRule portWithIndex | nodeRule port
-
-rightlet ::= portWithIndex nodeRule | port nodeRule
-
-port ::= portname
-
-nodeRule ::= nodename component?
-
-component ::= LP nodename? metadata? RP
-
-metadata ::= COLON compMeta
-
-lineTerm ::= char?
-
-portWithIndex ::= portname LB number RB
-
-//white_space ::= space
+PermissionStatement ::= PERMISSIONS_KEYS(COMMA PERMISSIONS_KEYS)*
