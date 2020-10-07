@@ -78,7 +78,7 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // match FullPathStatement LEFT_BRACE (AllowStatement)+ RIGHT_BRACE
+  // match FullPathStatement LEFT_BRACE (AllowStatement|MatchStatement)+ RIGHT_BRACE
   public static boolean MatchStatement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "MatchStatement")) return false;
     if (!nextTokenIs(b, MATCH)) return false;
@@ -93,7 +93,7 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (AllowStatement)+
+  // (AllowStatement|MatchStatement)+
   private static boolean MatchStatement_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "MatchStatement_3")) return false;
     boolean r;
@@ -108,13 +108,12 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (AllowStatement)
+  // AllowStatement|MatchStatement
   private static boolean MatchStatement_3_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "MatchStatement_3_0")) return false;
     boolean r;
-    Marker m = enter_section_(b);
     r = AllowStatement(b, l + 1);
-    exit_section_(b, m, null, r);
+    if (!r) r = MatchStatement(b, l + 1);
     return r;
   }
 

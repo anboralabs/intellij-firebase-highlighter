@@ -13,4 +13,7 @@ public interface FirebaseRulesMatchStatement extends PsiElement {
   @NotNull
   FirebaseRulesFullPathStatement getFullPathStatement();
 
+  @NotNull
+  List<FirebaseRulesMatchStatement> getMatchStatementList();
+
 }

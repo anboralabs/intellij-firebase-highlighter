@@ -38,4 +38,10 @@ public class FirebaseRulesMatchStatementImpl extends ASTWrapperPsiElement implem
     return findNotNullChildByClass(FirebaseRulesFullPathStatement.class);
   }
 
+  @Override
+  @NotNull
+  public List<FirebaseRulesMatchStatement> getMatchStatementList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FirebaseRulesMatchStatement.class);
+  }
+
 }
