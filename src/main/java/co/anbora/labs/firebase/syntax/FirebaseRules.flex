@@ -33,8 +33,6 @@ STRING=('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")
 CHAR=[\n\r\u2028\u2029]
 COMPMETA=[a-zA-Z=_\-,0-9]+
 SLASH=\/
-VAR_PATH_NAME="{"[a-zA-Z_\-,0-9]+[=**]?"}"
-FULL_PATH=("/"{PATH_NAME}|"/"{VAR_PATH_NAME})+
 
 SERVICE=service
 SERVICE_NAME=(cloud.firestore|firebase.storage)
@@ -44,7 +42,7 @@ RULES_VERSION=rules_version
 VERSIONS=('1'|'2')
 PERMISSIONS_KEYS=(read|write|get|list|create|update|delete)
 PATH_NAME=[a-zA-Z_\-,0-9]+
-PATH_VARIABLE=[{][a-zA-Z_\-,0-9]+[}]
+PATH_VARIABLE=[{][a-zA-Z_\-,0-9]+(=\*\*)?[}]
 PERMISSION={PERMISSIONS_KEYS}([,]({WHITE_SPACE})?{PERMISSIONS_KEYS})*
 
 %%
@@ -52,6 +50,7 @@ PERMISSION={PERMISSIONS_KEYS}([,]({WHITE_SPACE})?{PERMISSIONS_KEYS})*
   {WHITE_SPACE}      { return com.intellij.psi.TokenType.WHITE_SPACE; }
 
   {PERMISSION}       { return PERMISSION; }
+  {PATH_VARIABLE}    { return PATH_VARIABLE; }
 
   "("                { return LP; }
   ")"                { return RP; }
@@ -72,7 +71,6 @@ PERMISSION={PERMISSIONS_KEYS}([,]({WHITE_SPACE})?{PERMISSIONS_KEYS})*
   {ALLOW}            { return ALLOW; }
   {RULES_VERSION}    { return RULES_VERSION; }
   {VERSIONS}         { return VERSIONS; }
-  {PATH_VARIABLE}    { return PATH_VARIABLE; }
   {PATH_NAME}        { return PATH_NAME; }
   {SLASH}            { return SLASH; }
 
