@@ -58,10 +58,8 @@ MatchStatement ::= match FullPathStatement LEFT_BRACE (AllowStatement)+ RIGHT_BR
 
 FullPathStatement ::= (SLASH PathStatement)+
 
-PathStatement ::= (PATH_NAME|PathVariableStatement)
-
-PathVariableStatement ::= LEFT_BRACE PATH_NAME RIGHT_BRACE
+PathStatement ::= (PATH_NAME|PATH_VARIABLE)
 
 AllowStatement ::= allow PermissionStatement COLON compMeta DOT_COMMA
 
-PermissionStatement ::= PERMISSIONS_KEYS(COMMA PERMISSIONS_KEYS)*
+PermissionStatement ::= PERMISSION

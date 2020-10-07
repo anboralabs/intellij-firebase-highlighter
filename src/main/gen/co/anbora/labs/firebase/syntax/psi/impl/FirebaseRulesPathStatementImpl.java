@@ -26,10 +26,4 @@ public class FirebaseRulesPathStatementImpl extends ASTWrapperPsiElement impleme
     else super.accept(visitor);
   }
 
-  @Override
-  @Nullable
-  public FirebaseRulesPathVariableStatement getPathVariableStatement() {
-    return findChildByClass(FirebaseRulesPathVariableStatement.class);
-  }
-
 }

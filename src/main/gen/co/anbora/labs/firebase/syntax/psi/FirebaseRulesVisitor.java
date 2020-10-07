@@ -23,10 +23,6 @@ public class FirebaseRulesVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitPathVariableStatement(@NotNull FirebaseRulesPathVariableStatement o) {
-    visitPsiElement(o);
-  }
-
   public void visitPermissionStatement(@NotNull FirebaseRulesPermissionStatement o) {
     visitPsiElement(o);
   }

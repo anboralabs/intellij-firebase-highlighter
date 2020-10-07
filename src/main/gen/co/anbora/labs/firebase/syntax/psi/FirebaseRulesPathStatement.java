@@ -7,7 +7,4 @@ import com.intellij.psi.PsiElement;
 
 public interface FirebaseRulesPathStatement extends PsiElement {
 
-  @Nullable
-  FirebaseRulesPathVariableStatement getPathVariableStatement();
-
 }

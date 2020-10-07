@@ -12,7 +12,6 @@ public interface FirebaseRulesTypes {
   IElementType FULL_PATH_STATEMENT = new FirebaseRulesElementType("FULL_PATH_STATEMENT");
   IElementType MATCH_STATEMENT = new FirebaseRulesElementType("MATCH_STATEMENT");
   IElementType PATH_STATEMENT = new FirebaseRulesElementType("PATH_STATEMENT");
-  IElementType PATH_VARIABLE_STATEMENT = new FirebaseRulesElementType("PATH_VARIABLE_STATEMENT");
   IElementType PERMISSION_STATEMENT = new FirebaseRulesElementType("PERMISSION_STATEMENT");
   IElementType PROPERTY = new FirebaseRulesElementType("PROPERTY");
   IElementType RULE_VERSION_STATEMENT = new FirebaseRulesElementType("RULE_VERSION_STATEMENT");
@@ -33,7 +32,8 @@ public interface FirebaseRulesTypes {
   IElementType NUMBER = new FirebaseRulesTokenType("number");
   IElementType OP = new FirebaseRulesTokenType("->");
   IElementType PATH_NAME = new FirebaseRulesTokenType("PATH_NAME");
-  IElementType PERMISSIONS_KEYS = new FirebaseRulesTokenType("PERMISSIONS_KEYS");
+  IElementType PATH_VARIABLE = new FirebaseRulesTokenType("PATH_VARIABLE");
+  IElementType PERMISSION = new FirebaseRulesTokenType("PERMISSION");
   IElementType PORTTOKEN = new FirebaseRulesTokenType("portToken");
   IElementType RB = new FirebaseRulesTokenType("]");
   IElementType RIGHT_BRACE = new FirebaseRulesTokenType("RIGHT_BRACE");
@@ -59,9 +59,6 @@ public interface FirebaseRulesTypes {
       }
       else if (type == PATH_STATEMENT) {
         return new FirebaseRulesPathStatementImpl(node);
-      }
-      else if (type == PATH_VARIABLE_STATEMENT) {
-        return new FirebaseRulesPathVariableStatementImpl(node);
       }
       else if (type == PERMISSION_STATEMENT) {
         return new FirebaseRulesPermissionStatementImpl(node);

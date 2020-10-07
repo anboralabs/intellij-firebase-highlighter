@@ -119,61 +119,27 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // PATH_NAME|PathVariableStatement
+  // PATH_NAME|PATH_VARIABLE
   public static boolean PathStatement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "PathStatement")) return false;
-    if (!nextTokenIs(b, "<path statement>", LEFT_BRACE, PATH_NAME)) return false;
+    if (!nextTokenIs(b, "<path statement>", PATH_NAME, PATH_VARIABLE)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, PATH_STATEMENT, "<path statement>");
     r = consumeToken(b, PATH_NAME);
-    if (!r) r = PathVariableStatement(b, l + 1);
+    if (!r) r = consumeToken(b, PATH_VARIABLE);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
   /* ********************************************************** */
-  // LEFT_BRACE PATH_NAME RIGHT_BRACE
-  public static boolean PathVariableStatement(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "PathVariableStatement")) return false;
-    if (!nextTokenIs(b, LEFT_BRACE)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, LEFT_BRACE, PATH_NAME, RIGHT_BRACE);
-    exit_section_(b, m, PATH_VARIABLE_STATEMENT, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // PERMISSIONS_KEYS(COMMA PERMISSIONS_KEYS)*
+  // PERMISSION
   public static boolean PermissionStatement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "PermissionStatement")) return false;
-    if (!nextTokenIs(b, PERMISSIONS_KEYS)) return false;
+    if (!nextTokenIs(b, PERMISSION)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, PERMISSIONS_KEYS);
-    r = r && PermissionStatement_1(b, l + 1);
+    r = consumeToken(b, PERMISSION);
     exit_section_(b, m, PERMISSION_STATEMENT, r);
-    return r;
-  }
-
-  // (COMMA PERMISSIONS_KEYS)*
-  private static boolean PermissionStatement_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "PermissionStatement_1")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!PermissionStatement_1_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "PermissionStatement_1", c)) break;
-    }
-    return true;
-  }
-
-  // COMMA PERMISSIONS_KEYS
-  private static boolean PermissionStatement_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "PermissionStatement_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, COMMA, PERMISSIONS_KEYS);
-    exit_section_(b, m, null, r);
     return r;
   }
 

@@ -44,10 +44,14 @@ RULES_VERSION=rules_version
 VERSIONS=('1'|'2')
 PERMISSIONS_KEYS=(read|write|get|list|create|update|delete)
 PATH_NAME=[a-zA-Z_\-,0-9]+
+PATH_VARIABLE=[{][a-zA-Z_\-,0-9]+[}]
+PERMISSION={PERMISSIONS_KEYS}([,]({WHITE_SPACE})?{PERMISSIONS_KEYS})*
 
 %%
 <YYINITIAL> {
   {WHITE_SPACE}      { return com.intellij.psi.TokenType.WHITE_SPACE; }
+
+  {PERMISSION}       { return PERMISSION; }
 
   "("                { return LP; }
   ")"                { return RP; }
@@ -66,9 +70,9 @@ PATH_NAME=[a-zA-Z_\-,0-9]+
   {SERVICE_NAME}     { return SERVICE_NAME; }
   {MATCH}            { return MATCH; }
   {ALLOW}            { return ALLOW; }
-  {PERMISSIONS_KEYS} { return PERMISSIONS_KEYS; }
   {RULES_VERSION}    { return RULES_VERSION; }
   {VERSIONS}         { return VERSIONS; }
+  {PATH_VARIABLE}    { return PATH_VARIABLE; }
   {PATH_NAME}        { return PATH_NAME; }
   {SLASH}            { return SLASH; }
 
