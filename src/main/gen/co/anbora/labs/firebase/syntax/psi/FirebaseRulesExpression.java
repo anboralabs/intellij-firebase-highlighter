@@ -5,12 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FirebaseRulesAllowStatement extends PsiElement {
+public interface FirebaseRulesExpression extends PsiElement {
 
   @NotNull
-  FirebaseRulesConditionalStatement getConditionalStatement();
-
-  @NotNull
-  FirebaseRulesPermissionStatement getPermissionStatement();
+  FirebaseRulesBooleanStatement getBooleanStatement();
 
 }

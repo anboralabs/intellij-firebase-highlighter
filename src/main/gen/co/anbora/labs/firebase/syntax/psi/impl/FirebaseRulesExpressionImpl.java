@@ -11,14 +11,14 @@ import static co.anbora.labs.firebase.syntax.psi.FirebaseRulesTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import co.anbora.labs.firebase.syntax.psi.*;
 
-public class FirebaseRulesAllowStatementImpl extends ASTWrapperPsiElement implements FirebaseRulesAllowStatement {
+public class FirebaseRulesExpressionImpl extends ASTWrapperPsiElement implements FirebaseRulesExpression {
 
-  public FirebaseRulesAllowStatementImpl(@NotNull ASTNode node) {
+  public FirebaseRulesExpressionImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull FirebaseRulesVisitor visitor) {
-    visitor.visitAllowStatement(this);
+    visitor.visitExpression(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -28,14 +28,8 @@ public class FirebaseRulesAllowStatementImpl extends ASTWrapperPsiElement implem
 
   @Override
   @NotNull
-  public FirebaseRulesConditionalStatement getConditionalStatement() {
-    return findNotNullChildByClass(FirebaseRulesConditionalStatement.class);
-  }
-
-  @Override
-  @NotNull
-  public FirebaseRulesPermissionStatement getPermissionStatement() {
-    return findNotNullChildByClass(FirebaseRulesPermissionStatement.class);
+  public FirebaseRulesBooleanStatement getBooleanStatement() {
+    return findNotNullChildByClass(FirebaseRulesBooleanStatement.class);
   }
 
 }

@@ -34,10 +34,7 @@ CHAR=[\n\r\u2028\u2029]
 COMPMETA=[a-zA-Z=_\-,0-9]+
 SLASH=\/
 
-SERVICE=service
 SERVICE_NAME=(cloud.firestore|firebase.storage)
-MATCH=match
-ALLOW=allow
 RULES_VERSION=rules_version
 VERSIONS=('1'|'2')
 PERMISSIONS_KEYS=(read|write|get|list|create|update|delete)
@@ -51,6 +48,26 @@ PERMISSION={PERMISSIONS_KEYS}([,]({WHITE_SPACE})?{PERMISSIONS_KEYS})*
 
   {PERMISSION}       { return PERMISSION; }
   {PATH_VARIABLE}    { return PATH_VARIABLE; }
+  "true"             { return TRUE_KEYWORD; }
+  "false"            { return FALSE_KEYWORD; }
+  "if"               { return IF_KEYWORD; }
+  "null"             { return NULL_KEYWORD; }
+
+  "service"          { return SERVICE_KEYWORD; }
+  {SERVICE_NAME}     { return SERVICE_NAME; }
+  "match"            { return MATCH_KEYWORD; }
+  "allow"            { return ALLOW_KEYWORD; }
+  {RULES_VERSION}    { return RULES_VERSION; }
+  {VERSIONS}         { return VERSIONS; }
+
+  "=="               { return EQEQ; }
+  "!="               { return NE; }
+  "||"               { return OROR; }
+  "&&"               { return ANDAND; }
+  "<"                { return LT; }
+  "<="               { return LE; }
+  ">"                { return GT; }
+  ">="               { return GE; }
 
   "("                { return LP; }
   ")"                { return RP; }
@@ -65,12 +82,6 @@ PERMISSION={PERMISSIONS_KEYS}([,]({WHITE_SPACE})?{PERMISSIONS_KEYS})*
   "."                { return DOT; }
   ";"                { return DOT_COMMA; }
 
-  {SERVICE}          { return SERVICE; }
-  {SERVICE_NAME}     { return SERVICE_NAME; }
-  {MATCH}            { return MATCH; }
-  {ALLOW}            { return ALLOW; }
-  {RULES_VERSION}    { return RULES_VERSION; }
-  {VERSIONS}         { return VERSIONS; }
   {PATH_NAME}        { return PATH_NAME; }
   {SLASH}            { return SLASH; }
 

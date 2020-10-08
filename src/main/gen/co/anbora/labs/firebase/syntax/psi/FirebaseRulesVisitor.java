@@ -11,11 +11,35 @@ public class FirebaseRulesVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitBooleanOperator(@NotNull FirebaseRulesBooleanOperator o) {
+    visitPsiElement(o);
+  }
+
+  public void visitBooleanStatement(@NotNull FirebaseRulesBooleanStatement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitConditionalExpression(@NotNull FirebaseRulesConditionalExpression o) {
+    visitPsiElement(o);
+  }
+
+  public void visitConditionalStatement(@NotNull FirebaseRulesConditionalStatement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitExpression(@NotNull FirebaseRulesExpression o) {
+    visitPsiElement(o);
+  }
+
   public void visitFullPathStatement(@NotNull FirebaseRulesFullPathStatement o) {
     visitPsiElement(o);
   }
 
   public void visitMatchStatement(@NotNull FirebaseRulesMatchStatement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitNullStatement(@NotNull FirebaseRulesNullStatement o) {
     visitPsiElement(o);
   }
 

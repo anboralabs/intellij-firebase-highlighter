@@ -25,9 +25,9 @@ public class FirebaseRulesSyntaxHighlighter extends SyntaxHighlighterBase {
 
     @Override
     public @NotNull TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
-        if (tokenType.equals(FirebaseRulesTypes.SERVICE)
-                || tokenType.equals(FirebaseRulesTypes.MATCH)
-                || tokenType.equals(FirebaseRulesTypes.ALLOW)) {
+        if (tokenType.equals(FirebaseRulesTypes.SERVICE_KEYWORD)
+                || tokenType.equals(FirebaseRulesTypes.MATCH_KEYWORD)
+                || tokenType.equals(FirebaseRulesTypes.ALLOW_KEYWORD)) {
             return KEYWORDS_KEYS;
         }
         return EMPTY_KEYS;

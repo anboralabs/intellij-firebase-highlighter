@@ -36,16 +36,109 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // allow PermissionStatement COLON compMeta DOT_COMMA
+  // ALLOW_KEYWORD PermissionStatement COLON ConditionalStatement DOT_COMMA
   public static boolean AllowStatement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "AllowStatement")) return false;
-    if (!nextTokenIs(b, ALLOW)) return false;
+    if (!nextTokenIs(b, ALLOW_KEYWORD)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, ALLOW);
+    r = consumeToken(b, ALLOW_KEYWORD);
     r = r && PermissionStatement(b, l + 1);
-    r = r && consumeTokens(b, 0, COLON, COMPMETA, DOT_COMMA);
+    r = r && consumeToken(b, COLON);
+    r = r && ConditionalStatement(b, l + 1);
+    r = r && consumeToken(b, DOT_COMMA);
     exit_section_(b, m, ALLOW_STATEMENT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // EQEQ|NE|OROR|ANDAND|LT|LE|GT|GE
+  public static boolean BooleanOperator(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "BooleanOperator")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, BOOLEAN_OPERATOR, "<boolean operator>");
+    r = consumeToken(b, EQEQ);
+    if (!r) r = consumeToken(b, NE);
+    if (!r) r = consumeToken(b, OROR);
+    if (!r) r = consumeToken(b, ANDAND);
+    if (!r) r = consumeToken(b, LT);
+    if (!r) r = consumeToken(b, LE);
+    if (!r) r = consumeToken(b, GT);
+    if (!r) r = consumeToken(b, GE);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // TRUE_KEYWORD|FALSE_KEYWORD
+  public static boolean BooleanStatement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "BooleanStatement")) return false;
+    if (!nextTokenIs(b, "<boolean statement>", FALSE_KEYWORD, TRUE_KEYWORD)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, BOOLEAN_STATEMENT, "<boolean statement>");
+    r = consumeToken(b, TRUE_KEYWORD);
+    if (!r) r = consumeToken(b, FALSE_KEYWORD);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // Expression (BooleanOperator Expression)*
+  public static boolean ConditionalExpression(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ConditionalExpression")) return false;
+    if (!nextTokenIs(b, "<conditional expression>", FALSE_KEYWORD, TRUE_KEYWORD)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, CONDITIONAL_EXPRESSION, "<conditional expression>");
+    r = Expression(b, l + 1);
+    r = r && ConditionalExpression_1(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // (BooleanOperator Expression)*
+  private static boolean ConditionalExpression_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ConditionalExpression_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!ConditionalExpression_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "ConditionalExpression_1", c)) break;
+    }
+    return true;
+  }
+
+  // BooleanOperator Expression
+  private static boolean ConditionalExpression_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ConditionalExpression_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = BooleanOperator(b, l + 1);
+    r = r && Expression(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // IF_KEYWORD ConditionalExpression
+  public static boolean ConditionalStatement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ConditionalStatement")) return false;
+    if (!nextTokenIs(b, IF_KEYWORD)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, IF_KEYWORD);
+    r = r && ConditionalExpression(b, l + 1);
+    exit_section_(b, m, CONDITIONAL_STATEMENT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // BooleanStatement
+  public static boolean Expression(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "Expression")) return false;
+    if (!nextTokenIs(b, "<expression>", FALSE_KEYWORD, TRUE_KEYWORD)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, EXPRESSION, "<expression>");
+    r = BooleanStatement(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 
@@ -78,13 +171,13 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // match FullPathStatement LEFT_BRACE (AllowStatement|MatchStatement)+ RIGHT_BRACE
+  // MATCH_KEYWORD FullPathStatement LEFT_BRACE (AllowStatement|MatchStatement)+ RIGHT_BRACE
   public static boolean MatchStatement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "MatchStatement")) return false;
-    if (!nextTokenIs(b, MATCH)) return false;
+    if (!nextTokenIs(b, MATCH_KEYWORD)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, MATCH);
+    r = consumeToken(b, MATCH_KEYWORD);
     r = r && FullPathStatement(b, l + 1);
     r = r && consumeToken(b, LEFT_BRACE);
     r = r && MatchStatement_3(b, l + 1);
@@ -114,6 +207,18 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
     boolean r;
     r = AllowStatement(b, l + 1);
     if (!r) r = MatchStatement(b, l + 1);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // NULL_KEYWORD
+  public static boolean NullStatement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "NullStatement")) return false;
+    if (!nextTokenIs(b, NULL_KEYWORD)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, NULL_KEYWORD);
+    exit_section_(b, m, NULL_STATEMENT, r);
     return r;
   }
 
@@ -155,13 +260,13 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // service SERVICE_NAME LEFT_BRACE (MatchStatement)+ RIGHT_BRACE
+  // SERVICE_KEYWORD SERVICE_NAME LEFT_BRACE (MatchStatement)+ RIGHT_BRACE
   public static boolean ServiceStatement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ServiceStatement")) return false;
-    if (!nextTokenIs(b, SERVICE)) return false;
+    if (!nextTokenIs(b, SERVICE_KEYWORD)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, SERVICE, SERVICE_NAME, LEFT_BRACE);
+    r = consumeTokens(b, 0, SERVICE_KEYWORD, SERVICE_NAME, LEFT_BRACE);
     r = r && ServiceStatement_3(b, l + 1);
     r = r && consumeToken(b, RIGHT_BRACE);
     exit_section_(b, m, SERVICE_STATEMENT, r);
@@ -197,7 +302,7 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
   // RuleVersionStatement? ServiceStatement
   public static boolean property(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "property")) return false;
-    if (!nextTokenIs(b, "<property>", RULES_VERSION, SERVICE)) return false;
+    if (!nextTokenIs(b, "<property>", RULES_VERSION, SERVICE_KEYWORD)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, PROPERTY, "<property>");
     r = property_0(b, l + 1);
