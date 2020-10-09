@@ -7,7 +7,16 @@ import com.intellij.psi.PsiElement;
 
 public interface FirebaseRulesExpression extends PsiElement {
 
-  @NotNull
+  @Nullable
   FirebaseRulesBooleanStatement getBooleanStatement();
+
+  @Nullable
+  FirebaseRulesCallFunctionStatement getCallFunctionStatement();
+
+  @Nullable
+  FirebaseRulesNullStatement getNullStatement();
+
+  @Nullable
+  FirebaseRulesObjectStatement getObjectStatement();
 
 }

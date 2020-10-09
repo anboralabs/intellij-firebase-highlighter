@@ -83,10 +83,40 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // IDENTIFIER(DOT IDENTIFIER)?FunctionParameterStatement
+  public static boolean CallFunctionStatement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "CallFunctionStatement")) return false;
+    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, IDENTIFIER);
+    r = r && CallFunctionStatement_1(b, l + 1);
+    r = r && FunctionParameterStatement(b, l + 1);
+    exit_section_(b, m, CALL_FUNCTION_STATEMENT, r);
+    return r;
+  }
+
+  // (DOT IDENTIFIER)?
+  private static boolean CallFunctionStatement_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "CallFunctionStatement_1")) return false;
+    CallFunctionStatement_1_0(b, l + 1);
+    return true;
+  }
+
+  // DOT IDENTIFIER
+  private static boolean CallFunctionStatement_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "CallFunctionStatement_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, DOT, IDENTIFIER);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // Expression (BooleanOperator Expression)*
   public static boolean ConditionalExpression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ConditionalExpression")) return false;
-    if (!nextTokenIs(b, "<conditional expression>", FALSE_KEYWORD, TRUE_KEYWORD)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, CONDITIONAL_EXPRESSION, "<conditional expression>");
     r = Expression(b, l + 1);
@@ -132,12 +162,17 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // BooleanStatement
+  //         | CallFunctionStatement
+  //         | ObjectStatement
+  //         | NullStatement
   public static boolean Expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Expression")) return false;
-    if (!nextTokenIs(b, "<expression>", FALSE_KEYWORD, TRUE_KEYWORD)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, EXPRESSION, "<expression>");
     r = BooleanStatement(b, l + 1);
+    if (!r) r = CallFunctionStatement(b, l + 1);
+    if (!r) r = ObjectStatement(b, l + 1);
+    if (!r) r = NullStatement(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -167,6 +202,18 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, SLASH);
     r = r && PathStatement(b, l + 1);
     exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // LP RP
+  public static boolean FunctionParameterStatement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FunctionParameterStatement")) return false;
+    if (!nextTokenIs(b, LP)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, LP, RP);
+    exit_section_(b, m, FUNCTION_PARAMETER_STATEMENT, r);
     return r;
   }
 
@@ -223,13 +270,43 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // PATH_NAME|PATH_VARIABLE
+  // IDENTIFIER(DOT IDENTIFIER)?
+  public static boolean ObjectStatement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ObjectStatement")) return false;
+    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, IDENTIFIER);
+    r = r && ObjectStatement_1(b, l + 1);
+    exit_section_(b, m, OBJECT_STATEMENT, r);
+    return r;
+  }
+
+  // (DOT IDENTIFIER)?
+  private static boolean ObjectStatement_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ObjectStatement_1")) return false;
+    ObjectStatement_1_0(b, l + 1);
+    return true;
+  }
+
+  // DOT IDENTIFIER
+  private static boolean ObjectStatement_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ObjectStatement_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, DOT, IDENTIFIER);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // IDENTIFIER|PATH_VARIABLE
   public static boolean PathStatement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "PathStatement")) return false;
-    if (!nextTokenIs(b, "<path statement>", PATH_NAME, PATH_VARIABLE)) return false;
+    if (!nextTokenIs(b, "<path statement>", IDENTIFIER, PATH_VARIABLE)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, PATH_STATEMENT, "<path statement>");
-    r = consumeToken(b, PATH_NAME);
+    r = consumeToken(b, IDENTIFIER);
     if (!r) r = consumeToken(b, PATH_VARIABLE);
     exit_section_(b, l, m, r, false, null);
     return r;

@@ -36,7 +36,7 @@
   //        portname='regexp:[A-Z.0-9_]+'
   //        nodename='regexp:[a-zA-Z0-9_\-/]+'
   //        comp='regexp:[a-zA-Z/\-0-9_]+'
-          compMeta='regexp:[a-zA-Z=_\-,0-9]+'
+  //        compMeta='regexp:[a-zA-Z=_\-,0-9]+'
       ]
 
 }
@@ -55,7 +55,7 @@ MatchStatement ::= MATCH_KEYWORD FullPathStatement LEFT_BRACE (AllowStatement|Ma
 
 FullPathStatement ::= (SLASH PathStatement)+
 
-PathStatement ::= (PATH_NAME|PATH_VARIABLE)
+PathStatement ::= (IDENTIFIER|PATH_VARIABLE)
 
 AllowStatement ::= ALLOW_KEYWORD PermissionStatement COLON ConditionalStatement DOT_COMMA
 
@@ -65,7 +65,16 @@ ConditionalStatement ::= IF_KEYWORD ConditionalExpression
 
 ConditionalExpression ::= Expression (BooleanOperator Expression)*
 
+ObjectStatement ::= IDENTIFIER(DOT IDENTIFIER)?
+
+CallFunctionStatement ::= IDENTIFIER(DOT IDENTIFIER)?FunctionParameterStatement
+
+FunctionParameterStatement ::= LP RP
+
 Expression ::= BooleanStatement
+        | CallFunctionStatement
+        | ObjectStatement
+        | NullStatement
 
 NullStatement ::= NULL_KEYWORD
 

@@ -27,9 +27,27 @@ public class FirebaseRulesExpressionImpl extends ASTWrapperPsiElement implements
   }
 
   @Override
-  @NotNull
+  @Nullable
   public FirebaseRulesBooleanStatement getBooleanStatement() {
-    return findNotNullChildByClass(FirebaseRulesBooleanStatement.class);
+    return findChildByClass(FirebaseRulesBooleanStatement.class);
+  }
+
+  @Override
+  @Nullable
+  public FirebaseRulesCallFunctionStatement getCallFunctionStatement() {
+    return findChildByClass(FirebaseRulesCallFunctionStatement.class);
+  }
+
+  @Override
+  @Nullable
+  public FirebaseRulesNullStatement getNullStatement() {
+    return findChildByClass(FirebaseRulesNullStatement.class);
+  }
+
+  @Override
+  @Nullable
+  public FirebaseRulesObjectStatement getObjectStatement() {
+    return findChildByClass(FirebaseRulesObjectStatement.class);
   }
 
 }

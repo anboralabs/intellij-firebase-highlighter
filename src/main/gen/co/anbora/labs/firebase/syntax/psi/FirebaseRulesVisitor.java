@@ -19,6 +19,10 @@ public class FirebaseRulesVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitCallFunctionStatement(@NotNull FirebaseRulesCallFunctionStatement o) {
+    visitPsiElement(o);
+  }
+
   public void visitConditionalExpression(@NotNull FirebaseRulesConditionalExpression o) {
     visitPsiElement(o);
   }
@@ -35,11 +39,19 @@ public class FirebaseRulesVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitFunctionParameterStatement(@NotNull FirebaseRulesFunctionParameterStatement o) {
+    visitPsiElement(o);
+  }
+
   public void visitMatchStatement(@NotNull FirebaseRulesMatchStatement o) {
     visitPsiElement(o);
   }
 
   public void visitNullStatement(@NotNull FirebaseRulesNullStatement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitObjectStatement(@NotNull FirebaseRulesObjectStatement o) {
     visitPsiElement(o);
   }
 

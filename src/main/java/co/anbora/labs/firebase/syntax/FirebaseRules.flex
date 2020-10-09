@@ -31,15 +31,14 @@ COMMENT=#.*
 NUMBER=[0-9]+(\.[0-9]*)?
 STRING=('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")
 CHAR=[\n\r\u2028\u2029]
-COMPMETA=[a-zA-Z=_\-,0-9]+
 SLASH=\/
 
 SERVICE_NAME=(cloud.firestore|firebase.storage)
 RULES_VERSION=rules_version
 VERSIONS=('1'|'2')
 PERMISSIONS_KEYS=(read|write|get|list|create|update|delete)
-PATH_NAME=[a-zA-Z_\-,0-9]+
-PATH_VARIABLE=[{][a-zA-Z_\-,0-9]+(=\*\*)?[}]
+IDENTIFIER=[a-zA-Z_\-0-9]+
+PATH_VARIABLE=[{][a-zA-Z_\-0-9]+(=\*\*)?[}]
 PERMISSION={PERMISSIONS_KEYS}([,]({WHITE_SPACE})?{PERMISSIONS_KEYS})*
 
 %%
@@ -82,7 +81,7 @@ PERMISSION={PERMISSIONS_KEYS}([,]({WHITE_SPACE})?{PERMISSIONS_KEYS})*
   "."                { return DOT; }
   ";"                { return DOT_COMMA; }
 
-  {PATH_NAME}        { return PATH_NAME; }
+  {IDENTIFIER}       { return IDENTIFIER; }
   {SLASH}            { return SLASH; }
 
   {WHITE_SPACE}      { return WHITE_SPACE; }
@@ -90,7 +89,6 @@ PERMISSION={PERMISSIONS_KEYS}([,]({WHITE_SPACE})?{PERMISSIONS_KEYS})*
   {COMMENT}          { return COMMENT; }
   {NUMBER}           { return NUMBER; }
   {STRING}           { return STRING; }
-  {COMPMETA}         { return COMPMETA; }
 
   [^] { return com.intellij.psi.TokenType.BAD_CHARACTER; }
 }

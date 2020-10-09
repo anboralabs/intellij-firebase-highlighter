@@ -11,12 +11,15 @@ public interface FirebaseRulesTypes {
   IElementType ALLOW_STATEMENT = new FirebaseRulesElementType("ALLOW_STATEMENT");
   IElementType BOOLEAN_OPERATOR = new FirebaseRulesElementType("BOOLEAN_OPERATOR");
   IElementType BOOLEAN_STATEMENT = new FirebaseRulesElementType("BOOLEAN_STATEMENT");
+  IElementType CALL_FUNCTION_STATEMENT = new FirebaseRulesElementType("CALL_FUNCTION_STATEMENT");
   IElementType CONDITIONAL_EXPRESSION = new FirebaseRulesElementType("CONDITIONAL_EXPRESSION");
   IElementType CONDITIONAL_STATEMENT = new FirebaseRulesElementType("CONDITIONAL_STATEMENT");
   IElementType EXPRESSION = new FirebaseRulesElementType("EXPRESSION");
   IElementType FULL_PATH_STATEMENT = new FirebaseRulesElementType("FULL_PATH_STATEMENT");
+  IElementType FUNCTION_PARAMETER_STATEMENT = new FirebaseRulesElementType("FUNCTION_PARAMETER_STATEMENT");
   IElementType MATCH_STATEMENT = new FirebaseRulesElementType("MATCH_STATEMENT");
   IElementType NULL_STATEMENT = new FirebaseRulesElementType("NULL_STATEMENT");
+  IElementType OBJECT_STATEMENT = new FirebaseRulesElementType("OBJECT_STATEMENT");
   IElementType PATH_STATEMENT = new FirebaseRulesElementType("PATH_STATEMENT");
   IElementType PERMISSION_STATEMENT = new FirebaseRulesElementType("PERMISSION_STATEMENT");
   IElementType PROPERTY = new FirebaseRulesElementType("PROPERTY");
@@ -28,7 +31,6 @@ public interface FirebaseRulesTypes {
   IElementType COLON = new FirebaseRulesTokenType(":");
   IElementType COMMA = new FirebaseRulesTokenType(",");
   IElementType COMMENT = new FirebaseRulesTokenType("comment");
-  IElementType COMPMETA = new FirebaseRulesTokenType("compMeta");
   IElementType DOT = new FirebaseRulesTokenType(".");
   IElementType DOT_COMMA = new FirebaseRulesTokenType("DOT_COMMA");
   IElementType EQ = new FirebaseRulesTokenType("=");
@@ -36,6 +38,7 @@ public interface FirebaseRulesTypes {
   IElementType FALSE_KEYWORD = new FirebaseRulesTokenType("FALSE_KEYWORD");
   IElementType GE = new FirebaseRulesTokenType("GE");
   IElementType GT = new FirebaseRulesTokenType("GT");
+  IElementType IDENTIFIER = new FirebaseRulesTokenType("IDENTIFIER");
   IElementType IF_KEYWORD = new FirebaseRulesTokenType("IF_KEYWORD");
   IElementType LB = new FirebaseRulesTokenType("[");
   IElementType LE = new FirebaseRulesTokenType("LE");
@@ -48,7 +51,6 @@ public interface FirebaseRulesTypes {
   IElementType NUMBER = new FirebaseRulesTokenType("number");
   IElementType OP = new FirebaseRulesTokenType("->");
   IElementType OROR = new FirebaseRulesTokenType("OROR");
-  IElementType PATH_NAME = new FirebaseRulesTokenType("PATH_NAME");
   IElementType PATH_VARIABLE = new FirebaseRulesTokenType("PATH_VARIABLE");
   IElementType PERMISSION = new FirebaseRulesTokenType("PERMISSION");
   IElementType PORTTOKEN = new FirebaseRulesTokenType("portToken");
@@ -75,6 +77,9 @@ public interface FirebaseRulesTypes {
       else if (type == BOOLEAN_STATEMENT) {
         return new FirebaseRulesBooleanStatementImpl(node);
       }
+      else if (type == CALL_FUNCTION_STATEMENT) {
+        return new FirebaseRulesCallFunctionStatementImpl(node);
+      }
       else if (type == CONDITIONAL_EXPRESSION) {
         return new FirebaseRulesConditionalExpressionImpl(node);
       }
@@ -87,11 +92,17 @@ public interface FirebaseRulesTypes {
       else if (type == FULL_PATH_STATEMENT) {
         return new FirebaseRulesFullPathStatementImpl(node);
       }
+      else if (type == FUNCTION_PARAMETER_STATEMENT) {
+        return new FirebaseRulesFunctionParameterStatementImpl(node);
+      }
       else if (type == MATCH_STATEMENT) {
         return new FirebaseRulesMatchStatementImpl(node);
       }
       else if (type == NULL_STATEMENT) {
         return new FirebaseRulesNullStatementImpl(node);
+      }
+      else if (type == OBJECT_STATEMENT) {
+        return new FirebaseRulesObjectStatementImpl(node);
       }
       else if (type == PATH_STATEMENT) {
         return new FirebaseRulesPathStatementImpl(node);
