@@ -1,5 +1,6 @@
-package co.anbora.labs.firebase.syntax;
+package co.anbora.labs.firebase.syntax.highlight;
 
+import co.anbora.labs.firebase.syntax.FirebaseRulesAdapter;
 import co.anbora.labs.firebase.syntax.psi.FirebaseRulesTypes;
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
@@ -10,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
 
-public class FirebaseRulesSyntaxHighlighter extends SyntaxHighlighterBase {
+public class Highlighter extends SyntaxHighlighterBase {
 
     public static final TextAttributesKey KEY =
             createTextAttributesKey("FIREBASE_KEY_WORD", DefaultLanguageHighlighterColors.KEYWORD);
