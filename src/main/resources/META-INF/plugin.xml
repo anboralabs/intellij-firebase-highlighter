@@ -20,6 +20,7 @@
                                implementationClass="co.anbora.labs.firebase.syntax.parser.FirebaseRulesParserDefinition"/>
         <lang.syntaxHighlighterFactory language="firebase_rules"
                                        implementationClass="co.anbora.labs.firebase.syntax.highlight.HighlighterFactory"/>
+        <colorSettingsPage implementation="co.anbora.labs.firebase.syntax.highlight.ColorSettings"/>
     </extensions>
 
     <actions>
