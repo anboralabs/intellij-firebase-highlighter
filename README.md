@@ -13,12 +13,24 @@ intellij-firebase-highlighter is an Intellij plugin for highlighting firebase ru
 ### Add plugin to Intellij IDE
 
 - Clone repo
-```gradle
+```sh
+git clone https://github.com/anboralabs/intellij-firebase-highlighter
+```
+```
+- Find grammar directory
+- FirebaseRules.bnf -> Right click -> Generate Parser Code
+- FirebaseRules.flex -> Right click -> Run JFlex Generator
+```
 
+- Install from disk
+```
+- Go to https://github.com/anboralabs/intellij-firebase-highlighter/releases/tag/v1.0.0
+- download firebase-syntax-highlighting-1.0-SNAPSHOT.jar
+- Plugins -> Install From disk -> choose the file downloaded
 ```
 - Install from plugin store
 ```gradle
-
+- Pending for Intellij Approval.
 ```
 
 ### Configure colors
