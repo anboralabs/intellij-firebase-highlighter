@@ -7,4 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface FirebaseRulesFunctionParameterStatement extends PsiElement {
 
+  @NotNull
+  List<FirebaseRulesObjectStatement> getObjectStatementList();
+
 }

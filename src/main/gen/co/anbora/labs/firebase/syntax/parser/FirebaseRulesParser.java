@@ -206,14 +206,39 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // LP RP
+  // LP ObjectStatement(COMMA ObjectStatement)* RP
   public static boolean FunctionParameterStatement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FunctionParameterStatement")) return false;
     if (!nextTokenIs(b, LP)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, LP, RP);
+    r = consumeToken(b, LP);
+    r = r && ObjectStatement(b, l + 1);
+    r = r && FunctionParameterStatement_2(b, l + 1);
+    r = r && consumeToken(b, RP);
     exit_section_(b, m, FUNCTION_PARAMETER_STATEMENT, r);
+    return r;
+  }
+
+  // (COMMA ObjectStatement)*
+  private static boolean FunctionParameterStatement_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FunctionParameterStatement_2")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!FunctionParameterStatement_2_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "FunctionParameterStatement_2", c)) break;
+    }
+    return true;
+  }
+
+  // COMMA ObjectStatement
+  private static boolean FunctionParameterStatement_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FunctionParameterStatement_2_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COMMA);
+    r = r && ObjectStatement(b, l + 1);
+    exit_section_(b, m, null, r);
     return r;
   }
 

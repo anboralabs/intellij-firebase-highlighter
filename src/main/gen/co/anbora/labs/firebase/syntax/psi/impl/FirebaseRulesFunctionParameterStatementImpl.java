@@ -26,4 +26,10 @@ public class FirebaseRulesFunctionParameterStatementImpl extends ASTWrapperPsiEl
     else super.accept(visitor);
   }
 
+  @Override
+  @NotNull
+  public List<FirebaseRulesObjectStatement> getObjectStatementList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FirebaseRulesObjectStatement.class);
+  }
+
 }

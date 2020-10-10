@@ -69,7 +69,7 @@ ObjectStatement ::= IDENTIFIER(DOT IDENTIFIER)?
 
 CallFunctionStatement ::= IDENTIFIER(DOT IDENTIFIER)?FunctionParameterStatement
 
-FunctionParameterStatement ::= LP RP
+FunctionParameterStatement ::= LP ObjectStatement(COMMA ObjectStatement)* RP
 
 Expression ::= BooleanStatement
         | CallFunctionStatement
