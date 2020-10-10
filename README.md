@@ -14,18 +14,11 @@ intellij-firebase-highlighter is an Intellij plugin for highlighting firebase ru
 
 - Clone repo
 ```gradle
-allprojects {
-    repositories {
-        ...
-        maven { url 'https://jitpack.io' }
-    }
-}
+
 ```
 - Install from plugin store
 ```gradle
-dependencies {
-        implementation 'com.github.anboralabs:spatia-room:0.1.0'
-}
+
 ```
 
 ### Configure colors
