@@ -1,7 +1,7 @@
 package co.anbora.labs.firebase.syntax.parser;
 
 import co.anbora.labs.firebase.syntax.FirebaseRulesAdapter;
-import co.anbora.labs.firebase.syntax.FirebaseRulesLanguage;
+import co.anbora.labs.firebase.syntax.language.FirebaseRulesLanguage;
 import co.anbora.labs.firebase.syntax.psi.FirebaseRulesFile;
 import co.anbora.labs.firebase.syntax.psi.FirebaseRulesTypes;
 import com.intellij.lang.ASTNode;

@@ -1,6 +1,5 @@
-package co.anbora.labs.firebase.syntax;
+package co.anbora.labs.firebase.syntax.language;
 
-import com.intellij.lang.Language;
 import com.intellij.openapi.fileTypes.LanguageFileType;
 import com.intellij.openapi.util.NlsContexts;
 import org.jetbrains.annotations.NotNull;

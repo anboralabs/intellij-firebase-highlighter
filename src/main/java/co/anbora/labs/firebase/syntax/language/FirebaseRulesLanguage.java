@@ -1,4 +1,4 @@
-package co.anbora.labs.firebase.syntax;
+package co.anbora.labs.firebase.syntax.language;
 
 import com.intellij.lang.Language;
 

@@ -1,7 +1,7 @@
 package co.anbora.labs.firebase.syntax.psi;
 
-import co.anbora.labs.firebase.syntax.FirebaseRulesFileType;
-import co.anbora.labs.firebase.syntax.FirebaseRulesLanguage;
+import co.anbora.labs.firebase.syntax.language.FirebaseRulesFileType;
+import co.anbora.labs.firebase.syntax.language.FirebaseRulesLanguage;
 import com.intellij.extapi.psi.PsiFileBase;
 import com.intellij.openapi.fileTypes.FileType;
 import com.intellij.psi.FileViewProvider;

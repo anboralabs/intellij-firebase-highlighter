@@ -1,6 +1,6 @@
 package co.anbora.labs.firebase.syntax.psi;
 
-import co.anbora.labs.firebase.syntax.FirebaseRulesLanguage;
+import co.anbora.labs.firebase.syntax.language.FirebaseRulesLanguage;
 import com.intellij.psi.tree.IElementType;
 import org.jetbrains.annotations.NotNull;
 

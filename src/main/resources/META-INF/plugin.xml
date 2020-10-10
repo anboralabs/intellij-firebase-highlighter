@@ -13,9 +13,9 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <fileType name="Firebase Rule File" implementationClass="co.anbora.labs.firebase.syntax.FirebaseRulesFileType"
+        <fileType name="Firebase Rule File" implementationClass="co.anbora.labs.firebase.syntax.language.FirebaseRulesFileType"
                   fieldName="INSTANCE" language="firebase_rules" extensions="rules"/>
-        <fileTypeFactory implementation="co.anbora.labs.firebase.syntax.FirebaseRulesFileTypeFactory"/>
+        <fileTypeFactory implementation="co.anbora.labs.firebase.syntax.language.FirebaseRulesFileTypeFactory"/>
         <lang.parserDefinition language="firebase_rules"
                                implementationClass="co.anbora.labs.firebase.syntax.parser.FirebaseRulesParserDefinition"/>
         <lang.syntaxHighlighterFactory language="firebase_rules"
