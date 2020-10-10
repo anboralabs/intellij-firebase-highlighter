@@ -51,7 +51,7 @@ RuleVersionStatement ::= RULES_VERSION EQ VERSIONS DOT_COMMA
 
 ServiceStatement ::= SERVICE_KEYWORD SERVICE_NAME LEFT_BRACE (MatchStatement)+ RIGHT_BRACE
 
-MatchStatement ::= MATCH_KEYWORD FullPathStatement LEFT_BRACE (AllowStatement|MatchStatement)+ RIGHT_BRACE
+MatchStatement ::= MATCH_KEYWORD FullPathStatement LEFT_BRACE (AllowStatement|MatchStatement|FunctionStatement)+ RIGHT_BRACE
 
 FullPathStatement ::= (SLASH PathStatement)+
 
@@ -65,16 +65,25 @@ ConditionalStatement ::= IF_KEYWORD ConditionalExpression
 
 ConditionalExpression ::= Expression (BooleanOperator Expression)*
 
-ObjectStatement ::= IDENTIFIER(DOT IDENTIFIER)?
+ObjectStatement ::= IDENTIFIER(DOT IDENTIFIER)*
 
 CallFunctionStatement ::= IDENTIFIER(DOT IDENTIFIER)?FunctionParameterStatement
 
-FunctionParameterStatement ::= LP ObjectStatement(COMMA ObjectStatement)* RP
+FunctionParameterStatement ::= LP ParameterStatement? RP
+
+ParameterStatement ::= ObjectStatement(COMMA ObjectStatement)*
+
+FunctionStatement ::= FUNCTION_KEYWORD CallFunctionStatement LEFT_BRACE ReturnStatement RIGHT_BRACE
+
+ReturnStatement ::= RETURN_KEYWORD ConditionalExpression DOT_COMMA
 
 Expression ::= BooleanStatement
         | CallFunctionStatement
         | ObjectStatement
+        | LiteralStatement
         | NullStatement
+
+LiteralStatement ::= (number|string)
 
 NullStatement ::= NULL_KEYWORD
 

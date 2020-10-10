@@ -5,9 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FirebaseRulesFunctionParameterStatement extends PsiElement {
+public interface FirebaseRulesLiteralStatement extends PsiElement {
 
   @Nullable
-  FirebaseRulesParameterStatement getParameterStatement();
+  PsiElement getNumber();
+
+  @Nullable
+  PsiElement getString();
 
 }

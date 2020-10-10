@@ -14,6 +14,9 @@ public interface FirebaseRulesExpression extends PsiElement {
   FirebaseRulesCallFunctionStatement getCallFunctionStatement();
 
   @Nullable
+  FirebaseRulesLiteralStatement getLiteralStatement();
+
+  @Nullable
   FirebaseRulesNullStatement getNullStatement();
 
   @Nullable

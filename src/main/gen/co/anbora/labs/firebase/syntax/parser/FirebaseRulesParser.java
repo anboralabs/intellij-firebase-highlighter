@@ -164,6 +164,7 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
   // BooleanStatement
   //         | CallFunctionStatement
   //         | ObjectStatement
+  //         | LiteralStatement
   //         | NullStatement
   public static boolean Expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Expression")) return false;
@@ -172,6 +173,7 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
     r = BooleanStatement(b, l + 1);
     if (!r) r = CallFunctionStatement(b, l + 1);
     if (!r) r = ObjectStatement(b, l + 1);
+    if (!r) r = LiteralStatement(b, l + 1);
     if (!r) r = NullStatement(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
@@ -206,44 +208,57 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // LP ObjectStatement(COMMA ObjectStatement)* RP
+  // LP ParameterStatement? RP
   public static boolean FunctionParameterStatement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FunctionParameterStatement")) return false;
     if (!nextTokenIs(b, LP)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, LP);
-    r = r && ObjectStatement(b, l + 1);
-    r = r && FunctionParameterStatement_2(b, l + 1);
+    r = r && FunctionParameterStatement_1(b, l + 1);
     r = r && consumeToken(b, RP);
     exit_section_(b, m, FUNCTION_PARAMETER_STATEMENT, r);
     return r;
   }
 
-  // (COMMA ObjectStatement)*
-  private static boolean FunctionParameterStatement_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FunctionParameterStatement_2")) return false;
-    while (true) {
-      int c = current_position_(b);
-      if (!FunctionParameterStatement_2_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "FunctionParameterStatement_2", c)) break;
-    }
+  // ParameterStatement?
+  private static boolean FunctionParameterStatement_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FunctionParameterStatement_1")) return false;
+    ParameterStatement(b, l + 1);
     return true;
   }
 
-  // COMMA ObjectStatement
-  private static boolean FunctionParameterStatement_2_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "FunctionParameterStatement_2_0")) return false;
+  /* ********************************************************** */
+  // FUNCTION_KEYWORD CallFunctionStatement LEFT_BRACE ReturnStatement RIGHT_BRACE
+  public static boolean FunctionStatement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "FunctionStatement")) return false;
+    if (!nextTokenIs(b, FUNCTION_KEYWORD)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeToken(b, COMMA);
-    r = r && ObjectStatement(b, l + 1);
-    exit_section_(b, m, null, r);
+    r = consumeToken(b, FUNCTION_KEYWORD);
+    r = r && CallFunctionStatement(b, l + 1);
+    r = r && consumeToken(b, LEFT_BRACE);
+    r = r && ReturnStatement(b, l + 1);
+    r = r && consumeToken(b, RIGHT_BRACE);
+    exit_section_(b, m, FUNCTION_STATEMENT, r);
     return r;
   }
 
   /* ********************************************************** */
-  // MATCH_KEYWORD FullPathStatement LEFT_BRACE (AllowStatement|MatchStatement)+ RIGHT_BRACE
+  // number|string
+  public static boolean LiteralStatement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "LiteralStatement")) return false;
+    if (!nextTokenIs(b, "<literal statement>", NUMBER, STRING)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, LITERAL_STATEMENT, "<literal statement>");
+    r = consumeToken(b, NUMBER);
+    if (!r) r = consumeToken(b, STRING);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // MATCH_KEYWORD FullPathStatement LEFT_BRACE (AllowStatement|MatchStatement|FunctionStatement)+ RIGHT_BRACE
   public static boolean MatchStatement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "MatchStatement")) return false;
     if (!nextTokenIs(b, MATCH_KEYWORD)) return false;
@@ -258,7 +273,7 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (AllowStatement|MatchStatement)+
+  // (AllowStatement|MatchStatement|FunctionStatement)+
   private static boolean MatchStatement_3(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "MatchStatement_3")) return false;
     boolean r;
@@ -273,12 +288,13 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // AllowStatement|MatchStatement
+  // AllowStatement|MatchStatement|FunctionStatement
   private static boolean MatchStatement_3_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "MatchStatement_3_0")) return false;
     boolean r;
     r = AllowStatement(b, l + 1);
     if (!r) r = MatchStatement(b, l + 1);
+    if (!r) r = FunctionStatement(b, l + 1);
     return r;
   }
 
@@ -295,7 +311,7 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // IDENTIFIER(DOT IDENTIFIER)?
+  // IDENTIFIER(DOT IDENTIFIER)*
   public static boolean ObjectStatement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ObjectStatement")) return false;
     if (!nextTokenIs(b, IDENTIFIER)) return false;
@@ -307,10 +323,14 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (DOT IDENTIFIER)?
+  // (DOT IDENTIFIER)*
   private static boolean ObjectStatement_1(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "ObjectStatement_1")) return false;
-    ObjectStatement_1_0(b, l + 1);
+    while (true) {
+      int c = current_position_(b);
+      if (!ObjectStatement_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "ObjectStatement_1", c)) break;
+    }
     return true;
   }
 
@@ -320,6 +340,41 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
     boolean r;
     Marker m = enter_section_(b);
     r = consumeTokens(b, 0, DOT, IDENTIFIER);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // ObjectStatement(COMMA ObjectStatement)*
+  public static boolean ParameterStatement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ParameterStatement")) return false;
+    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = ObjectStatement(b, l + 1);
+    r = r && ParameterStatement_1(b, l + 1);
+    exit_section_(b, m, PARAMETER_STATEMENT, r);
+    return r;
+  }
+
+  // (COMMA ObjectStatement)*
+  private static boolean ParameterStatement_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ParameterStatement_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!ParameterStatement_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "ParameterStatement_1", c)) break;
+    }
+    return true;
+  }
+
+  // COMMA ObjectStatement
+  private static boolean ParameterStatement_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ParameterStatement_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COMMA);
+    r = r && ObjectStatement(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
@@ -346,6 +401,20 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = consumeToken(b, PERMISSION);
     exit_section_(b, m, PERMISSION_STATEMENT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // RETURN_KEYWORD ConditionalExpression DOT_COMMA
+  public static boolean ReturnStatement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "ReturnStatement")) return false;
+    if (!nextTokenIs(b, RETURN_KEYWORD)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, RETURN_KEYWORD);
+    r = r && ConditionalExpression(b, l + 1);
+    r = r && consumeToken(b, DOT_COMMA);
+    exit_section_(b, m, RETURN_STATEMENT, r);
     return r;
   }
 

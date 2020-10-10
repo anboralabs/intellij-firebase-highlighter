@@ -40,6 +40,12 @@ public class FirebaseRulesMatchStatementImpl extends ASTWrapperPsiElement implem
 
   @Override
   @NotNull
+  public List<FirebaseRulesFunctionStatement> getFunctionStatementList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FirebaseRulesFunctionStatement.class);
+  }
+
+  @Override
+  @NotNull
   public List<FirebaseRulesMatchStatement> getMatchStatementList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, FirebaseRulesMatchStatement.class);
   }

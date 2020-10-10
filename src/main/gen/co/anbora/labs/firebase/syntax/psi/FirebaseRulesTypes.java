@@ -17,12 +17,16 @@ public interface FirebaseRulesTypes {
   IElementType EXPRESSION = new FirebaseRulesElementType("EXPRESSION");
   IElementType FULL_PATH_STATEMENT = new FirebaseRulesElementType("FULL_PATH_STATEMENT");
   IElementType FUNCTION_PARAMETER_STATEMENT = new FirebaseRulesElementType("FUNCTION_PARAMETER_STATEMENT");
+  IElementType FUNCTION_STATEMENT = new FirebaseRulesElementType("FUNCTION_STATEMENT");
+  IElementType LITERAL_STATEMENT = new FirebaseRulesElementType("LITERAL_STATEMENT");
   IElementType MATCH_STATEMENT = new FirebaseRulesElementType("MATCH_STATEMENT");
   IElementType NULL_STATEMENT = new FirebaseRulesElementType("NULL_STATEMENT");
   IElementType OBJECT_STATEMENT = new FirebaseRulesElementType("OBJECT_STATEMENT");
+  IElementType PARAMETER_STATEMENT = new FirebaseRulesElementType("PARAMETER_STATEMENT");
   IElementType PATH_STATEMENT = new FirebaseRulesElementType("PATH_STATEMENT");
   IElementType PERMISSION_STATEMENT = new FirebaseRulesElementType("PERMISSION_STATEMENT");
   IElementType PROPERTY = new FirebaseRulesElementType("PROPERTY");
+  IElementType RETURN_STATEMENT = new FirebaseRulesElementType("RETURN_STATEMENT");
   IElementType RULE_VERSION_STATEMENT = new FirebaseRulesElementType("RULE_VERSION_STATEMENT");
   IElementType SERVICE_STATEMENT = new FirebaseRulesElementType("SERVICE_STATEMENT");
 
@@ -36,6 +40,7 @@ public interface FirebaseRulesTypes {
   IElementType EQ = new FirebaseRulesTokenType("=");
   IElementType EQEQ = new FirebaseRulesTokenType("EQEQ");
   IElementType FALSE_KEYWORD = new FirebaseRulesTokenType("FALSE_KEYWORD");
+  IElementType FUNCTION_KEYWORD = new FirebaseRulesTokenType("FUNCTION_KEYWORD");
   IElementType GE = new FirebaseRulesTokenType("GE");
   IElementType GT = new FirebaseRulesTokenType("GT");
   IElementType IDENTIFIER = new FirebaseRulesTokenType("IDENTIFIER");
@@ -55,6 +60,7 @@ public interface FirebaseRulesTypes {
   IElementType PERMISSION = new FirebaseRulesTokenType("PERMISSION");
   IElementType PORTTOKEN = new FirebaseRulesTokenType("portToken");
   IElementType RB = new FirebaseRulesTokenType("]");
+  IElementType RETURN_KEYWORD = new FirebaseRulesTokenType("RETURN_KEYWORD");
   IElementType RIGHT_BRACE = new FirebaseRulesTokenType("RIGHT_BRACE");
   IElementType RP = new FirebaseRulesTokenType(")");
   IElementType RULES_VERSION = new FirebaseRulesTokenType("RULES_VERSION");
@@ -95,6 +101,12 @@ public interface FirebaseRulesTypes {
       else if (type == FUNCTION_PARAMETER_STATEMENT) {
         return new FirebaseRulesFunctionParameterStatementImpl(node);
       }
+      else if (type == FUNCTION_STATEMENT) {
+        return new FirebaseRulesFunctionStatementImpl(node);
+      }
+      else if (type == LITERAL_STATEMENT) {
+        return new FirebaseRulesLiteralStatementImpl(node);
+      }
       else if (type == MATCH_STATEMENT) {
         return new FirebaseRulesMatchStatementImpl(node);
       }
@@ -104,6 +116,9 @@ public interface FirebaseRulesTypes {
       else if (type == OBJECT_STATEMENT) {
         return new FirebaseRulesObjectStatementImpl(node);
       }
+      else if (type == PARAMETER_STATEMENT) {
+        return new FirebaseRulesParameterStatementImpl(node);
+      }
       else if (type == PATH_STATEMENT) {
         return new FirebaseRulesPathStatementImpl(node);
       }
@@ -112,6 +127,9 @@ public interface FirebaseRulesTypes {
       }
       else if (type == PROPERTY) {
         return new FirebaseRulesPropertyImpl(node);
+      }
+      else if (type == RETURN_STATEMENT) {
+        return new FirebaseRulesReturnStatementImpl(node);
       }
       else if (type == RULE_VERSION_STATEMENT) {
         return new FirebaseRulesRuleVersionStatementImpl(node);

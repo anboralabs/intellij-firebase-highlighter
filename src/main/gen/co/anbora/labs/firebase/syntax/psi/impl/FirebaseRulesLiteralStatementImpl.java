@@ -11,14 +11,14 @@ import static co.anbora.labs.firebase.syntax.psi.FirebaseRulesTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import co.anbora.labs.firebase.syntax.psi.*;
 
-public class FirebaseRulesFunctionParameterStatementImpl extends ASTWrapperPsiElement implements FirebaseRulesFunctionParameterStatement {
+public class FirebaseRulesLiteralStatementImpl extends ASTWrapperPsiElement implements FirebaseRulesLiteralStatement {
 
-  public FirebaseRulesFunctionParameterStatementImpl(@NotNull ASTNode node) {
+  public FirebaseRulesLiteralStatementImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull FirebaseRulesVisitor visitor) {
-    visitor.visitFunctionParameterStatement(this);
+    visitor.visitLiteralStatement(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -28,8 +28,14 @@ public class FirebaseRulesFunctionParameterStatementImpl extends ASTWrapperPsiEl
 
   @Override
   @Nullable
-  public FirebaseRulesParameterStatement getParameterStatement() {
-    return findChildByClass(FirebaseRulesParameterStatement.class);
+  public PsiElement getNumber() {
+    return findChildByType(NUMBER);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getString() {
+    return findChildByType(STRING);
   }
 
 }

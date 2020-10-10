@@ -58,6 +58,8 @@ PERMISSION={PERMISSIONS_KEYS}([,]({WHITE_SPACE})?{PERMISSIONS_KEYS})*
   "allow"            { return ALLOW_KEYWORD; }
   {RULES_VERSION}    { return RULES_VERSION; }
   {VERSIONS}         { return VERSIONS; }
+  "function"         { return FUNCTION_KEYWORD; }
+  "return"           { return RETURN_KEYWORD; }
 
   "=="               { return EQEQ; }
   "!="               { return NE; }
