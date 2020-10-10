@@ -13,19 +13,6 @@
       </ul>
     ]]></description>
 
-    <change-notes><![CDATA[
-        <ul>
-            <li><b>1.0.0</b> <em>(2020-10-10)</em> - initial release</li>
-                <ul>
-                    <li>Initial Release</li>
-                    <li>Added changed notes</li>
-                    <li>Fixed plugin description</li>
-                </ul>
-            </li>
-        </ul>
-    ]]>
-    </change-notes>
-
     <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
     <depends>com.intellij.modules.platform</depends>

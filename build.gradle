@@ -23,6 +23,14 @@ intellij {
 }
 patchPluginXml {
     changeNotes """
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>"""
+      <ul>
+          <li><b>1.0.0</b> <em>(2020-10-10)</em> - initial release</li>
+              <ul>
+                  <li>Initial Release</li>
+                  <li>Added changed notes</li>
+                  <li>Fixed plugin description</li>
+              </ul>
+          </li>
+      </ul>
+    """
 }
