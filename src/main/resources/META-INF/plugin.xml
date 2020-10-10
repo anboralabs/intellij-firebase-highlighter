@@ -4,9 +4,27 @@
     <vendor email="anboralabs@gmail.com" url="http://anbora.co">Anbora Labs</vendor>
 
     <description><![CDATA[
-    Security firebase rules .<br>
-    <em>security rules</em>
+      Provides support for the <a href="https://firebase.google.com/docs/rules/rules-language">Firebase rules</a> language.<br>
+
+      Features:<br>
+      <ul>
+          <li>Syntax highlighting</li>
+          <li>Syntax checking</li>
+      </ul>
     ]]></description>
+
+    <change-notes><![CDATA[
+        <ul>
+            <li><b>1.0.0</b> <em>(2020-10-10)</em> - initial release</li>
+                <ul>
+                    <li>Initial Release</li>
+                    <li>Added changed notes</li>
+                    <li>Fixed plugin description</li>
+                </ul>
+            </li>
+        </ul>
+    ]]>
+    </change-notes>
 
     <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
