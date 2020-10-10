@@ -17,7 +17,7 @@
                   fieldName="INSTANCE" language="firebase_rules" extensions="rules"/>
         <fileTypeFactory implementation="co.anbora.labs.firebase.syntax.FirebaseRulesFileTypeFactory"/>
         <lang.parserDefinition language="firebase_rules"
-                               implementationClass="co.anbora.labs.firebase.syntax.FirebaseRulesParserDefinition"/>
+                               implementationClass="co.anbora.labs.firebase.syntax.parser.FirebaseRulesParserDefinition"/>
         <lang.syntaxHighlighterFactory language="firebase_rules"
                                        implementationClass="co.anbora.labs.firebase.syntax.highlight.HighlighterFactory"/>
     </extensions>
