@@ -29,9 +29,12 @@ git clone https://github.com/anboralabs/intellij-firebase-highlighter
 - Plugins -> Install From disk -> choose the file downloaded
 ```
 - Install from plugin store
-```gradle
-- Pending for Intellij Approval.
-```
+
+![Market Place](/images/market_place.png)
+
+- Plugin url
+
+![Plugin Download](https://plugins.jetbrains.com/plugin/15189-firebase-rules-syntax-highlighter)
 
 ### Configure colors
 
