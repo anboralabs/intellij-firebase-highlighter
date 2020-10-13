@@ -34,7 +34,7 @@ git clone https://github.com/anboralabs/intellij-firebase-highlighter
 
 - Plugin url
 
-![Plugin Download](https://plugins.jetbrains.com/plugin/15189-firebase-rules-syntax-highlighter)
+  [Plugin Download](https://plugins.jetbrains.com/plugin/15189-firebase-rules-syntax-highlighter)
 
 ### Configure colors
 
