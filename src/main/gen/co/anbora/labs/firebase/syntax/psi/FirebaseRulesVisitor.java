@@ -1,9 +1,9 @@
 // This is a generated file. Not intended for manual editing.
 package co.anbora.labs.firebase.syntax.psi;
 
-import org.jetbrains.annotations.*;
-import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiElementVisitor;
+import org.jetbrains.annotations.*;
 
 public class FirebaseRulesVisitor extends PsiElementVisitor {
 
@@ -19,15 +19,18 @@ public class FirebaseRulesVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitCallFunctionStatement(@NotNull FirebaseRulesCallFunctionStatement o) {
+  public void
+  visitCallFunctionStatement(@NotNull FirebaseRulesCallFunctionStatement o) {
     visitPsiElement(o);
   }
 
-  public void visitConditionalExpression(@NotNull FirebaseRulesConditionalExpression o) {
+  public void
+  visitConditionalExpression(@NotNull FirebaseRulesConditionalExpression o) {
     visitPsiElement(o);
   }
 
-  public void visitConditionalStatement(@NotNull FirebaseRulesConditionalStatement o) {
+  public void
+  visitConditionalStatement(@NotNull FirebaseRulesConditionalStatement o) {
     visitPsiElement(o);
   }
 
@@ -35,15 +38,18 @@ public class FirebaseRulesVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitFullPathStatement(@NotNull FirebaseRulesFullPathStatement o) {
+  public void
+  visitFullPathStatement(@NotNull FirebaseRulesFullPathStatement o) {
     visitPsiElement(o);
   }
 
-  public void visitFunctionParameterStatement(@NotNull FirebaseRulesFunctionParameterStatement o) {
+  public void visitFunctionParameterStatement(
+      @NotNull FirebaseRulesFunctionParameterStatement o) {
     visitPsiElement(o);
   }
 
-  public void visitFunctionStatement(@NotNull FirebaseRulesFunctionStatement o) {
+  public void
+  visitFunctionStatement(@NotNull FirebaseRulesFunctionStatement o) {
     visitPsiElement(o);
   }
 
@@ -63,7 +69,8 @@ public class FirebaseRulesVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitParameterStatement(@NotNull FirebaseRulesParameterStatement o) {
+  public void
+  visitParameterStatement(@NotNull FirebaseRulesParameterStatement o) {
     visitPsiElement(o);
   }
 
@@ -71,7 +78,8 @@ public class FirebaseRulesVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitPermissionStatement(@NotNull FirebaseRulesPermissionStatement o) {
+  public void
+  visitPermissionStatement(@NotNull FirebaseRulesPermissionStatement o) {
     visitPsiElement(o);
   }
 
@@ -79,7 +87,8 @@ public class FirebaseRulesVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitRuleVersionStatement(@NotNull FirebaseRulesRuleVersionStatement o) {
+  public void
+  visitRuleVersionStatement(@NotNull FirebaseRulesRuleVersionStatement o) {
     visitPsiElement(o);
   }
 
@@ -91,8 +100,5 @@ public class FirebaseRulesVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitPsiElement(@NotNull PsiElement o) {
-    visitElement(o);
-  }
-
+  public void visitPsiElement(@NotNull PsiElement o) { visitElement(o); }
 }
