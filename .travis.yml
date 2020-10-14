@@ -18,7 +18,9 @@ jobs:
       dist: trusty
       jdk: oraclejdk8
       script:
-        - ./gradlew clean assemble
+        - ./gradlew buildPlugin
     - stage: deploy
+      script:
+        - ./gradlew publishPlugin
       on:
         branch: master
