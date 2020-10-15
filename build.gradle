@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'co.anbora.labs'
-version '1.0.1-SNAPSHOT'
+version '1.0.2-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -29,6 +29,11 @@ publishPlugin {
 patchPluginXml {
     changeNotes """
       <ul>
+          <li><b>1.0.2</b> <em>(2020-10-15)</em> - sintax checker</li>
+              <ul>
+                  <li>Added "in" operator for javascript functions</li>
+              </ul>
+          </li>
           <li><b>1.0.1</b> <em>(2020-10-14)</em> - version compatibility</li>
               <ul>
                   <li>Added version compatibility for all Intellij products</li>
