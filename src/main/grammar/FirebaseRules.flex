@@ -51,6 +51,7 @@ PERMISSION={PERMISSIONS_KEYS}([,]({WHITE_SPACE})?{PERMISSIONS_KEYS})*
   "false"            { return FALSE_KEYWORD; }
   "if"               { return IF_KEYWORD; }
   "null"             { return NULL_KEYWORD; }
+  "in"               { return IN_KEYWORD; }
 
   "service"          { return SERVICE_KEYWORD; }
   {SERVICE_NAME}     { return SERVICE_NAME; }

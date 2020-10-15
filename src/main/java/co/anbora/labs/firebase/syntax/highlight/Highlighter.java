@@ -42,7 +42,8 @@ public class Highlighter extends SyntaxHighlighterBase {
                 || tokenType.equals(FirebaseRulesTypes.NULL_KEYWORD)
                 || tokenType.equals(FirebaseRulesTypes.IF_KEYWORD)
                 || tokenType.equals(FirebaseRulesTypes.FUNCTION_KEYWORD)
-                || tokenType.equals(FirebaseRulesTypes.RETURN_KEYWORD)) {
+                || tokenType.equals(FirebaseRulesTypes.RETURN_KEYWORD)
+                || tokenType.equals(FirebaseRulesTypes.IN_KEYWORD)) {
             return KEYWORDS_KEYS;
         } else if (tokenType.equals(FirebaseRulesTypes.PERMISSION)) {
             return PERMISSION_KEYS;

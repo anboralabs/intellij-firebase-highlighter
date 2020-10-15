@@ -87,6 +87,6 @@ LiteralStatement ::= (number|string)
 
 NullStatement ::= NULL_KEYWORD
 
-BooleanOperator ::= (EQEQ|NE|OROR|ANDAND|LT|LE|GT|GE)
+BooleanOperator ::= (EQEQ|NE|OROR|ANDAND|LT|LE|GT|GE|IN_KEYWORD)
 
 BooleanStatement ::= (TRUE_KEYWORD|FALSE_KEYWORD)
