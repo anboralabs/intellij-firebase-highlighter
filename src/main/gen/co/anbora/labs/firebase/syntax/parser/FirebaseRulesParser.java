@@ -52,7 +52,7 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // EQEQ|NE|OROR|ANDAND|LT|LE|GT|GE
+  // EQEQ|NE|OROR|ANDAND|LT|LE|GT|GE|IN_KEYWORD
   public static boolean BooleanOperator(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "BooleanOperator")) return false;
     boolean r;
@@ -65,6 +65,7 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, LE);
     if (!r) r = consumeToken(b, GT);
     if (!r) r = consumeToken(b, GE);
+    if (!r) r = consumeToken(b, IN_KEYWORD);
     exit_section_(b, l, m, r, false, null);
     return r;
   }

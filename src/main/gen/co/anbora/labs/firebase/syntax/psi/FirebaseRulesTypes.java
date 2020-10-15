@@ -45,6 +45,7 @@ public interface FirebaseRulesTypes {
   IElementType GT = new FirebaseRulesTokenType("GT");
   IElementType IDENTIFIER = new FirebaseRulesTokenType("IDENTIFIER");
   IElementType IF_KEYWORD = new FirebaseRulesTokenType("IF_KEYWORD");
+  IElementType IN_KEYWORD = new FirebaseRulesTokenType("IN_KEYWORD");
   IElementType LB = new FirebaseRulesTokenType("[");
   IElementType LE = new FirebaseRulesTokenType("LE");
   IElementType LEFT_BRACE = new FirebaseRulesTokenType("LEFT_BRACE");
