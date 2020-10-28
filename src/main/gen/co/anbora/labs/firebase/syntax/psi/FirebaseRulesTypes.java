@@ -34,7 +34,6 @@ public interface FirebaseRulesTypes {
   IElementType ANDAND = new FirebaseRulesTokenType("ANDAND");
   IElementType COLON = new FirebaseRulesTokenType(":");
   IElementType COMMA = new FirebaseRulesTokenType(",");
-  IElementType COMMENT = new FirebaseRulesTokenType("comment");
   IElementType DOT = new FirebaseRulesTokenType(".");
   IElementType DOT_COMMA = new FirebaseRulesTokenType("DOT_COMMA");
   IElementType EQ = new FirebaseRulesTokenType("=");
@@ -49,6 +48,7 @@ public interface FirebaseRulesTypes {
   IElementType LB = new FirebaseRulesTokenType("[");
   IElementType LE = new FirebaseRulesTokenType("LE");
   IElementType LEFT_BRACE = new FirebaseRulesTokenType("LEFT_BRACE");
+  IElementType LINE_COMMENT = new FirebaseRulesTokenType("LINE_COMMENT");
   IElementType LP = new FirebaseRulesTokenType("(");
   IElementType LT = new FirebaseRulesTokenType("LT");
   IElementType MATCH_KEYWORD = new FirebaseRulesTokenType("MATCH_KEYWORD");
@@ -59,7 +59,6 @@ public interface FirebaseRulesTypes {
   IElementType OROR = new FirebaseRulesTokenType("OROR");
   IElementType PATH_VARIABLE = new FirebaseRulesTokenType("PATH_VARIABLE");
   IElementType PERMISSION = new FirebaseRulesTokenType("PERMISSION");
-  IElementType PORTTOKEN = new FirebaseRulesTokenType("portToken");
   IElementType RB = new FirebaseRulesTokenType("]");
   IElementType RETURN_KEYWORD = new FirebaseRulesTokenType("RETURN_KEYWORD");
   IElementType RIGHT_BRACE = new FirebaseRulesTokenType("RIGHT_BRACE");
