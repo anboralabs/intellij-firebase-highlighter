@@ -1,6 +1,4 @@
-sudo: required
-services:
-  - docker
+language: java
 
 stages:
   - name: compile
@@ -22,5 +20,3 @@ jobs:
     - stage: deploy
       script:
         - ./gradlew publishPlugin
-      on:
-        branch: master
