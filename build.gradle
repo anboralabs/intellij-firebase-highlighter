@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'co.anbora.labs'
-version '1.1.0-SNAPSHOT'
+version '1.1.1-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -29,6 +29,12 @@ publishPlugin {
 patchPluginXml {
     changeNotes """
       <ul>
+          <li><b>1.1.1</b> <em>(2020-10-28)</em> - added built-in functions support</li>
+              <ul>
+                  <li>Added support for functions: get, exists</li>
+                  <li>Fixed issues with functions and comments</li>
+              </ul>
+          </li>
           <li><b>1.1.0</b> <em>(2020-10-27)</em> - added highlight support</li>
               <ul>
                   <li>Added support for highlight one line comments</li>
