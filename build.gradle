@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'co.anbora.labs'
-version '1.0.2-SNAPSHOT'
+version '1.1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -29,6 +29,12 @@ publishPlugin {
 patchPluginXml {
     changeNotes """
       <ul>
+          <li><b>1.1.0</b> <em>(2020-10-27)</em> - added highlight support</li>
+              <ul>
+                  <li>Added support for highlight one line comments</li>
+                  <li>Added support for color change: strings, numbers and comments</li>
+              </ul>
+          </li>
           <li><b>1.0.2</b> <em>(2020-10-15)</em> - sintax checker</li>
               <ul>
                   <li>Added "in" operator for javascript functions</li>

@@ -28,8 +28,8 @@ public class FirebaseRulesParameterStatementImpl extends ASTWrapperPsiElement im
 
   @Override
   @NotNull
-  public List<FirebaseRulesObjectStatement> getObjectStatementList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FirebaseRulesObjectStatement.class);
+  public List<FirebaseRulesExpression> getExpressionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FirebaseRulesExpression.class);
   }
 
 }

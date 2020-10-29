@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface FirebaseRulesParameterStatement extends PsiElement {
 
   @NotNull
-  List<FirebaseRulesObjectStatement> getObjectStatementList();
+  List<FirebaseRulesExpression> getExpressionList();
 
 }

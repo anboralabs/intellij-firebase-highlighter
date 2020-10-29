@@ -25,13 +25,10 @@ EOL="\r"|"\n"|"\r\n"
 LINE_WS=[\ \t\f]
 WHITE_SPACE=({LINE_WS}|{EOL})+
 
-WHITE_SPACE=[ \t\n\x0B\f\r]+
-PORTTOKEN=(INPORT|EXPORT|OUTPORT)
-COMMENT=#.*
 NUMBER=[0-9]+(\.[0-9]*)?
 STRING=('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")
-CHAR=[\n\r\u2028\u2029]
 SLASH=\/
+LINE_COMMENT=("//")[^\r\n]*
 
 SERVICE_NAME=(cloud.firestore|firebase.storage)
 RULES_VERSION=rules_version
@@ -62,6 +59,8 @@ PERMISSION={PERMISSIONS_KEYS}([,]({WHITE_SPACE})?{PERMISSIONS_KEYS})*
   "function"         { return FUNCTION_KEYWORD; }
   "return"           { return RETURN_KEYWORD; }
 
+  {LINE_COMMENT}     { return LINE_COMMENT; }
+
   "=="               { return EQEQ; }
   "!="               { return NE; }
   "||"               { return OROR; }
@@ -84,14 +83,12 @@ PERMISSION={PERMISSIONS_KEYS}([,]({WHITE_SPACE})?{PERMISSIONS_KEYS})*
   "."                { return DOT; }
   ";"                { return DOT_COMMA; }
 
+  {NUMBER}           { return NUMBER; }
+  {STRING}           { return STRING; }
   {IDENTIFIER}       { return IDENTIFIER; }
   {SLASH}            { return SLASH; }
 
   {WHITE_SPACE}      { return WHITE_SPACE; }
-  {PORTTOKEN}        { return PORTTOKEN; }
-  {COMMENT}          { return COMMENT; }
-  {NUMBER}           { return NUMBER; }
-  {STRING}           { return STRING; }
 
   [^] { return com.intellij.psi.TokenType.BAD_CHARACTER; }
 }
