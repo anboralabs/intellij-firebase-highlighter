@@ -37,7 +37,7 @@ root ::= root_item
 
 private root_item ::= !<<eof>> property
 
-property ::= RuleVersionStatement? ServiceStatement
+property ::= RuleVersionStatement? (LINE_COMMENT|FunctionStatement)* ServiceStatement
 
 private comment ::= LINE_COMMENT*
 
@@ -67,7 +67,7 @@ FunctionParameterStatement ::= LP ParameterStatement? RP
 
 ParameterStatement ::= Expression(COMMA Expression)*
 
-FunctionStatement ::= FUNCTION_KEYWORD CallFunctionStatement LEFT_BRACE ReturnStatement RIGHT_BRACE
+FunctionStatement ::= FUNCTION_KEYWORD CallFunctionStatement LEFT_BRACE comment ReturnStatement RIGHT_BRACE
 
 ReturnStatement ::= RETURN_KEYWORD ConditionalExpression DOT_COMMA
 

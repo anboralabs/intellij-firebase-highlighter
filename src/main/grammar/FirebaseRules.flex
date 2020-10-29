@@ -28,7 +28,7 @@ WHITE_SPACE=({LINE_WS}|{EOL})+
 NUMBER=[0-9]+(\.[0-9]*)?
 STRING=('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")
 SLASH=\/
-LINE_COMMENT=("//")[^\r\n]*
+LINE_COMMENT=(("//")[^\r\n]*|{EOL})+
 
 SERVICE_NAME=(cloud.firestore|firebase.storage)
 RULES_VERSION=rules_version
@@ -41,6 +41,7 @@ PERMISSION={PERMISSIONS_KEYS}([,]({WHITE_SPACE})?{PERMISSIONS_KEYS})*
 %%
 <YYINITIAL> {
   {WHITE_SPACE}      { return com.intellij.psi.TokenType.WHITE_SPACE; }
+  {LINE_COMMENT}     { return LINE_COMMENT; }
 
   {PERMISSION}       { return PERMISSION; }
   {PATH_VARIABLE}    { return PATH_VARIABLE; }
@@ -58,8 +59,6 @@ PERMISSION={PERMISSIONS_KEYS}([,]({WHITE_SPACE})?{PERMISSIONS_KEYS})*
   {VERSIONS}         { return VERSIONS; }
   "function"         { return FUNCTION_KEYWORD; }
   "return"           { return RETURN_KEYWORD; }
-
-  {LINE_COMMENT}     { return LINE_COMMENT; }
 
   "=="               { return EQEQ; }
   "!="               { return NE; }

@@ -27,6 +27,12 @@ public class FirebaseRulesPropertyImpl extends ASTWrapperPsiElement implements F
   }
 
   @Override
+  @NotNull
+  public List<FirebaseRulesFunctionStatement> getFunctionStatementList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FirebaseRulesFunctionStatement.class);
+  }
+
+  @Override
   @Nullable
   public FirebaseRulesRuleVersionStatement getRuleVersionStatement() {
     return findChildByClass(FirebaseRulesRuleVersionStatement.class);

@@ -230,7 +230,7 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // FUNCTION_KEYWORD CallFunctionStatement LEFT_BRACE ReturnStatement RIGHT_BRACE
+  // FUNCTION_KEYWORD CallFunctionStatement LEFT_BRACE comment ReturnStatement RIGHT_BRACE
   public static boolean FunctionStatement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "FunctionStatement")) return false;
     if (!nextTokenIs(b, FUNCTION_KEYWORD)) return false;
@@ -239,6 +239,7 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
     r = consumeToken(b, FUNCTION_KEYWORD);
     r = r && CallFunctionStatement(b, l + 1);
     r = r && consumeToken(b, LEFT_BRACE);
+    r = r && comment(b, l + 1);
     r = r && ReturnStatement(b, l + 1);
     r = r && consumeToken(b, RIGHT_BRACE);
     exit_section_(b, m, FUNCTION_STATEMENT, r);
@@ -484,13 +485,13 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // RuleVersionStatement? ServiceStatement
+  // RuleVersionStatement? (LINE_COMMENT|FunctionStatement)* ServiceStatement
   public static boolean property(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "property")) return false;
-    if (!nextTokenIs(b, "<property>", RULES_VERSION, SERVICE_KEYWORD)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, PROPERTY, "<property>");
     r = property_0(b, l + 1);
+    r = r && property_1(b, l + 1);
     r = r && ServiceStatement(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
@@ -501,6 +502,26 @@ public class FirebaseRulesParser implements PsiParser, LightPsiParser {
     if (!recursion_guard_(b, l, "property_0")) return false;
     RuleVersionStatement(b, l + 1);
     return true;
+  }
+
+  // (LINE_COMMENT|FunctionStatement)*
+  private static boolean property_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "property_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!property_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "property_1", c)) break;
+    }
+    return true;
+  }
+
+  // LINE_COMMENT|FunctionStatement
+  private static boolean property_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "property_1_0")) return false;
+    boolean r;
+    r = consumeToken(b, LINE_COMMENT);
+    if (!r) r = FunctionStatement(b, l + 1);
+    return r;
   }
 
   /* ********************************************************** */
