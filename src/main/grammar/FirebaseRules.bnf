@@ -37,7 +37,7 @@ root ::= root_item
 
 private root_item ::= !<<eof>> property
 
-property ::= RuleVersionStatement? ServiceStatement
+property ::= RuleVersionStatement? (LINE_COMMENT|FunctionStatement)* ServiceStatement
 
 private comment ::= LINE_COMMENT*
 
@@ -53,7 +53,10 @@ PathStatement ::= (IDENTIFIER|PATH_VARIABLE)
 
 AllowStatement ::= ALLOW_KEYWORD PermissionStatement COLON ConditionalStatement DOT_COMMA
 
-PermissionStatement ::= PERMISSION
+PermissionKeyWord ::= (GET_KEYWORD|READ_KEYWORD|WRITE_KEYWORD|LIST_KEYWORD
+                            |CREATE_KEYWORD|UPDATE_KEYWORD|DELETE_KEYWORD)
+
+PermissionStatement ::= PermissionKeyWord (COMMA PermissionKeyWord)*
 
 ConditionalStatement ::= IF_KEYWORD ConditionalExpression
 
@@ -67,11 +70,22 @@ FunctionParameterStatement ::= LP ParameterStatement? RP
 
 ParameterStatement ::= Expression(COMMA Expression)*
 
-FunctionStatement ::= FUNCTION_KEYWORD CallFunctionStatement LEFT_BRACE ReturnStatement RIGHT_BRACE
+FullBuiltInParameterStatement ::= (SLASH PathBuiltInParameterStatement)+
+
+PathBuiltInParameterStatement ::= (IDENTIFIER|PATH_BUILT_IN)
+
+GetBuiltInFunctionStatement ::= GET_KEYWORD LP FullBuiltInParameterStatement RP (DOT IDENTIFIER)*
+
+ExistBuiltInFunctionStatement ::= EXITS_KEYWORD LP FullBuiltInParameterStatement RP
+
+BuiltInFunctionStatement ::= (GetBuiltInFunctionStatement|ExistBuiltInFunctionStatement)
+
+FunctionStatement ::= FUNCTION_KEYWORD CallFunctionStatement LEFT_BRACE comment ReturnStatement RIGHT_BRACE
 
 ReturnStatement ::= RETURN_KEYWORD ConditionalExpression DOT_COMMA
 
 Expression ::= BooleanStatement
+        | BuiltInFunctionStatement
         | CallFunctionStatement
         | ObjectStatement
         | LiteralStatement

@@ -34,6 +34,12 @@ public class FirebaseRulesExpressionImpl extends ASTWrapperPsiElement implements
 
   @Override
   @Nullable
+  public FirebaseRulesBuiltInFunctionStatement getBuiltInFunctionStatement() {
+    return findChildByClass(FirebaseRulesBuiltInFunctionStatement.class);
+  }
+
+  @Override
+  @Nullable
   public FirebaseRulesCallFunctionStatement getCallFunctionStatement() {
     return findChildByClass(FirebaseRulesCallFunctionStatement.class);
   }

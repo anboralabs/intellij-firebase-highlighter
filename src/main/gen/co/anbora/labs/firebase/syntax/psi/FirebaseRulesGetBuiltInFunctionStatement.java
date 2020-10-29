@@ -5,9 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FirebaseRulesPermissionStatement extends PsiElement {
+public interface FirebaseRulesGetBuiltInFunctionStatement extends PsiElement {
 
   @NotNull
-  List<FirebaseRulesPermissionKeyWord> getPermissionKeyWordList();
+  FirebaseRulesFullBuiltInParameterStatement getFullBuiltInParameterStatement();
 
 }

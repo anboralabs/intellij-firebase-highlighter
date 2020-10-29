@@ -11,14 +11,14 @@ import static co.anbora.labs.firebase.syntax.psi.FirebaseRulesTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import co.anbora.labs.firebase.syntax.psi.*;
 
-public class FirebaseRulesPropertyImpl extends ASTWrapperPsiElement implements FirebaseRulesProperty {
+public class FirebaseRulesFullBuiltInParameterStatementImpl extends ASTWrapperPsiElement implements FirebaseRulesFullBuiltInParameterStatement {
 
-  public FirebaseRulesPropertyImpl(@NotNull ASTNode node) {
+  public FirebaseRulesFullBuiltInParameterStatementImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull FirebaseRulesVisitor visitor) {
-    visitor.visitProperty(this);
+    visitor.visitFullBuiltInParameterStatement(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -28,20 +28,8 @@ public class FirebaseRulesPropertyImpl extends ASTWrapperPsiElement implements F
 
   @Override
   @NotNull
-  public List<FirebaseRulesFunctionStatement> getFunctionStatementList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FirebaseRulesFunctionStatement.class);
-  }
-
-  @Override
-  @Nullable
-  public FirebaseRulesRuleVersionStatement getRuleVersionStatement() {
-    return findChildByClass(FirebaseRulesRuleVersionStatement.class);
-  }
-
-  @Override
-  @NotNull
-  public FirebaseRulesServiceStatement getServiceStatement() {
-    return findNotNullChildByClass(FirebaseRulesServiceStatement.class);
+  public List<FirebaseRulesPathBuiltInParameterStatement> getPathBuiltInParameterStatementList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FirebaseRulesPathBuiltInParameterStatement.class);
   }
 
 }

@@ -19,6 +19,10 @@ public class FirebaseRulesVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitBuiltInFunctionStatement(@NotNull FirebaseRulesBuiltInFunctionStatement o) {
+    visitPsiElement(o);
+  }
+
   public void visitCallFunctionStatement(@NotNull FirebaseRulesCallFunctionStatement o) {
     visitPsiElement(o);
   }
@@ -31,7 +35,15 @@ public class FirebaseRulesVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitExistBuiltInFunctionStatement(@NotNull FirebaseRulesExistBuiltInFunctionStatement o) {
+    visitPsiElement(o);
+  }
+
   public void visitExpression(@NotNull FirebaseRulesExpression o) {
+    visitPsiElement(o);
+  }
+
+  public void visitFullBuiltInParameterStatement(@NotNull FirebaseRulesFullBuiltInParameterStatement o) {
     visitPsiElement(o);
   }
 
@@ -44,6 +56,10 @@ public class FirebaseRulesVisitor extends PsiElementVisitor {
   }
 
   public void visitFunctionStatement(@NotNull FirebaseRulesFunctionStatement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitGetBuiltInFunctionStatement(@NotNull FirebaseRulesGetBuiltInFunctionStatement o) {
     visitPsiElement(o);
   }
 
@@ -67,7 +83,15 @@ public class FirebaseRulesVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitPathBuiltInParameterStatement(@NotNull FirebaseRulesPathBuiltInParameterStatement o) {
+    visitPsiElement(o);
+  }
+
   public void visitPathStatement(@NotNull FirebaseRulesPathStatement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitPermissionKeyWord(@NotNull FirebaseRulesPermissionKeyWord o) {
     visitPsiElement(o);
   }
 

@@ -26,4 +26,10 @@ public class FirebaseRulesPermissionStatementImpl extends ASTWrapperPsiElement i
     else super.accept(visitor);
   }
 
+  @Override
+  @NotNull
+  public List<FirebaseRulesPermissionKeyWord> getPermissionKeyWordList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FirebaseRulesPermissionKeyWord.class);
+  }
+
 }
