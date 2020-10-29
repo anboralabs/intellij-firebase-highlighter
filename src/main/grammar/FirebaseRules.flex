@@ -33,17 +33,16 @@ LINE_COMMENT=(("//")[^\r\n]*|{EOL})+
 SERVICE_NAME=(cloud.firestore|firebase.storage)
 RULES_VERSION=rules_version
 VERSIONS=('1'|'2')
-PERMISSIONS_KEYS=(read|write|get|list|create|update|delete)
 IDENTIFIER=[a-zA-Z_\-0-9]+
 PATH_VARIABLE=[{][a-zA-Z_\-0-9]+(=\*\*)?[}]
-PERMISSION={PERMISSIONS_KEYS}([,]({WHITE_SPACE})?{PERMISSIONS_KEYS})*
+PATH_BUILT_IN=[$][(][a-zA-Z_\-0-9]+[a-zA-Z_\.\-0-9]*[)]
 
 %%
 <YYINITIAL> {
   {WHITE_SPACE}      { return com.intellij.psi.TokenType.WHITE_SPACE; }
   {LINE_COMMENT}     { return LINE_COMMENT; }
 
-  {PERMISSION}       { return PERMISSION; }
+  {PATH_BUILT_IN}    { return PATH_BUILT_IN; }
   {PATH_VARIABLE}    { return PATH_VARIABLE; }
   "true"             { return TRUE_KEYWORD; }
   "false"            { return FALSE_KEYWORD; }
@@ -59,6 +58,15 @@ PERMISSION={PERMISSIONS_KEYS}([,]({WHITE_SPACE})?{PERMISSIONS_KEYS})*
   {VERSIONS}         { return VERSIONS; }
   "function"         { return FUNCTION_KEYWORD; }
   "return"           { return RETURN_KEYWORD; }
+
+  "exists"           { return EXITS_KEYWORD; }
+  "get"              { return GET_KEYWORD; }
+  "read"             { return READ_KEYWORD; }
+  "write"            { return WRITE_KEYWORD; }
+  "list"             { return LIST_KEYWORD; }
+  "create"           { return CREATE_KEYWORD; }
+  "update"           { return UPDATE_KEYWORD; }
+  "delete"           { return DELETE_KEYWORD; }
 
   "=="               { return EQEQ; }
   "!="               { return NE; }

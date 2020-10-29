@@ -57,9 +57,17 @@ public class Highlighter extends SyntaxHighlighterBase {
                 || tokenType.equals(FirebaseRulesTypes.RETURN_KEYWORD)
                 || tokenType.equals(FirebaseRulesTypes.IN_KEYWORD)) {
             return KEYWORDS_KEYS;
-        } else if (tokenType.equals(FirebaseRulesTypes.PERMISSION)) {
+        } else if (tokenType.equals(FirebaseRulesTypes.GET_KEYWORD)
+                || tokenType.equals(FirebaseRulesTypes.READ_KEYWORD)
+                || tokenType.equals(FirebaseRulesTypes.WRITE_KEYWORD)
+                || tokenType.equals(FirebaseRulesTypes.LIST_KEYWORD)
+                || tokenType.equals(FirebaseRulesTypes.CREATE_KEYWORD)
+                || tokenType.equals(FirebaseRulesTypes.UPDATE_KEYWORD)
+                || tokenType.equals(FirebaseRulesTypes.DELETE_KEYWORD)
+                || tokenType.equals(FirebaseRulesTypes.EXITS_KEYWORD)) {
             return PERMISSION_KEYS;
         } else if (tokenType.equals(FirebaseRulesTypes.PATH_VARIABLE)
+                || tokenType.equals(FirebaseRulesTypes.PATH_BUILT_IN)
                 || tokenType.equals(FirebaseRulesTypes.STRING)) {
             return PATH_KEYS;
         } else if (tokenType.equals(FirebaseRulesTypes.LINE_COMMENT)) {

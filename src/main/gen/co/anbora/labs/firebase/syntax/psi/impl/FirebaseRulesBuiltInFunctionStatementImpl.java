@@ -11,14 +11,14 @@ import static co.anbora.labs.firebase.syntax.psi.FirebaseRulesTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import co.anbora.labs.firebase.syntax.psi.*;
 
-public class FirebaseRulesPermissionStatementImpl extends ASTWrapperPsiElement implements FirebaseRulesPermissionStatement {
+public class FirebaseRulesBuiltInFunctionStatementImpl extends ASTWrapperPsiElement implements FirebaseRulesBuiltInFunctionStatement {
 
-  public FirebaseRulesPermissionStatementImpl(@NotNull ASTNode node) {
+  public FirebaseRulesBuiltInFunctionStatementImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull FirebaseRulesVisitor visitor) {
-    visitor.visitPermissionStatement(this);
+    visitor.visitBuiltInFunctionStatement(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -27,9 +27,15 @@ public class FirebaseRulesPermissionStatementImpl extends ASTWrapperPsiElement i
   }
 
   @Override
-  @NotNull
-  public List<FirebaseRulesPermissionKeyWord> getPermissionKeyWordList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FirebaseRulesPermissionKeyWord.class);
+  @Nullable
+  public FirebaseRulesExistBuiltInFunctionStatement getExistBuiltInFunctionStatement() {
+    return findChildByClass(FirebaseRulesExistBuiltInFunctionStatement.class);
+  }
+
+  @Override
+  @Nullable
+  public FirebaseRulesGetBuiltInFunctionStatement getGetBuiltInFunctionStatement() {
+    return findChildByClass(FirebaseRulesGetBuiltInFunctionStatement.class);
   }
 
 }
