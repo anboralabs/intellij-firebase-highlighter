@@ -12,7 +12,6 @@
   elementTypeHolderClass="co.anbora.labs.firebase.syntax.psi.FirebaseRulesTypes"
   elementTypeClass="co.anbora.labs.firebase.syntax.psi.FirebaseRulesElementType"
   tokenTypeClass="co.anbora.labs.firebase.syntax.psi.FirebaseRulesTokenType"
-  psiImplUtilClass="co.anbora.labs.firebase.syntax.psi.impl.FBPPsiImplUtil"
 
   tokens = [
           WHITE_SPACE='regexp:\s+'

@@ -1,6 +1,14 @@
+import org.jetbrains.grammarkit.tasks.*
+
 plugins {
     id 'java'
     id 'org.jetbrains.intellij' version '0.4.26'
+    id "org.jetbrains.grammarkit" version "2020.2.1"
+}
+
+grammarKit {
+    jflexRelease = '1.7.0-1'
+    grammarKitRelease = '7aecfcd'
 }
 
 group 'co.anbora.labs'
@@ -14,12 +22,40 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
+task generateFirebaseRulesLexer(type: GenerateLexer) {
+    // source flex file
+    source = "src/main/grammar/FirebaseRules.flex"
+    // target directory for lexer
+    targetDir = "src/main/gen/co/anbora/labs/firebase/syntax/"
+    // target classname, target file will be targetDir/targetClass.java
+    targetClass = "FirebaseRulesLexer"
+    // if set, plugin will remove a lexer output file before generating new one. Default: false
+    purgeOldFiles = true
+}
+
+task generateFirebaseRulesParser(type: GenerateParser) {
+    // source bnf file
+    source = "src/main/grammar/FirebaseRules.bnf"
+    // optional, task-specific root for the generated files. Default: none
+    targetRoot = 'src/main/gen'
+    // path to a parser file, relative to the targetRoot
+    pathToParser = '/co/anbora/labs/firebase/syntax/parser/FirebaseRulesParser.java'
+    // path to a directory with generated psi files, relative to the targetRoot
+    pathToPsiRoot = '/co/anbora/labs/firebase/syntax/psi'
+    // if set, plugin will remove a parser output file and psi output directory before generating new ones. Default: false
+    purgeOldFiles = true
+}
+
 // Include the generated files in the source set
 sourceSets.main.java.srcDirs 'src/main/gen'
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     version = '2020.2.2'
+}
+
+buildPlugin {
+    dependsOn(generateFirebaseRulesLexer, generateFirebaseRulesParser)
 }
 
 publishPlugin {
