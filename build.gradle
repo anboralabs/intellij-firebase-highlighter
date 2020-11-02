@@ -12,7 +12,7 @@ grammarKit {
 }
 
 group 'co.anbora.labs'
-version '1.1.1-SNAPSHOT'
+version '1.1.2-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -65,6 +65,11 @@ publishPlugin {
 patchPluginXml {
     changeNotes """
       <ul>
+          <li><b>1.1.2</b> <em>(2020-11-02)</em> - added arrays support</li>
+              <ul>
+                  <li>Added support for arrays</li>
+              </ul>
+          </li>
           <li><b>1.1.1</b> <em>(2020-10-28)</em> - added built-in functions support</li>
               <ul>
                   <li>Added support for functions: get, exists</li>
