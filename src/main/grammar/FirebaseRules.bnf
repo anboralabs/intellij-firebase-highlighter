@@ -63,7 +63,7 @@ ConditionalExpression ::= Expression (BooleanOperator Expression)*
 
 ObjectStatement ::= IDENTIFIER(DOT IDENTIFIER)*
 
-CallFunctionStatement ::= IDENTIFIER(DOT IDENTIFIER)?FunctionParameterStatement
+CallFunctionStatement ::= (ArrayLiteralStatement|IDENTIFIER)(DOT IDENTIFIER)?FunctionParameterStatement
 
 FunctionParameterStatement ::= LP ParameterStatement? RP
 
@@ -89,6 +89,9 @@ Expression ::= BooleanStatement
         | ObjectStatement
         | LiteralStatement
         | NullStatement
+        | ArrayLiteralStatement
+
+ArrayLiteralStatement ::= LB (ParameterStatement|ArrayLiteralStatement) RB
 
 LiteralStatement ::= (number|string)
 
