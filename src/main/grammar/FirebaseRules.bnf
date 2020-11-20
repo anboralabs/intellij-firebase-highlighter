@@ -44,7 +44,7 @@ RuleVersionStatement ::= RULES_VERSION EQ VERSIONS DOT_COMMA
 
 ServiceStatement ::= SERVICE_KEYWORD SERVICE_NAME LEFT_BRACE (comment MatchStatement)+ RIGHT_BRACE
 
-MatchStatement ::= MATCH_KEYWORD FullPathStatement LEFT_BRACE comment (AllowStatement|MatchStatement|FunctionStatement)+ RIGHT_BRACE
+MatchStatement ::= MATCH_KEYWORD FullPathStatement LEFT_BRACE (comment AllowStatement|comment MatchStatement|comment FunctionStatement)+ RIGHT_BRACE
 
 FullPathStatement ::= (SLASH PathStatement)+
 
