@@ -93,7 +93,15 @@ Expression ::= BooleanStatement
 
 ArrayLiteralStatement ::= LB (ParameterStatement|ArrayLiteralStatement) RB
 
-LiteralStatement ::= (number|string)
+LiteralStatement ::= (NumberLiteralStatement|StringLiteralStatement)
+
+NumberLiteralStatement ::= number (NumberOperator number)*
+
+StringLiteralStatement ::= string (StringOperator string)*
+
+StringOperator ::= (PLUS_OP|MULT_OP)
+
+NumberOperator ::= (PLUS_OP|MINUS_OP|MULT_OP|SLASH)
 
 NullStatement ::= NULL_KEYWORD
 
