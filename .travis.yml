@@ -15,7 +15,7 @@ jobs:
       install: true
       os: linux
       dist: trusty
-      jdk: oraclejdk8
+      jdk: openjdk11
       script:
         - ./gradlew buildPlugin
     - stage: deploy
