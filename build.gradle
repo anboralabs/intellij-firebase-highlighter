@@ -12,7 +12,7 @@ grammarKit {
 }
 
 group 'co.anbora.labs'
-version '1.1.4-SNAPSHOT'
+version '1.1.5-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -50,9 +50,7 @@ task generateFirebaseRulesParser(type: GenerateParser) {
 sourceSets.main.java.srcDirs 'src/main/gen'
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
-intellij {
-    version = 'IU-2020.2.2'
-}
+intellij { }
 
 buildPlugin {
     dependsOn(generateFirebaseRulesLexer, generateFirebaseRulesParser)
@@ -65,7 +63,12 @@ publishPlugin {
 patchPluginXml {
     changeNotes """
       <ul>
-          <li><b>1.1.4</b> <em>(2020-11-19)</em> - Added operators support</li>
+          <li><b>1.1.5</b> <em>(2020-12-02)</em> - Added support for new IDE versions</li>
+              <ul>
+                  <li>Added support for IDE version from build 192 </li>
+              </ul>
+          </li>
+          <li><b>1.1.4</b> <em>(2020-11-29)</em> - Added operators support</li>
               <ul>
                   <li>Added operation with numbers support: +, -, *, / </li>
                   <li>Added operation with strings support: +, * </li>
