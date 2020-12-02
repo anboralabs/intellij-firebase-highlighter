@@ -1,5 +1,6 @@
 language: java
-
+jdk:
+  - openjdk11
 stages:
   - name: compile
     if: type = pull_request
