@@ -92,10 +92,10 @@ Expression ::= BooleanStatement
         | ParenthesizedExpression
         | NegatedExpression
 
-private ParenthesizedExpression ::=
-    LP Expression RP
+ParenthesizedExpression ::=
+    LP ConditionalExpression RP
 
-private NegatedExpression ::=
+NegatedExpression ::=
     NEGATE Expression
 
 ArrayLiteralStatement ::= LB (ParameterStatement|ArrayLiteralStatement) RB
