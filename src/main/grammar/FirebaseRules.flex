@@ -1,16 +1,16 @@
 // Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
-package co.anbora.labs.firebase.syntax;
+package co.anbora.labs.firebase.lang.core.lexer;
 
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
-import static co.anbora.labs.firebase.syntax.psi.FirebaseRulesTypes.*;
+import static co.anbora.labs.firebase.lang.core.psi.FirebaseRulesTypes.*;
 import com.intellij.psi.TokenType;
 
 %%
 
 %{
   public FirebaseRulesLexer() {
-    this((java.io.Reader)null);
+    this(null);
   }
 %}
 
@@ -20,6 +20,19 @@ import com.intellij.psi.TokenType;
 %function advance
 %type IElementType
 %unicode
+
+%{
+    private int commentLevel = 0;
+    private int charLength = 0;
+    private boolean docComment = false;
+
+    private void startComment() {
+        commentLevel = 1;
+        yybegin(COMMENT);
+    }
+%}
+
+%xstate COMMENT
 
 EOL="\r"|"\n"|"\r\n"
 LINE_WS=[\ \t\f]
@@ -38,9 +51,29 @@ PATH_VARIABLE=[{][a-zA-Z_\-0-9]+(=\*\*)?[}]
 PATH_BUILT_IN=[$][(][a-zA-Z_\-0-9]+[a-zA-Z_\.\-0-9]*[)]
 
 %%
+
+<COMMENT> {
+    "/*" {
+        commentLevel++;
+    }
+    "*/" {
+            if (--commentLevel == 0) {
+                yybegin(YYINITIAL);
+                return BLOCK_COMMENT;
+            }
+        }
+
+    <<EOF>> { commentLevel = 0; yybegin(YYINITIAL); return BLOCK_COMMENT; }
+
+    [^] { }
+}
+
 <YYINITIAL> {
   {WHITE_SPACE}      { return com.intellij.psi.TokenType.WHITE_SPACE; }
   {LINE_COMMENT}     { return LINE_COMMENT; }
+  "/*" {
+      startComment();
+  }
 
   {PATH_BUILT_IN}    { return PATH_BUILT_IN; }
   {PATH_VARIABLE}    { return PATH_VARIABLE; }
@@ -76,6 +109,7 @@ PATH_BUILT_IN=[$][(][a-zA-Z_\-0-9]+[a-zA-Z_\.\-0-9]*[)]
   "<="               { return LE; }
   ">"                { return GT; }
   ">="               { return GE; }
+  "!"                { return NEGATE; }
 
   "+"                { return PLUS_OP; }
   "-"                { return MINUS_OP; }
