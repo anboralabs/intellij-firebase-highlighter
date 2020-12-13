@@ -5,7 +5,7 @@ import javax.swing.Icon
 
 object FirebaseIcons {
 
-    val FILE = getIcon("elm-file.png")
+    val FILE = getIcon("icon.png")
 
     private fun getIcon(path: String): Icon {
         return IconLoader.getIcon("/icons/$path")
