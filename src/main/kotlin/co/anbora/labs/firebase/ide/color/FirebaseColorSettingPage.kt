@@ -32,7 +32,7 @@ class FirebaseColorSettingPage: ColorSettingsPage {
                   match /users/{userId}/{anyUserFile=**} {
                     allow read, delete: if request.auth != null && request.auth.uid == userId;
                   }
-                
+
                   match /databases/{database}/documents {
                     // True if the user is signed in or the requested data is 'public'
                     function signedInOrPublic() {
@@ -47,7 +47,7 @@ class FirebaseColorSettingPage: ColorSettingsPage {
                   // When 'request.method' == 'delete' this rule and the one matching
                   // any path under the user directory would both match and the `delete`
                   // would be permitted.
-                
+
                   match /users/{userId}/images/{imageId} {
                     // Whether to permit the request depends on the logical OR of all
                     // matched rules. This means that even if this rule did not explicitly
