@@ -109,6 +109,7 @@ PATH_BUILT_IN=[$][(][a-zA-Z_\-0-9]+[a-zA-Z_\.\-0-9]*[)]
   "<="               { return LE; }
   ">"                { return GT; }
   ">="               { return GE; }
+  "!"                { return NEGATE; }
 
   "+"                { return PLUS_OP; }
   "-"                { return MINUS_OP; }
