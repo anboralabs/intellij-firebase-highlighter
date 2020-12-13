@@ -1,17 +1,17 @@
 // Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 {
-  parserClass="co.anbora.labs.firebase.syntax.parser.FirebaseRulesParser"
-  parserUtilClass="co.anbora.labs.firebase.syntax.parser.FirebaseRulesParserUtil"
+  parserClass="co.anbora.labs.firebase.lang.core.parser.FirebaseRulesParser"
+  parserUtilClass="co.anbora.labs.firebase.lang.core.parser.FirebaseParserUtil"
   extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
 
   psiClassPrefix="FirebaseRules"
   psiImplClassSuffix="Impl"
-  psiPackage="co.anbora.labs.firebase.syntax.psi"
-  psiImplPackage="co.anbora.labs.firebase.syntax.psi.impl"
+  psiPackage="co.anbora.labs.firebase.lang.core.psi"
+  psiImplPackage="co.anbora.labs.firebase.lang.core.psi.impl"
 
-  elementTypeHolderClass="co.anbora.labs.firebase.syntax.psi.FirebaseRulesTypes"
-  elementTypeClass="co.anbora.labs.firebase.syntax.psi.FirebaseRulesElementType"
-  tokenTypeClass="co.anbora.labs.firebase.syntax.psi.FirebaseRulesTokenType"
+  elementTypeHolderClass="co.anbora.labs.firebase.lang.core.psi.FirebaseRulesTypes"
+  elementTypeClass="co.anbora.labs.firebase.lang.core.psi.FirebaseElementType"
+  tokenTypeClass="co.anbora.labs.firebase.lang.core.psi.FirebaseTokenType"
 
   tokens = [
           WHITE_SPACE='regexp:\s+'
@@ -19,7 +19,6 @@
           RP = ')'
           LB = '['
           RB = ']'
-          LINE_COMMENT='LINE_COMMENT'
           number='regexp:\d+(\.\d*)?'
           string="regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")"
           op = '->'
@@ -28,6 +27,8 @@
           EQ = '='
           DOT = '.'
           char = 'regexp:[\n\r\u2028\u2029]'
+          LINE_COMMENT='LINE_COMMENT'
+          BLOCK_COMMENT='BLOCK_COMMENT'
       ]
 
 }
@@ -36,15 +37,13 @@ root ::= root_item
 
 private root_item ::= !<<eof>> property
 
-property ::= RuleVersionStatement? (LINE_COMMENT|FunctionStatement)* ServiceStatement
-
-private comment ::= LINE_COMMENT*
+property ::= RuleVersionStatement? (FunctionStatement)* ServiceStatement
 
 RuleVersionStatement ::= RULES_VERSION EQ VERSIONS DOT_COMMA
 
-ServiceStatement ::= SERVICE_KEYWORD SERVICE_NAME LEFT_BRACE (comment MatchStatement)+ RIGHT_BRACE
+ServiceStatement ::= SERVICE_KEYWORD SERVICE_NAME LEFT_BRACE (MatchStatement)+ RIGHT_BRACE
 
-MatchStatement ::= MATCH_KEYWORD FullPathStatement LEFT_BRACE (comment AllowStatement|comment MatchStatement|comment FunctionStatement)+ RIGHT_BRACE
+MatchStatement ::= MATCH_KEYWORD FullPathStatement LEFT_BRACE (AllowStatement|MatchStatement|FunctionStatement)+ RIGHT_BRACE
 
 FullPathStatement ::= (SLASH PathStatement)+
 
@@ -79,7 +78,7 @@ ExistBuiltInFunctionStatement ::= EXITS_KEYWORD LP FullBuiltInParameterStatement
 
 BuiltInFunctionStatement ::= (GetBuiltInFunctionStatement|ExistBuiltInFunctionStatement)
 
-FunctionStatement ::= FUNCTION_KEYWORD CallFunctionStatement LEFT_BRACE comment ReturnStatement RIGHT_BRACE
+FunctionStatement ::= FUNCTION_KEYWORD CallFunctionStatement LEFT_BRACE ReturnStatement RIGHT_BRACE
 
 ReturnStatement ::= RETURN_KEYWORD ConditionalExpression DOT_COMMA
 

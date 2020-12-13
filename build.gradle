@@ -2,7 +2,8 @@ import org.jetbrains.grammarkit.tasks.*
 
 plugins {
     id 'java'
-    id 'org.jetbrains.intellij' version '0.4.26'
+    id 'org.jetbrains.intellij' version '0.6.5'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.10'
     id "org.jetbrains.grammarkit" version "2020.2.1"
 }
 
@@ -19,6 +20,7 @@ repositories {
 }
 
 dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib"
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
