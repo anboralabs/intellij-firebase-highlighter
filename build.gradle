@@ -13,7 +13,7 @@ grammarKit {
 }
 
 group 'co.anbora.labs'
-version '1.1.5-SNAPSHOT'
+version '2.0.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -28,7 +28,7 @@ task generateFirebaseRulesLexer(type: GenerateLexer) {
     // source flex file
     source = "src/main/grammar/FirebaseRules.flex"
     // target directory for lexer
-    targetDir = "src/main/gen/co/anbora/labs/firebase/syntax/"
+    targetDir = "src/main/gen/co/anbora/labs/firebase/lang/core/lexer/"
     // target classname, target file will be targetDir/targetClass.java
     targetClass = "FirebaseRulesLexer"
     // if set, plugin will remove a lexer output file before generating new one. Default: false
@@ -41,18 +41,28 @@ task generateFirebaseRulesParser(type: GenerateParser) {
     // optional, task-specific root for the generated files. Default: none
     targetRoot = 'src/main/gen'
     // path to a parser file, relative to the targetRoot
-    pathToParser = '/co/anbora/labs/firebase/syntax/parser/FirebaseRulesParser.java'
+    pathToParser = '/co/anbora/labs/firebase/lang/core/parser/FirebaseRulesParser.java'
     // path to a directory with generated psi files, relative to the targetRoot
-    pathToPsiRoot = '/co/anbora/labs/firebase/syntax/psi'
+    pathToPsiRoot = '/co/anbora/labs/firebase/lang/core/psi'
     // if set, plugin will remove a parser output file and psi output directory before generating new ones. Default: false
     purgeOldFiles = true
 }
 
 // Include the generated files in the source set
-sourceSets.main.java.srcDirs 'src/main/gen'
+def genRoot = file('src/main/gen')
+
+sourceSets {
+    main {
+        kotlin.srcDir 'src/main/kotlin'
+        java.srcDir genRoot
+        resources.srcDir 'src/main/resources'
+    }
+}
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij { }
+
+tasks.withType(JavaCompile) { options.encoding = 'UTF-8' }
 
 buildPlugin {
     dependsOn(generateFirebaseRulesLexer, generateFirebaseRulesParser)
@@ -65,6 +75,13 @@ publishPlugin {
 patchPluginXml {
     changeNotes """
       <ul>
+          <li><b>2.0.0</b> <em>(2020-12-12)</em> - Added support block comments</li>
+              <ul>
+                  <li>Added support for block comments </li>
+                  <li>Added support for keyboard combination: CMD + / </li>
+                  <li>Fixed issue with parenthesis and negation on expressions </li>
+              </ul>
+          </li>
           <li><b>1.1.5</b> <em>(2020-12-02)</em> - Added support for new IDE versions</li>
               <ul>
                   <li>Added support for IDE version from build 192 </li>
