@@ -2,8 +2,6 @@ package co.anbora.labs.firebase.lang.core
 
 import co.anbora.labs.firebase.ide.icons.FirebaseIcons
 import com.intellij.lang.Language
-import com.intellij.openapi.fileTypes.FileTypeConsumer
-import com.intellij.openapi.fileTypes.FileTypeFactory
 import com.intellij.openapi.fileTypes.LanguageFileType
 import javax.swing.Icon
 
@@ -21,10 +19,4 @@ object FirebaseFileType: LanguageFileType(FirebaseRulesLanguage) {
 
     override fun getIcon(): Icon = FirebaseIcons.FILE
 
-}
-
-class FirebaseFileTypeFactory : FileTypeFactory() {
-    override fun createFileTypes(consumer: FileTypeConsumer) {
-        consumer.consume(FirebaseFileType, FirebaseFileType.EXTENSION)
-    }
 }
