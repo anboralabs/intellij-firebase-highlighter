@@ -5,9 +5,9 @@ import javax.swing.Icon
 
 object FirebaseIcons {
 
-    val FILE = getIcon("icon.png")
+    val FILE = getIcon("icon_file.svg")
 
     private fun getIcon(path: String): Icon {
-        return IconLoader.getIcon("/icons/$path")
+        return IconLoader.findIcon("/icons/$path") as Icon
     }
 }
