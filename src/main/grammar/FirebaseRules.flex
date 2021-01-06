@@ -41,7 +41,7 @@ WHITE_SPACE=({LINE_WS}|{EOL})+
 NUMBER=[0-9]+(\.[0-9]*)?
 STRING=('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")
 SLASH=\/
-LINE_COMMENT=(("//")[^\r\n]*|{EOL})+
+LINE_COMMENT=("//")[^\r\n]*
 
 SERVICE_NAME=(cloud.firestore|firebase.storage)
 RULES_VERSION=rules_version
