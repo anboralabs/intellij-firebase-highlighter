@@ -9,39 +9,34 @@ import com.intellij.psi.formatter.common.AbstractBlock
 class FirebaseFormatterBlock(
     node: ASTNode,
     wrap: Wrap?,
-    alignment: Alignment?,
-    private val indent: Indent?,
-    val ctx: FirebaseFmtContext
+    alignment: Alignment?
 ): AbstractBlock(node, wrap, alignment) {
 
     override fun isLeaf(): Boolean = node.firstChildNode == null
 
-    override fun getIndent(): Indent? = indent
+    override fun getIndent(): Indent? {
+        val parent = node.treeParent
+        return when {
+            parent?.treeParent == null -> Indent.getNoneIndent()
+            node.isBetweenBraces() -> Indent.getNormalIndent()
+            else -> Indent.getNoneIndent()
+        }
+    }
 
-    override fun getSpacing(child1: Block?, child2: Block): Spacing? = computeSpacing(child1, child2, ctx)
+    override fun getSpacing(child1: Block?, child2: Block): Spacing? = null
 
     override fun getSubBlocks(): List<Block> = mySubBlocks
 
     private val mySubBlocks: List<Block> by lazy { buildChildren() }
 
     override fun buildChildren(): List<Block> {
-        val sharedAlignment = when (node.elementType) {
-            PARAMETER_STATEMENT -> Alignment.createAlignment()
-            else -> null
-        }
-        val alignment = getAlignmentStrategy()
-
         return node.getChildren(null)
             .filter { !it.isWhitespaceOrEmpty() }
             .map { childNode: ASTNode ->
-                val childCtx = ctx.copy(sharedAlignment = sharedAlignment)
-                val indent = computeIndent(childNode)
                 FirebaseFormatterBlock(
                     node = childNode,
-                    alignment = alignment.getAlignment(childNode, node, childCtx),
-                    indent = indent,
-                    wrap = null,
-                    ctx = childCtx
+                    alignment = null,
+                    wrap = null
                 )
             }
     }
