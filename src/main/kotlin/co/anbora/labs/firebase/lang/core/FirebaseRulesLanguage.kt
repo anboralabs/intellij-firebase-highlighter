@@ -11,7 +11,7 @@ object FirebaseFileType: LanguageFileType(FirebaseRulesLanguage) {
 
     const val EXTENSION = "rules"
 
-    override fun getName(): String = "Firebase Rule File"
+    override fun getName(): String = "Firebase Rules"
 
     override fun getDescription(): String = "Firebase rules configurations"
 
