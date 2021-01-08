@@ -32,23 +32,21 @@ import com.intellij.psi.TokenType;
     }
 %}
 
-%xstate COMMENT
+%xstate COMMENT TYPE_PENDING
 
-EOL="\r"|"\n"|"\r\n"
-LINE_WS=[\ \t\f]
-WHITE_SPACE=({LINE_WS}|{EOL})+
+WhiteSpace = [ \n\t\f]+
 
-NUMBER=[0-9]+(\.[0-9]*)?
-STRING=('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")
-SLASH=\/
-LINE_COMMENT=("//")[^\r\n]*
+Number=[0-9]+(\.[0-9]*)?
+String=('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")
+Slash=\/
+LineComment=("//")[^\r\n]*
 
-SERVICE_NAME=(cloud.firestore|firebase.storage)
-RULES_VERSION=rules_version
-VERSIONS=('1'|'2')
-IDENTIFIER=[a-zA-Z_\-0-9]+
-PATH_VARIABLE=[{][a-zA-Z_\-0-9]+(=\*\*)?[}]
-PATH_BUILT_IN=[$][(][a-zA-Z_\-0-9]+[a-zA-Z_\.\-0-9]*[)]
+ServiceName=(cloud.firestore|firebase.storage)
+RulesVersion=rules_version
+Versions=('1'|'2')
+Identifier=[a-zA-Z_\-0-9]+
+PathVariable=[{][a-zA-Z_\-0-9]+(=\*\*)?[}]
+PathBuiltIn=[$][(][a-zA-Z_\-0-9]+[a-zA-Z_\.\-0-9]*[)]
 
 %%
 
@@ -68,15 +66,18 @@ PATH_BUILT_IN=[$][(][a-zA-Z_\-0-9]+[a-zA-Z_\.\-0-9]*[)]
     [^] { }
 }
 
+<TYPE_PENDING> {
+    {WhiteSpace}    { return TokenType.WHITE_SPACE; }
+}
+
 <YYINITIAL> {
-  {WHITE_SPACE}      { return com.intellij.psi.TokenType.WHITE_SPACE; }
-  {LINE_COMMENT}     { return LINE_COMMENT; }
+  {LineComment}     { return LINE_COMMENT; }
   "/*" {
       startComment();
   }
 
-  {PATH_BUILT_IN}    { return PATH_BUILT_IN; }
-  {PATH_VARIABLE}    { return PATH_VARIABLE; }
+  {PathBuiltIn}      { return PATH_BUILT_IN; }
+  {PathVariable}     { return PATH_VARIABLE; }
   "true"             { return TRUE_KEYWORD; }
   "false"            { return FALSE_KEYWORD; }
   "if"               { return IF_KEYWORD; }
@@ -84,11 +85,11 @@ PATH_BUILT_IN=[$][(][a-zA-Z_\-0-9]+[a-zA-Z_\.\-0-9]*[)]
   "in"               { return IN_KEYWORD; }
 
   "service"          { return SERVICE_KEYWORD; }
-  {SERVICE_NAME}     { return SERVICE_NAME; }
+  {ServiceName}      { return SERVICE_NAME; }
   "match"            { return MATCH_KEYWORD; }
   "allow"            { return ALLOW_KEYWORD; }
-  {RULES_VERSION}    { return RULES_VERSION; }
-  {VERSIONS}         { return VERSIONS; }
+  {RulesVersion}     { return RULES_VERSION; }
+  {Versions}         { return VERSIONS; }
   "function"         { return FUNCTION_KEYWORD; }
   "return"           { return RETURN_KEYWORD; }
 
@@ -128,12 +129,12 @@ PATH_BUILT_IN=[$][(][a-zA-Z_\-0-9]+[a-zA-Z_\.\-0-9]*[)]
   "."                { return DOT; }
   ";"                { return DOT_COMMA; }
 
-  {NUMBER}           { return NUMBER; }
-  {STRING}           { return STRING; }
-  {IDENTIFIER}       { return IDENTIFIER; }
-  {SLASH}            { return SLASH; }
+  {Number}           { return NUMBER; }
+  {String}           { return STRING; }
+  {Identifier}       { return IDENTIFIER; }
+  {Slash}            { return SLASH; }
 
-  {WHITE_SPACE}      { return WHITE_SPACE; }
+  {WhiteSpace}       { return com.intellij.psi.TokenType.WHITE_SPACE; }
 
   [^] { return com.intellij.psi.TokenType.BAD_CHARACTER; }
 }

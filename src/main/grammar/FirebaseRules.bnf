@@ -14,7 +14,7 @@
   tokenTypeClass="co.anbora.labs.firebase.lang.core.psi.FirebaseTokenType"
 
   tokens = [
-          WHITE_SPACE='regexp:\s+'
+          WHITE_SPACE='WHITE_SPACE'
           LP = '('
           RP = ')'
           LB = '['
