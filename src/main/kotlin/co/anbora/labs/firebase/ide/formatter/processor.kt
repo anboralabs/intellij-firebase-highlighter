@@ -1,10 +1,11 @@
 package co.anbora.labs.firebase.ide.formatter
 
-import co.anbora.labs.firebase.lang.core.psi.FirebaseRulesTypes
-import com.intellij.formatting.ChildAttributes
-import com.intellij.formatting.Indent
+import co.anbora.labs.firebase.lang.core.FirebaseRulesLanguage
+import co.anbora.labs.firebase.lang.core.psi.FirebaseRulesTypes.*
+import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
 import com.intellij.psi.TokenType
+import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.tree.IElementType
 
 fun FirebaseFormatterBlock.computeIndent(): Indent? {
@@ -25,13 +26,41 @@ fun FirebaseFormatterBlock.computeChildAttributes(): ChildAttributes {
     return ChildAttributes(indent, null)
 }
 
+fun FirebaseFormatterBlock.computeSpacing(child1: Block?, child2: Block): Spacing? = this.spacingBuilder.getSpacing(this, child1, child2)
+
+fun createSpacingBuilder(commonSettings: CodeStyleSettings): SpacingBuilder {
+    return SpacingBuilder(commonSettings, FirebaseRulesLanguage)
+        //Rules Version
+        .after(RULES_VERSION).spacing(1, 1, 0, false, 0)
+        .after(EQ).spacing(1, 1, 0, false, 0)
+        .after(VERSIONS).spacing(0,0,0,false,0)
+        //Service Statement
+        .after(SERVICE_KEYWORD).spacing(1, 1, 0, false, 0)
+        .after(SERVICE_NAME).spacing(1, 1, 0, false, 0)
+        //Function Statement
+        .after(FUNCTION_KEYWORD).spacing(1, 1, 0, false, 0)
+        .after(CALL_FUNCTION_STATEMENT).spacing(1, 1, 0, false, 0)
+        //Match Statement
+        .after(MATCH_KEYWORD).spacing(1, 1, 0, false, 0)
+        .after(FULL_PATH_STATEMENT).spacing(1, 1, 0, false, 0)
+        //Allow Statement
+        .after(ALLOW_KEYWORD).spacing(1, 1, 0, false, 0)
+        .after(PERMISSION_KEY_WORD).spacing(0,0,0,false,0)
+        .after(COMMA).spacing(1, 1, 0, false, 0)
+        .after(COLON).spacing(1, 1, 0, false, 0)
+        .after(IF_KEYWORD).spacing(1, 1, 0, false, 0)
+        .after(EXPRESSION).spacing(1, 1, 0, false, 0)
+        .after(BOOLEAN_OPERATOR).spacing(1, 1, 0, false, 0)
+        .before(DOT_COMMA).spacing(0,0,0,false,0)
+}
+
 fun ASTNode.isBetweenBraces(): Boolean {
     val elementType: IElementType = this.elementType
-    if (elementType === FirebaseRulesTypes.LEFT_BRACE || elementType === FirebaseRulesTypes.RIGHT_BRACE) return false
+    if (elementType === LEFT_BRACE || elementType === RIGHT_BRACE) return false
 
     var sibling: ASTNode? = this.treePrev
     while (sibling != null) {
-        if (sibling.elementType === FirebaseRulesTypes.LEFT_BRACE) return true
+        if (sibling.elementType === LEFT_BRACE) return true
         sibling = sibling.treePrev
     }
 
@@ -40,9 +69,9 @@ fun ASTNode.isBetweenBraces(): Boolean {
 
 fun ASTNode.isComposeBlock(): Boolean {
     val elementType: IElementType = this.elementType
-    return elementType == FirebaseRulesTypes.SERVICE_STATEMENT ||
-            elementType == FirebaseRulesTypes.MATCH_STATEMENT ||
-            elementType == FirebaseRulesTypes.FUNCTION_STATEMENT
+    return elementType == SERVICE_STATEMENT ||
+            elementType == MATCH_STATEMENT ||
+            elementType == FUNCTION_STATEMENT
 }
 
 fun ASTNode?.isWhitespaceOrEmpty() = this == null || textLength == 0 || elementType == TokenType.WHITE_SPACE

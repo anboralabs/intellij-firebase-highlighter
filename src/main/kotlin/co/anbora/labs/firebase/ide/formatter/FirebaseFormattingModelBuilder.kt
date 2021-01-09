@@ -7,7 +7,10 @@ class FirebaseFormattingModelBuilder: FormattingModelBuilder {
     override fun createModel(formattingContext: FormattingContext): FormattingModel {
         return FormattingModelProvider.createFormattingModelForPsiFile(
             formattingContext.containingFile,
-            FirebaseFormatterBlock(formattingContext.node, null, null),
+            FirebaseFormatterBlock(
+                node = formattingContext.node,
+                spacingBuilder = createSpacingBuilder(formattingContext.codeStyleSettings)
+            ),
             formattingContext.codeStyleSettings
         )
     }

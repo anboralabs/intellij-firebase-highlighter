@@ -6,8 +6,9 @@ import com.intellij.psi.formatter.common.AbstractBlock
 
 class FirebaseFormatterBlock(
     node: ASTNode,
-    wrap: Wrap?,
-    alignment: Alignment?
+    wrap: Wrap? = null,
+    alignment: Alignment? = null,
+    val spacingBuilder: SpacingBuilder
 ): AbstractBlock(node, wrap, alignment) {
 
     override fun isLeaf(): Boolean = node.firstChildNode == null
@@ -18,7 +19,8 @@ class FirebaseFormatterBlock(
     override fun getChildAttributes(newChildIndex: Int): ChildAttributes
         = computeChildAttributes()
 
-    override fun getSpacing(child1: Block?, child2: Block): Spacing? = null
+    override fun getSpacing(child1: Block?, child2: Block): Spacing?
+        = computeSpacing(child1, child2)
 
     override fun getSubBlocks(): List<Block> = mySubBlocks
 
@@ -30,8 +32,7 @@ class FirebaseFormatterBlock(
             .map { childNode: ASTNode ->
                 FirebaseFormatterBlock(
                     node = childNode,
-                    alignment = null,
-                    wrap = null
+                    spacingBuilder = spacingBuilder
                 )
             }
     }
