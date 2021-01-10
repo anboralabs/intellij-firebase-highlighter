@@ -13,7 +13,7 @@ grammarKit {
 }
 
 group 'co.anbora.labs'
-version '2.0.0-SNAPSHOT'
+version '2.1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -75,6 +75,13 @@ publishPlugin {
 patchPluginXml {
     changeNotes """
       <ul>
+          <li><b>2.1.0</b> <em>(2021-01-10)</em> - Added Intellij formatting code support</li>
+              <ul>
+                  <li>Added formatting code support </li>
+                  <li>Added oficial firebase icons </li>
+                  <li>Improved language bnf rules </li>
+              </ul>
+          </li>
           <li><b>2.0.0</b> <em>(2020-12-12)</em> - Added support block comments</li>
               <ul>
                   <li>Added support for block comments </li>
