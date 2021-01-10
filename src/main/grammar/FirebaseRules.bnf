@@ -62,7 +62,11 @@ ConditionalExpression ::= Expression (BooleanOperator Expression)*
 
 ObjectStatement ::= IDENTIFIER(DOT IDENTIFIER)*
 
-CallFunctionStatement ::= (ArrayLiteralStatement|IDENTIFIER)(DOT IDENTIFIER)?FunctionParameterStatement
+ObjectMethodCallStatement ::= (ArrayLiteralStatement (DOT IDENTIFIER)*|ObjectStatement)FunctionParameterStatement
+
+CallFunctionStatement ::= ObjectMethodCallStatement (DOT ObjectMethodCallStatement)*
+
+FunctionDeclarationStatement ::= IDENTIFIER FunctionParameterStatement
 
 FunctionParameterStatement ::= LP ParameterStatement? RP
 
@@ -78,7 +82,7 @@ ExistBuiltInFunctionStatement ::= EXITS_KEYWORD LP FullBuiltInParameterStatement
 
 BuiltInFunctionStatement ::= (GetBuiltInFunctionStatement|ExistBuiltInFunctionStatement)
 
-FunctionStatement ::= FUNCTION_KEYWORD CallFunctionStatement LEFT_BRACE ReturnStatement RIGHT_BRACE
+FunctionStatement ::= FUNCTION_KEYWORD FunctionDeclarationStatement LEFT_BRACE ReturnStatement RIGHT_BRACE
 
 ReturnStatement ::= RETURN_KEYWORD ConditionalExpression DOT_COMMA
 
