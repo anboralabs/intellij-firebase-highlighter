@@ -18,7 +18,7 @@ class FirebaseSyntaxHighlighter: SyntaxHighlighterBase() {
     companion object {
         fun map(tokenType: IElementType?): FirebaseColors? =
                 when (tokenType) {
-                    SERVICE_KEYWORD, MATCH_KEYWORD, ALLOW_KEYWORD,
+                    RULES_VERSION, DOT_COMMA, SERVICE_KEYWORD, MATCH_KEYWORD, ALLOW_KEYWORD,
                         TRUE_KEYWORD, FALSE_KEYWORD, NULL_KEYWORD,
                         IF_KEYWORD, FUNCTION_KEYWORD, RETURN_KEYWORD,
                         IN_KEYWORD -> FirebaseColors.KEY_WORD

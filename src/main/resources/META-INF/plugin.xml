@@ -27,6 +27,7 @@
                                        implementationClass="co.anbora.labs.firebase.ide.highlight.FirebaseSyntaxHighlighterFactory"/>
         <colorSettingsPage implementation="co.anbora.labs.firebase.ide.color.FirebaseColorSettingPage"/>
         <lang.commenter language="firebase_rules" implementationClass="co.anbora.labs.firebase.ide.commenter.FirebaseCommenter"/>
+        <lang.formatter language="firebase_rules" implementationClass="co.anbora.labs.firebase.ide.formatter.FirebaseFormattingModelBuilder"/>
     </extensions>
 
     <actions>
