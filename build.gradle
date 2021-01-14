@@ -13,7 +13,7 @@ grammarKit {
 }
 
 group 'co.anbora.labs'
-version '2.1.0-SNAPSHOT'
+version '2.1.1-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -75,6 +75,11 @@ publishPlugin {
 patchPluginXml {
     changeNotes """
       <ul>
+          <li><b>2.1.1</b> <em>(2021-01-14)</em> - Upgrade plugin to intellij 2020.3</li>
+              <ul>
+                  <li>Upgrade plugin to intellij 2020.3 </li>
+              </ul>
+          </li>
           <li><b>2.1.0</b> <em>(2021-01-10)</em> - Added Intellij formatting code support</li>
               <ul>
                   <li>Added formatting code support </li>
@@ -141,5 +146,5 @@ patchPluginXml {
           </li>
       </ul>
     """
-    sinceBuild = '192'
+    sinceBuild = '203'
 }

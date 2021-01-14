@@ -10,6 +10,7 @@
       <ul>
           <li>Syntax highlighting</li>
           <li>Syntax checking</li>
+          <li>Code formatting</li>
       </ul>
     ]]></description>
 
@@ -19,7 +20,7 @@
     <depends>com.intellij.modules.lang</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <fileType name="Firebase Rule File" implementationClass="co.anbora.labs.firebase.lang.core.FirebaseFileType"
+        <fileType name="Firebase Rules" implementationClass="co.anbora.labs.firebase.lang.core.FirebaseFileType"
                   fieldName="INSTANCE" language="firebase_rules" extensions="rules"/>
         <lang.parserDefinition language="firebase_rules"
                                implementationClass="co.anbora.labs.firebase.lang.core.parser.FirebaseParserDefinition"/>

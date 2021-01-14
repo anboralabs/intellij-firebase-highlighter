@@ -2,7 +2,7 @@ package co.anbora.labs.firebase.ide.formatter
 
 import com.intellij.formatting.*
 
-class FirebaseFormattingModelBuilder: FormattingModelBuilderCompat() {
+class FirebaseFormattingModelBuilder: FormattingModelBuilder {
 
     override fun createModel(formattingContext: FormattingContext): FormattingModel {
         return FormattingModelProvider.createFormattingModelForPsiFile(
