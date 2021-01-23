@@ -95,6 +95,7 @@ Expression ::= BooleanStatement
         | ArrayLiteralStatement
         | ParenthesizedExpression
         | NegatedExpression
+        | FullBuiltInParameterStatement
 
 ParenthesizedExpression ::=
     LP ConditionalExpression RP
@@ -116,6 +117,8 @@ NumberOperator ::= (PLUS_OP|MINUS_OP|MULT_OP|SLASH)
 
 NullStatement ::= NULL_KEYWORD
 
-BooleanOperator ::= (EQEQ|NE|OROR|ANDAND|LT|LE|GT|GE|IN_KEYWORD)
+BooleanOperator ::= (PathOperator|OROR|ANDAND|LT|LE|GT|GE|IN_KEYWORD)
+
+PathOperator ::= (EQEQ|NE)
 
 BooleanStatement ::= (TRUE_KEYWORD|FALSE_KEYWORD)

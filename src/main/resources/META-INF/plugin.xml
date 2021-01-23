@@ -11,6 +11,11 @@
           <li>Syntax highlighting</li>
           <li>Syntax checking</li>
           <li>Code formatting</li>
+      </ul><br>
+      Actions:<br>
+      <ul>
+          <li>Right click -> Firestore rule file</li>
+          <li>Right click -> Storage rule file</li>
       </ul>
     ]]></description>
 
@@ -32,6 +37,15 @@
     </extensions>
 
     <actions>
-        <!-- Add your actions here -->
+        <action id="Firebase.NewFirestoreFile"
+                class="co.anbora.labs.firebase.ide.actions.CreateFirestoreFileAction"
+                text="Firestore Rule File"
+                description="Create new Firestore rule file">
+        </action>
+        <action id="Firebase.NewStorageFile"
+                class="co.anbora.labs.firebase.ide.actions.CreateStorageFileAction"
+                text="Storage Rule File"
+                description="Create new Storage rule file">
+        </action>
     </actions>
 </idea-plugin>
