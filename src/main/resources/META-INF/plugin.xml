@@ -11,6 +11,11 @@
           <li>Syntax highlighting</li>
           <li>Syntax checking</li>
           <li>Code formatting</li>
+      </ul><br>
+      Actions:<br>
+      <ul>
+          <li>Right click -> Firestore rule file</li>
+          <li>Right click -> Storage rule file</li>
       </ul>
     ]]></description>
 

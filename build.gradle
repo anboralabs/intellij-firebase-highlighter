@@ -13,7 +13,7 @@ grammarKit {
 }
 
 group 'co.anbora.labs'
-version '2.1.1-SNAPSHOT'
+version '2.2.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -60,7 +60,9 @@ sourceSets {
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
-intellij { }
+intellij {
+    version = 'LATEST-EAP-SNAPSHOT'
+}
 
 tasks.withType(JavaCompile) { options.encoding = 'UTF-8' }
 
@@ -75,6 +77,12 @@ publishPlugin {
 patchPluginXml {
     changeNotes """
       <ul>
+          <li><b>2.2.0</b> <em>(2021-01-23)</em> - Added actions</li>
+              <ul>
+                  <li>Added actions to create rule files </li>
+                  <li>Allowed path in comparisons </li>
+              </ul>
+          </li>
           <li><b>2.1.1</b> <em>(2021-01-14)</em> - Upgrade plugin to intellij 2020.3</li>
               <ul>
                   <li>Upgrade plugin to intellij 2020.3 </li>
