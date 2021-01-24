@@ -14,8 +14,8 @@
       </ul><br>
       Actions:<br>
       <ul>
-          <li>Right click -> Firestore rule file</li>
-          <li>Right click -> Storage rule file</li>
+          <li>Right click -> New -> Firestore rule file</li>
+          <li>Right click -> New -> Storage rule file</li>
       </ul>
     ]]></description>
 
