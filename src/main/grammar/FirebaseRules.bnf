@@ -82,7 +82,7 @@ ExistBuiltInFunctionStatement ::= EXITS_KEYWORD LP FullBuiltInParameterStatement
 
 BuiltInFunctionStatement ::= (GetBuiltInFunctionStatement|ExistBuiltInFunctionStatement)
 
-FunctionStatement ::= FUNCTION_KEYWORD FunctionDeclarationStatement LEFT_BRACE ReturnStatement RIGHT_BRACE
+FunctionStatement ::= FUNCTION_KEYWORD FunctionDeclarationStatement LEFT_BRACE (VariableStatement*) ReturnStatement RIGHT_BRACE
 
 ReturnStatement ::= RETURN_KEYWORD ConditionalExpression DOT_COMMA
 
@@ -106,6 +106,8 @@ NegatedExpression ::=
 ArrayLiteralStatement ::= LB (ParameterStatement|ArrayLiteralStatement) RB
 
 LiteralStatement ::= (NumberLiteralStatement|StringLiteralStatement)
+
+VariableStatement ::= LET_KEYWORD IDENTIFIER EQ ConditionalExpression (DOT_COMMA?)
 
 NumberLiteralStatement ::= number (NumberOperator number)*
 

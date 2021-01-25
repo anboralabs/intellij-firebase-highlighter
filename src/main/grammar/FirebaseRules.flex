@@ -80,6 +80,7 @@ PathBuiltIn=[$][(][a-zA-Z_\-0-9]+[a-zA-Z_\.\-0-9]*[)]
   {PathVariable}     { return PATH_VARIABLE; }
   "true"             { return TRUE_KEYWORD; }
   "false"            { return FALSE_KEYWORD; }
+  "let"              { return LET_KEYWORD; }
   "if"               { return IF_KEYWORD; }
   "null"             { return NULL_KEYWORD; }
   "in"               { return IN_KEYWORD; }
