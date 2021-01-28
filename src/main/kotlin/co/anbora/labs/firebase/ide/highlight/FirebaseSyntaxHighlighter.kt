@@ -21,7 +21,7 @@ class FirebaseSyntaxHighlighter: SyntaxHighlighterBase() {
                     RULES_VERSION, DOT_COMMA, SERVICE_KEYWORD, MATCH_KEYWORD, ALLOW_KEYWORD,
                         TRUE_KEYWORD, FALSE_KEYWORD, NULL_KEYWORD,
                         IF_KEYWORD, FUNCTION_KEYWORD, RETURN_KEYWORD,
-                        IN_KEYWORD, LET_KEYWORD -> FirebaseColors.KEY_WORD
+                        IN_KEYWORD, LET_KEYWORD, IS_KEYWORD -> FirebaseColors.KEY_WORD
                     GET_KEYWORD, READ_KEYWORD, WRITE_KEYWORD,
                         LIST_KEYWORD, CREATE_KEYWORD, UPDATE_KEYWORD,
                         DELETE_KEYWORD, EXITS_KEYWORD -> FirebaseColors.PERMISSIONS

@@ -84,6 +84,7 @@ PathBuiltIn=[$][(][a-zA-Z_\-0-9]+[a-zA-Z_\.\-0-9]*[)]
   "if"               { return IF_KEYWORD; }
   "null"             { return NULL_KEYWORD; }
   "in"               { return IN_KEYWORD; }
+  "is"               { return IS_KEYWORD; }
 
   "service"          { return SERVICE_KEYWORD; }
   {ServiceName}      { return SERVICE_NAME; }
