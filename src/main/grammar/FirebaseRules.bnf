@@ -62,7 +62,7 @@ ConditionalExpression ::= Expression (BooleanOperator Expression)*
 
 ObjectStatement ::= IDENTIFIER(DOT IDENTIFIER)*
 
-ObjectMethodCallStatement ::= (ArrayLiteralStatement (DOT IDENTIFIER)*|ObjectStatement)FunctionParameterStatement
+ObjectMethodCallStatement ::= (BuiltInFunctionStatement|ArrayLiteralStatement (DOT IDENTIFIER)*|ObjectStatement)FunctionParameterStatement?
 
 CallFunctionStatement ::= ObjectMethodCallStatement (DOT ObjectMethodCallStatement)*
 
@@ -76,18 +76,13 @@ FullBuiltInParameterStatement ::= (SLASH PathBuiltInParameterStatement)+
 
 PathBuiltInParameterStatement ::= (IDENTIFIER|PATH_BUILT_IN)
 
-GetBuiltInFunctionStatement ::= GET_KEYWORD LP FullBuiltInParameterStatement RP (DOT IDENTIFIER)*
-
-ExistBuiltInFunctionStatement ::= EXITS_KEYWORD LP FullBuiltInParameterStatement RP
-
-BuiltInFunctionStatement ::= (GetBuiltInFunctionStatement|ExistBuiltInFunctionStatement)
+BuiltInFunctionStatement ::= (GET_KEYWORD|EXITS_KEYWORD)
 
 FunctionStatement ::= FUNCTION_KEYWORD FunctionDeclarationStatement LEFT_BRACE (VariableStatement*) ReturnStatement RIGHT_BRACE
 
 ReturnStatement ::= RETURN_KEYWORD ConditionalExpression DOT_COMMA
 
 Expression ::= BooleanStatement
-        | BuiltInFunctionStatement
         | CallFunctionStatement
         | ObjectStatement
         | LiteralStatement
@@ -119,7 +114,7 @@ NumberOperator ::= (PLUS_OP|MINUS_OP|MULT_OP|SLASH)
 
 NullStatement ::= NULL_KEYWORD
 
-BooleanOperator ::= (PathOperator|OROR|ANDAND|LT|LE|GT|GE|IN_KEYWORD)
+BooleanOperator ::= (PathOperator|OROR|ANDAND|LT|LE|GT|GE|IN_KEYWORD|IS_KEYWORD)
 
 PathOperator ::= (EQEQ|NE)
 

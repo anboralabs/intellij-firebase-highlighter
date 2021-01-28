@@ -32,5 +32,5 @@ class FirebaseParserDefinition: ParserDefinition {
 
     override fun createElement(node: ASTNode?): PsiElement = FirebaseRulesTypes.Factory.createElement(node)
 
-    override fun createFile(viewProvider: FileViewProvider?): PsiFile = FirebaseFile(viewProvider!!)
+    override fun createFile(viewProvider: FileViewProvider): PsiFile = FirebaseFile(viewProvider)
 }
