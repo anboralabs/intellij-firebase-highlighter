@@ -33,17 +33,19 @@
 
 }
 
-root ::= root_item
-
-private root_item ::= !<<eof>> property
+root ::= !<<eof>> property
 
 property ::= RuleVersionStatement? (FunctionStatement)* ServiceStatement
 
 RuleVersionStatement ::= RULES_VERSION EQ VERSIONS DOT_COMMA
 
-ServiceStatement ::= SERVICE_KEYWORD SERVICE_NAME LEFT_BRACE (MatchStatement)+ RIGHT_BRACE
+ServiceStatement ::= SERVICE_KEYWORD SERVICE_NAME ServiceBlock
 
-MatchStatement ::= MATCH_KEYWORD FullPathStatement LEFT_BRACE (AllowStatement|MatchStatement|FunctionStatement)+ RIGHT_BRACE
+ServiceBlock ::= LEFT_BRACE (MatchStatement)+ RIGHT_BRACE
+
+MatchStatement ::= MATCH_KEYWORD FullPathStatement MatchBlock
+
+MatchBlock ::= LEFT_BRACE (AllowStatement|MatchStatement|FunctionStatement)+ RIGHT_BRACE
 
 FullPathStatement ::= (SLASH PathStatement)+
 
@@ -78,7 +80,9 @@ PathBuiltInParameterStatement ::= (IDENTIFIER|PATH_BUILT_IN)
 
 BuiltInFunctionStatement ::= (GET_KEYWORD|EXITS_KEYWORD)
 
-FunctionStatement ::= FUNCTION_KEYWORD FunctionDeclarationStatement LEFT_BRACE (VariableStatement*) ReturnStatement RIGHT_BRACE
+FunctionStatement ::= FUNCTION_KEYWORD FunctionDeclarationStatement FunctionBlock
+
+FunctionBlock ::= LEFT_BRACE (VariableStatement*) ReturnStatement RIGHT_BRACE
 
 ReturnStatement ::= RETURN_KEYWORD ConditionalExpression DOT_COMMA
 

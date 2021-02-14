@@ -13,7 +13,7 @@ grammarKit {
 }
 
 group 'co.anbora.labs'
-version '2.3.0-SNAPSHOT'
+version '2.4.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -77,15 +77,21 @@ publishPlugin {
 patchPluginXml {
     changeNotes """
       <ul>
-          <li><b>2.3.0</b> <em>(2021-01-27)</em> - Added is keyword</li>
+          <li><b>2.4.0</b> <em>(2021-02-14)</em> - Added code folding</li>
               <ul>
-                  <li>Allow is keyword </li>
+                  <li>Added code folding </li>
+                  <li>Added brace matcher </li>
+              </ul>
+          </li>
+          <li><b>2.3.0</b> <em>(2021-01-27)</em> - Added "is" keyword</li>
+              <ul>
+                  <li>Allow "is" keyword </li>
                   <li>Fixed issue with built in functions </li>
               </ul>
           </li>
-          <li><b>2.2.1</b> <em>(2021-01-24)</em> - Added let keyword</li>
+          <li><b>2.2.1</b> <em>(2021-01-24)</em> - Added "let" keyword</li>
               <ul>
-                  <li>Allow let keyword in functions body </li>
+                  <li>Allow "let" keyword in functions body </li>
               </ul>
           </li>
           <li><b>2.2.0</b> <em>(2021-01-23)</em> - Added actions</li>
