@@ -35,6 +35,7 @@
         <lang.commenter language="firebase_rules" implementationClass="co.anbora.labs.firebase.ide.commenter.FirebaseCommenter"/>
         <lang.formatter language="firebase_rules" implementationClass="co.anbora.labs.firebase.ide.formatter.FirebaseFormattingModelBuilder"/>
         <lang.braceMatcher language="firebase_rules" implementationClass="co.anbora.labs.firebase.ide.typing.FirebasePairedBraceMatcher"/>
+        <lang.foldingBuilder language="firebase_rules" implementationClass="co.anbora.labs.firebase.ide.folding.RuleFoldingBuilder"/>
         <completion.contributor language="firebase_rules"
                                 implementationClass="co.anbora.labs.firebase.lang.core.completion.BasicCompletionContributor"/>
     </extensions>

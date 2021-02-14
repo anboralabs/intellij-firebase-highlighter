@@ -13,7 +13,7 @@ grammarKit {
 }
 
 group 'co.anbora.labs'
-version '2.3.0-SNAPSHOT'
+version '2.4.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -77,6 +77,12 @@ publishPlugin {
 patchPluginXml {
     changeNotes """
       <ul>
+          <li><b>2.4.0</b> <em>(2021-02-14)</em> - Added code folding</li>
+              <ul>
+                  <li>Added code folding </li>
+                  <li>Added brace matcher </li>
+              </ul>
+          </li>
           <li><b>2.3.0</b> <em>(2021-01-27)</em> - Added "is" keyword</li>
               <ul>
                   <li>Allow "is" keyword </li>
