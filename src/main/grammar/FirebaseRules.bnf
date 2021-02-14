@@ -33,9 +33,7 @@
 
 }
 
-root ::= root_item
-
-private root_item ::= !<<eof>> property
+root ::= !<<eof>> property
 
 property ::= RuleVersionStatement? (FunctionStatement)* ServiceStatement
 
