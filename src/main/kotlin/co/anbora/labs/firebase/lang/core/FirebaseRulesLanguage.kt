@@ -1,4 +1,4 @@
-package co.anbora.labs.firebase.lang.core
+package co.anbora.labs.firebase.lang
 
 import co.anbora.labs.firebase.ide.icons.FirebaseIcons
 import com.intellij.lang.Language

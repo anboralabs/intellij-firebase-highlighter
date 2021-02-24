@@ -35,17 +35,31 @@
 
 root ::= !<<eof>> property
 
-property ::= RuleVersionStatement? (FunctionStatement)* ServiceStatement
+private property ::= RuleVersionStatement? (FunctionStatement)* ServiceStatement
 
 RuleVersionStatement ::= RULES_VERSION EQ VERSIONS DOT_COMMA
 
-ServiceStatement ::= SERVICE_KEYWORD SERVICE_NAME ServiceBlock
+ServiceStatement ::= SERVICE_KEYWORD SERVICE_NAME ServiceBlock {
+    pin=1
+    recoverWhile=ServiceStatement_recover
+}
+private ServiceStatement_recover ::= !SERVICE_NAME
+ServiceBlock ::= LEFT_BRACE (MatchStatement)+ RIGHT_BRACE {
+    pin=1
+    recoverWhile=ServiceBlock_recover
+}
+private ServiceBlock_recover ::= !RIGHT_BRACE
 
-ServiceBlock ::= LEFT_BRACE (MatchStatement)+ RIGHT_BRACE
-
-MatchStatement ::= MATCH_KEYWORD FullPathStatement MatchBlock
-
-MatchBlock ::= LEFT_BRACE (AllowStatement|MatchStatement|FunctionStatement)+ RIGHT_BRACE
+MatchStatement ::= MATCH_KEYWORD FullPathStatement MatchBlock {
+    pin=1
+    recoverWhile=MatchStatement_recover
+}
+private MatchStatement_recover ::= !FullPathStatement
+MatchBlock ::= LEFT_BRACE (AllowStatement|MatchStatement|FunctionStatement)+ RIGHT_BRACE {
+    pin=1
+    recoverWhile=MatchBlock_recover
+}
+private MatchBlock_recover ::= !RIGHT_BRACE
 
 FullPathStatement ::= (SLASH PathStatement)+
 
