@@ -1,6 +1,6 @@
 package co.anbora.labs.firebase.lang.core.parser
 
-import co.anbora.labs.firebase.lang.core.FirebaseRulesLanguage
+import co.anbora.labs.firebase.lang.FirebaseRulesLanguage
 import co.anbora.labs.firebase.lang.core.lexer.FirebaseLexer
 import co.anbora.labs.firebase.lang.core.psi.FIREBASE_COMMENTS
 import co.anbora.labs.firebase.lang.core.psi.FirebaseFile

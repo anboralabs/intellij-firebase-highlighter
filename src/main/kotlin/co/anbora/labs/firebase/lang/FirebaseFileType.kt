@@ -1,11 +1,8 @@
 package co.anbora.labs.firebase.lang
 
 import co.anbora.labs.firebase.ide.icons.FirebaseIcons
-import com.intellij.lang.Language
 import com.intellij.openapi.fileTypes.LanguageFileType
 import javax.swing.Icon
-
-object FirebaseRulesLanguage: Language("firebase_rules")
 
 object FirebaseFileType: LanguageFileType(FirebaseRulesLanguage) {
 
