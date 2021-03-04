@@ -37,7 +37,7 @@
         <lang.braceMatcher language="firebase_rules" implementationClass="co.anbora.labs.firebase.ide.typing.FirebasePairedBraceMatcher"/>
         <lang.foldingBuilder language="firebase_rules" implementationClass="co.anbora.labs.firebase.ide.folding.RuleFoldingBuilder"/>
         <completion.contributor language="firebase_rules"
-                                implementationClass="co.anbora.labs.firebase.lang.core.completion.BasicCompletionContributor"/>
+                                implementationClass="co.anbora.labs.firebase.lang.core.completion.FirebaseCompletionContributor"/>
     </extensions>
 
     <actions>
