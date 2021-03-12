@@ -34,10 +34,15 @@
 }
 
 root ::= !<<eof>> property
+    {pin=1}
 
-private property ::= RuleVersionStatement? (FunctionStatement)* ServiceStatement
+private property ::= RuleVersionStatement? (FunctionStatement)* ServiceStatement {
+    pin(".*")=2
+}
 
-RuleVersionStatement ::= RULES_VERSION EQ VERSIONS DOT_COMMA
+RuleVersionStatement ::= RULES_VERSION EQ VERSIONS DOT_COMMA {
+    pin=1
+}
 
 ServiceStatement ::= SERVICE_KEYWORD SERVICE_NAME ServiceBlock {
     pin=1
@@ -64,17 +69,21 @@ PermissionKeyWord ::= (GET_KEYWORD|READ_KEYWORD|WRITE_KEYWORD|LIST_KEYWORD
 
 PermissionStatement ::= PermissionKeyWord (COMMA PermissionKeyWord)*
 
-ConditionalStatement ::= IF_KEYWORD ConditionalExpression
+ConditionalStatement ::= IF_KEYWORD ConditionalExpression {
+    pin=1
+}
 
 ConditionalExpression ::= Expression (BooleanOperator Expression)*
 
 ObjectStatement ::= IDENTIFIER(DOT IDENTIFIER)*
 
-ObjectMethodCallStatement ::= (BuiltInFunctionStatement|ArrayLiteralStatement (DOT IDENTIFIER)*|ObjectStatement)FunctionParameterStatement?
+ObjectMethodCallStatement ::= (BuiltInFunctionStatement|ArrayLiteralStatement (DOT IDENTIFIER)*|ObjectStatement)FunctionParameterStatement?ArrayLiteralStatement?
 
 CallFunctionStatement ::= ObjectMethodCallStatement (DOT ObjectMethodCallStatement)*
 
-FunctionDeclarationStatement ::= IDENTIFIER FunctionParameterStatement
+FunctionDeclarationStatement ::= IDENTIFIER FunctionParameterStatement {
+    pin=1
+}
 
 FunctionParameterStatement ::= LP ParameterStatement? RP
 
