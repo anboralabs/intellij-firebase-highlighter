@@ -25,6 +25,7 @@
           RIGHT_BRACE = '}'
           number='regexp:\d+(\.\d*)?'
           string="regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")"
+          SLASH = '/'
           op = '->'
           COLON = ':'
           COMMA = ','
@@ -41,7 +42,7 @@
 root ::= !<<eof>> property
     {pin=1}
 
-private property ::= RuleVersionDef? (FunctionDef)* ServiceStatement {
+private property ::= RuleVersionDef? (FunctionDef)* ServiceDef {
     pin=1
 }
 
@@ -53,19 +54,51 @@ RuleVersionDef ::= RULES_VERSION EQ VERSIONS DOT_COMMA {
     pin=1
 }
 
-ServiceStatement ::= SERVICE_KEYWORD SERVICE_NAME ServiceBlock {
-    pin=1
-    recoverWhile=ServiceStatement_recover
-}
-private ServiceStatement_recover ::= !(SERVICE_KEYWORD SERVICE_NAME)
-ServiceBlock ::= LEFT_BRACE (MatchStatement)+ RIGHT_BRACE
-
-MatchStatement ::= MATCH_KEYWORD FullPathStatement MatchBlock {
+//Service Definition Begin
+ServiceDef ::= SERVICE_KEYWORD SERVICE_NAME ServiceBlock
+{
     pin=1
 }
-MatchBlock ::= LEFT_BRACE (AllowStatement|MatchStatement|FunctionDef)+ RIGHT_BRACE
 
-FullPathStatement ::= (SLASH PathStatement)+
+ServiceBlock ::= LEFT_BRACE ServiceBlockItems RIGHT_BRACE
+{
+    pin=1
+}
+private ServiceBlockItems ::= !('}' | <<eof>>) ServiceItems+
+{
+    pin=1
+    recoverWhile=Item_recover
+}
+private ServiceItems ::= MatchDef | FunctionDef
+//Service Definition End
+
+//Match Definition Begin
+MatchDef ::= MATCH_KEYWORD FullPathStatement MatchBlock
+{
+    pin=1
+}
+
+MatchBlock ::= LEFT_BRACE MatchBlockItems RIGHT_BRACE
+{
+    pin=1
+}
+private MatchBlockItems ::= !('}' | <<eof>>) MatchItems+ {
+    pin=1
+    recoverWhile=Item_recover
+}
+private MatchItems ::= AllowStatement | MatchDef | FunctionDef
+
+FullPathStatement ::= SLASH FullPathStatementItem+
+{
+    pin=1
+}
+
+private FullPathStatementItem ::= !(SLASH | '{') PathStatement SLASH? {
+    pin=1
+    recoverWhile=FullPathStatementItem_recover
+}
+private FullPathStatementItem_recover ::= !(SLASH | '{' | IDENTIFIER | PATH_VARIABLE)
+//Match Definition End
 
 PathStatement ::= (IDENTIFIER|PATH_VARIABLE)
 
@@ -129,8 +162,6 @@ private FunctionBlockItems ::= !('}' | <<eof>>) VariableStatement* ReturnStateme
     recoverWhile = Item_recover
 }
 //Function Definition Ends
-
-FunctionDeclarationStatement ::= IDENTIFIER FunctionParameterStatement
 
 FunctionParameterStatement ::= LP ParameterStatement? RP
 

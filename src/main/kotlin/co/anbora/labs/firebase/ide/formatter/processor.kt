@@ -69,8 +69,8 @@ fun ASTNode.isBetweenBraces(): Boolean {
 
 fun ASTNode.isComposeBlock(): Boolean {
     val elementType: IElementType = this.elementType
-    return elementType == SERVICE_STATEMENT ||
-            elementType == MATCH_STATEMENT ||
+    return elementType == SERVICE_DEF ||
+            elementType == MATCH_DEF ||
             elementType == FUNCTION_DEF
 }
 

@@ -1,7 +1,6 @@
 package co.anbora.labs.firebase.lang.core
 
 import co.anbora.labs.firebase.lang.core.psi.*
-import co.anbora.labs.firebase.lang.core.psi.impl.FirebaseRulesMatchStatementImpl
 import com.intellij.patterns.PatternCondition
 import com.intellij.patterns.PlatformPatterns
 import com.intellij.patterns.PsiElementPattern
@@ -22,13 +21,13 @@ object FirebasePsiPatterns {
             psiElementWithParent<FirebaseFile>()
 
     fun serviceStatement(): PsiElementPattern.Capture<PsiElement> =
-            psiElementWithParent<FirebaseRulesServiceStatement>()
+            psiElementWithParent<FirebaseRulesServiceDef>()
 
     fun serviceBlock(): PsiElementPattern.Capture<PsiElement> =
             psiElementWithParent<FirebaseRulesServiceBlock>()
 
     fun matchStatement(): PsiElementPattern.Capture<PsiElement> =
-            psiElementWithParent<FirebaseRulesMatchStatementImpl>()
+            psiElementWithParent<FirebaseRulesMatchDef>()
 
     fun allowStatement(): PsiElementPattern.Capture<PsiElement> =
             psiElementWithParent<FirebaseRulesAllowStatement>()
