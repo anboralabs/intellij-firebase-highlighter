@@ -88,12 +88,12 @@ private MatchBlockItems ::= !('}' | <<eof>>) MatchItems+ {
 }
 private MatchItems ::= AllowStatement | MatchDef | FunctionDef
 
-FullPathStatement ::= SLASH FullPathStatementItem+
+FullPathStatement ::= FullPathStatementItem+
 {
     pin=1
 }
 
-private FullPathStatementItem ::= !(SLASH | '{') PathStatement SLASH? {
+private FullPathStatementItem ::= !('{') SLASH PathStatement {
     pin=1
     recoverWhile=FullPathStatementItem_recover
 }
