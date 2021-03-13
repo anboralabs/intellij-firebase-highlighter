@@ -13,12 +13,16 @@
   elementTypeClass="co.anbora.labs.firebase.lang.core.psi.FirebaseElementType"
   tokenTypeClass="co.anbora.labs.firebase.lang.core.psi.FirebaseTokenType"
 
+  extends(".+Expression") = Expression
+
   tokens = [
           WHITE_SPACE='WHITE_SPACE'
           LP = '('
           RP = ')'
           LB = '['
           RB = ']'
+          LEFT_BRACE = '{'
+          RIGHT_BRACE = '}'
           number='regexp:\d+(\.\d*)?'
           string="regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")"
           op = '->'
@@ -26,6 +30,7 @@
           COMMA = ','
           EQ = '='
           DOT = '.'
+          DOT_COMMA = ';'
           char = 'regexp:[\n\r\u2028\u2029]'
           LINE_COMMENT='LINE_COMMENT'
           BLOCK_COMMENT='BLOCK_COMMENT'
@@ -36,11 +41,15 @@
 root ::= !<<eof>> property
     {pin=1}
 
-private property ::= RuleVersionStatement? (FunctionStatement)* ServiceStatement {
-    pin(".*")=2
+private property ::= RuleVersionDef? (FunctionDef)* ServiceStatement {
+    pin=1
 }
 
-RuleVersionStatement ::= RULES_VERSION EQ VERSIONS DOT_COMMA {
+// top-level recovery
+private Item_first ::= function | match | service | allow
+private Item_recover ::= !('}' | <<eof>> | Item_first)
+
+RuleVersionDef ::= RULES_VERSION EQ VERSIONS DOT_COMMA {
     pin=1
 }
 
@@ -54,7 +63,7 @@ ServiceBlock ::= LEFT_BRACE (MatchStatement)+ RIGHT_BRACE
 MatchStatement ::= MATCH_KEYWORD FullPathStatement MatchBlock {
     pin=1
 }
-MatchBlock ::= LEFT_BRACE (AllowStatement|MatchStatement|FunctionStatement)+ RIGHT_BRACE
+MatchBlock ::= LEFT_BRACE (AllowStatement|MatchStatement|FunctionDef)+ RIGHT_BRACE
 
 FullPathStatement ::= (SLASH PathStatement)+
 
@@ -81,25 +90,51 @@ ObjectMethodCallStatement ::= (BuiltInFunctionStatement|ArrayLiteralStatement (D
 
 CallFunctionStatement ::= ObjectMethodCallStatement (DOT ObjectMethodCallStatement)*
 
-FunctionDeclarationStatement ::= IDENTIFIER FunctionParameterStatement {
-    pin=1
-}
-
-FunctionParameterStatement ::= LP ParameterStatement? RP
-
-ParameterStatement ::= Expression(COMMA Expression)*
-
 FullBuiltInParameterStatement ::= (SLASH PathBuiltInParameterStatement)+
 
 PathBuiltInParameterStatement ::= (IDENTIFIER|PATH_BUILT_IN)
 
 BuiltInFunctionStatement ::= (GET_KEYWORD|EXITS_KEYWORD)
 
-FunctionStatement ::= FUNCTION_KEYWORD FunctionDeclarationStatement FunctionBlock {
+//Function Definition Begin
+FunctionDef ::= FUNCTION_KEYWORD IDENTIFIER FunctionParameterList FunctionBlock
+{
     pin=1
 }
 
-FunctionBlock ::= LEFT_BRACE (VariableStatement*) ReturnStatement RIGHT_BRACE
+FunctionParameterList ::= '(' FunctionParameter_with_recover* ')'
+{
+    pin = 1
+}
+
+private FunctionParameter_with_recover ::= !(')' | '{' | ';') FunctionParameter (',' | &')')
+{
+    pin = 1
+    recoverWhile = FunctionParameter_recover
+}
+private FunctionParameter_recover ::= !(')' | '{' | ';' | IDENTIFIER)
+
+FunctionParameter ::= IDENTIFIER
+{
+    pin = 1
+}
+
+FunctionBlock ::= LEFT_BRACE FunctionBlockItems RIGHT_BRACE
+{
+    pin = 1
+}
+private FunctionBlockItems ::= !('}' | <<eof>>) VariableStatement* ReturnStatement
+{
+    pin = 1
+    recoverWhile = Item_recover
+}
+//Function Definition Ends
+
+FunctionDeclarationStatement ::= IDENTIFIER FunctionParameterStatement
+
+FunctionParameterStatement ::= LP ParameterStatement? RP
+
+ParameterStatement ::= Expression(COMMA Expression)*
 
 ReturnStatement ::= RETURN_KEYWORD ConditionalExpression DOT_COMMA {
     pin=1
@@ -114,6 +149,7 @@ Expression ::= BooleanStatement
         | ParenthesizedExpression
         | NegatedExpression
         | FullBuiltInParameterStatement
+{ name="expr" }
 
 ParenthesizedExpression ::=
     LP ConditionalExpression RP

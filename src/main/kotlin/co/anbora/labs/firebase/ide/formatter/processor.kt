@@ -71,7 +71,7 @@ fun ASTNode.isComposeBlock(): Boolean {
     val elementType: IElementType = this.elementType
     return elementType == SERVICE_STATEMENT ||
             elementType == MATCH_STATEMENT ||
-            elementType == FUNCTION_STATEMENT
+            elementType == FUNCTION_DEF
 }
 
 fun ASTNode?.isWhitespaceOrEmpty() = this == null || textLength == 0 || elementType == TokenType.WHITE_SPACE
