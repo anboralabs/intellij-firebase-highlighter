@@ -58,7 +58,9 @@ RuleVersionDef ::= RULES_VERSION EQ VERSIONS DOT_COMMA {
 ServiceDef ::= SERVICE_KEYWORD SERVICE_NAME ServiceBlock
 {
     pin=1
+    recoverWhile=ServiceDef_recover
 }
+private ServiceDef_recover ::= !(SERVICE_KEYWORD SERVICE_NAME)
 
 ServiceBlock ::= LEFT_BRACE ServiceBlockItems RIGHT_BRACE
 {
@@ -102,20 +104,32 @@ private FullPathStatementItem_recover ::= !(SLASH | '{' | IDENTIFIER | PATH_VARI
 
 PathStatement ::= (IDENTIFIER|PATH_VARIABLE)
 
-AllowStatement ::= ALLOW_KEYWORD PermissionStatement COLON ConditionalStatement DOT_COMMA {
+//Allow Statement Begin
+AllowStatement ::= ALLOW_KEYWORD PermissionStatement COLON ConditionalStatement DOT_COMMA
+{
     pin=1
 }
 
-PermissionKeyWord ::= (GET_KEYWORD|READ_KEYWORD|WRITE_KEYWORD|LIST_KEYWORD
-                            |CREATE_KEYWORD|UPDATE_KEYWORD|DELETE_KEYWORD)
+PermissionKeyWord ::= (GET_KEYWORD | READ_KEYWORD | WRITE_KEYWORD | LIST_KEYWORD
+                            | CREATE_KEYWORD | UPDATE_KEYWORD | DELETE_KEYWORD)
 
-PermissionStatement ::= PermissionKeyWord (COMMA PermissionKeyWord)*
+PermissionStatement ::= PermissionStatementItem+
+{
+    pin=1
+}
+private PermissionStatementItem ::= !(':') PermissionKeyWord (',' | &':') {
+    pin=1
+    recoverWhile=Permission_recover
+}
+private Permission_recover ::= !(':' | GET_KEYWORD | READ_KEYWORD | WRITE_KEYWORD | LIST_KEYWORD
+                                     | CREATE_KEYWORD | UPDATE_KEYWORD | DELETE_KEYWORD)
 
 ConditionalStatement ::= IF_KEYWORD ConditionalExpression {
     pin=1
 }
 
 ConditionalExpression ::= Expression (BooleanOperator Expression)*
+//Allow Statement End
 
 ObjectStatement ::= IDENTIFIER(DOT IDENTIFIER)*
 
