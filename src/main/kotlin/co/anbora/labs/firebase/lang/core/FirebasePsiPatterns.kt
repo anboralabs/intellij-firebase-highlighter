@@ -23,11 +23,11 @@ object FirebasePsiPatterns {
     fun serviceStatement(): PsiElementPattern.Capture<PsiElement> =
             psiElementWithParent<FirebaseRulesServiceDef>()
 
-    fun serviceBlock(): PsiElementPattern.Capture<PsiElement> =
-            psiElementWithParent<FirebaseRulesServiceBlock>()
+    fun pathStatement(): PsiElementPattern.Capture<PsiElement> =
+            psiElementWithParent<FirebaseRulesPathStatement>()
 
-    fun matchStatement(): PsiElementPattern.Capture<PsiElement> =
-            psiElementWithParent<FirebaseRulesMatchDef>()
+    fun permissionStatement(): PsiElementPattern.Capture<PsiElement> =
+            psiElementWithParent<FirebaseRulesPermissionStatement>()
 
     fun allowStatement(): PsiElementPattern.Capture<PsiElement> =
             psiElementWithParent<FirebaseRulesAllowStatement>()

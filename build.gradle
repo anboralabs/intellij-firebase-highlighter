@@ -4,7 +4,7 @@ plugins {
     id 'java'
     id 'org.jetbrains.intellij' version '0.6.5'
     id 'org.jetbrains.kotlin.jvm' version '1.4.10'
-    id "org.jetbrains.grammarkit" version "2020.2.1"
+    id "org.jetbrains.grammarkit" version "2020.3.2"
 }
 
 grammarKit {
@@ -13,7 +13,7 @@ grammarKit {
 }
 
 group 'co.anbora.labs'
-version '2.4.0-SNAPSHOT'
+version '2.5.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -61,7 +61,7 @@ sourceSets {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version = 'LATEST-EAP-SNAPSHOT'
+    version = '2020.3.3'
 }
 
 tasks.withType(JavaCompile) { options.encoding = 'UTF-8' }
@@ -77,6 +77,12 @@ publishPlugin {
 patchPluginXml {
     changeNotes """
       <ul>
+          <li><b>2.5.0</b> <em>(2021-03-17)</em> - Added basic code completation</li>
+              <ul>
+                  <li>Added basic code completation </li>
+                  <li>Fixed issue with access index array </li>
+              </ul>
+          </li>
           <li><b>2.4.0</b> <em>(2021-02-14)</em> - Added code folding</li>
               <ul>
                   <li>Added code folding </li>
