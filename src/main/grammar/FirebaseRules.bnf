@@ -13,19 +13,25 @@
   elementTypeClass="co.anbora.labs.firebase.lang.core.psi.FirebaseElementType"
   tokenTypeClass="co.anbora.labs.firebase.lang.core.psi.FirebaseTokenType"
 
+  extends(".+Expression") = Expression
+
   tokens = [
           WHITE_SPACE='WHITE_SPACE'
           LP = '('
           RP = ')'
           LB = '['
           RB = ']'
+          LEFT_BRACE = '{'
+          RIGHT_BRACE = '}'
           number='regexp:\d+(\.\d*)?'
           string="regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")"
+          SLASH = '/'
           op = '->'
           COLON = ':'
           COMMA = ','
           EQ = '='
           DOT = '.'
+          DOT_COMMA = ';'
           char = 'regexp:[\n\r\u2028\u2029]'
           LINE_COMMENT='LINE_COMMENT'
           BLOCK_COMMENT='BLOCK_COMMENT'
@@ -34,45 +40,102 @@
 }
 
 root ::= !<<eof>> property
+    {pin=1}
 
-property ::= RuleVersionStatement? (FunctionStatement)* ServiceStatement
+private property ::= RuleVersionDef? (FunctionDef)* ServiceDef {
+    pin=1
+}
 
-RuleVersionStatement ::= RULES_VERSION EQ VERSIONS DOT_COMMA
+// top-level recovery
+private Item_first ::= function | match | service | allow
+private Item_recover ::= !('}' | <<eof>> | Item_first)
 
-ServiceStatement ::= SERVICE_KEYWORD SERVICE_NAME ServiceBlock
+RuleVersionDef ::= RULES_VERSION EQ VERSIONS DOT_COMMA {
+    pin=1
+}
 
-ServiceBlock ::= LEFT_BRACE (MatchStatement)+ RIGHT_BRACE
+//Service Definition Begin
+ServiceDef ::= SERVICE_KEYWORD SERVICE_NAME ServiceBlock
+{
+    pin=1
+    recoverWhile=ServiceDef_recover
+}
+private ServiceDef_recover ::= !(SERVICE_KEYWORD SERVICE_NAME)
 
-MatchStatement ::= MATCH_KEYWORD FullPathStatement MatchBlock
+ServiceBlock ::= LEFT_BRACE ServiceBlockItems RIGHT_BRACE
+{
+    pin=1
+}
+private ServiceBlockItems ::= !('}' | <<eof>>) ServiceItems+
+{
+    pin=1
+    recoverWhile=Item_recover
+}
+private ServiceItems ::= MatchDef | FunctionDef
+//Service Definition End
 
-MatchBlock ::= LEFT_BRACE (AllowStatement|MatchStatement|FunctionStatement)+ RIGHT_BRACE
+//Match Definition Begin
+MatchDef ::= MATCH_KEYWORD FullPathStatement MatchBlock
+{
+    pin=1
+}
 
-FullPathStatement ::= (SLASH PathStatement)+
+MatchBlock ::= LEFT_BRACE MatchBlockItems RIGHT_BRACE
+{
+    pin=1
+}
+private MatchBlockItems ::= !('}' | <<eof>>) MatchItems+ {
+    pin=1
+    recoverWhile=Item_recover
+}
+private MatchItems ::= AllowStatement | MatchDef | FunctionDef
+
+FullPathStatement ::= FullPathStatementItem+
+{
+    pin=1
+}
+
+private FullPathStatementItem ::= !('{') SLASH PathStatement {
+    pin=1
+    recoverWhile=FullPathStatementItem_recover
+}
+private FullPathStatementItem_recover ::= !(SLASH | '{' | IDENTIFIER | PATH_VARIABLE)
+//Match Definition End
 
 PathStatement ::= (IDENTIFIER|PATH_VARIABLE)
 
+//Allow Statement Begin
 AllowStatement ::= ALLOW_KEYWORD PermissionStatement COLON ConditionalStatement DOT_COMMA
+{
+    pin=1
+}
 
-PermissionKeyWord ::= (GET_KEYWORD|READ_KEYWORD|WRITE_KEYWORD|LIST_KEYWORD
-                            |CREATE_KEYWORD|UPDATE_KEYWORD|DELETE_KEYWORD)
+PermissionKeyWord ::= (GET_KEYWORD | READ_KEYWORD | WRITE_KEYWORD | LIST_KEYWORD
+                            | CREATE_KEYWORD | UPDATE_KEYWORD | DELETE_KEYWORD)
 
-PermissionStatement ::= PermissionKeyWord (COMMA PermissionKeyWord)*
+PermissionStatement ::= PermissionStatementItem+
+{
+    pin=1
+}
+private PermissionStatementItem ::= !(':') PermissionKeyWord (',' | &':') {
+    pin=1
+    recoverWhile=Permission_recover
+}
+private Permission_recover ::= !(':' | GET_KEYWORD | READ_KEYWORD | WRITE_KEYWORD | LIST_KEYWORD
+                                     | CREATE_KEYWORD | UPDATE_KEYWORD | DELETE_KEYWORD)
 
-ConditionalStatement ::= IF_KEYWORD ConditionalExpression
+ConditionalStatement ::= IF_KEYWORD ConditionalExpression {
+    pin=1
+}
 
 ConditionalExpression ::= Expression (BooleanOperator Expression)*
+//Allow Statement End
 
 ObjectStatement ::= IDENTIFIER(DOT IDENTIFIER)*
 
-ObjectMethodCallStatement ::= (BuiltInFunctionStatement|ArrayLiteralStatement (DOT IDENTIFIER)*|ObjectStatement)FunctionParameterStatement?
+ObjectMethodCallStatement ::= (BuiltInFunctionStatement|ArrayLiteralStatement (DOT IDENTIFIER)*|ObjectStatement)FunctionParameterStatement?ArrayLiteralStatement?
 
 CallFunctionStatement ::= ObjectMethodCallStatement (DOT ObjectMethodCallStatement)*
-
-FunctionDeclarationStatement ::= IDENTIFIER FunctionParameterStatement
-
-FunctionParameterStatement ::= LP ParameterStatement? RP
-
-ParameterStatement ::= Expression(COMMA Expression)*
 
 FullBuiltInParameterStatement ::= (SLASH PathBuiltInParameterStatement)+
 
@@ -80,11 +143,47 @@ PathBuiltInParameterStatement ::= (IDENTIFIER|PATH_BUILT_IN)
 
 BuiltInFunctionStatement ::= (GET_KEYWORD|EXITS_KEYWORD)
 
-FunctionStatement ::= FUNCTION_KEYWORD FunctionDeclarationStatement FunctionBlock
+//Function Definition Begin
+FunctionDef ::= FUNCTION_KEYWORD IDENTIFIER FunctionParameterList FunctionBlock
+{
+    pin=1
+}
 
-FunctionBlock ::= LEFT_BRACE (VariableStatement*) ReturnStatement RIGHT_BRACE
+FunctionParameterList ::= '(' FunctionParameter_with_recover* ')'
+{
+    pin = 1
+}
 
-ReturnStatement ::= RETURN_KEYWORD ConditionalExpression DOT_COMMA
+private FunctionParameter_with_recover ::= !(')' | '{' | ';') FunctionParameter (',' | &')')
+{
+    pin = 1
+    recoverWhile = FunctionParameter_recover
+}
+private FunctionParameter_recover ::= !(')' | '{' | ';' | IDENTIFIER)
+
+FunctionParameter ::= IDENTIFIER
+{
+    pin = 1
+}
+
+FunctionBlock ::= LEFT_BRACE FunctionBlockItems RIGHT_BRACE
+{
+    pin = 1
+}
+private FunctionBlockItems ::= !('}' | <<eof>>) VariableStatement* ReturnStatement
+{
+    pin = 1
+    recoverWhile = Item_recover
+}
+//Function Definition Ends
+
+FunctionParameterStatement ::= LP ParameterStatement? RP
+
+ParameterStatement ::= Expression(COMMA Expression)*
+
+ReturnStatement ::= RETURN_KEYWORD ConditionalExpression DOT_COMMA {
+    pin=1
+}
 
 Expression ::= BooleanStatement
         | CallFunctionStatement
@@ -95,6 +194,7 @@ Expression ::= BooleanStatement
         | ParenthesizedExpression
         | NegatedExpression
         | FullBuiltInParameterStatement
+{ name="expr" }
 
 ParenthesizedExpression ::=
     LP ConditionalExpression RP

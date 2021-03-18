@@ -1,6 +1,6 @@
 package co.anbora.labs.firebase.lang.core.psi
 
-import co.anbora.labs.firebase.lang.core.FirebaseRulesLanguage
+import co.anbora.labs.firebase.lang.FirebaseRulesLanguage
 import co.anbora.labs.firebase.lang.core.psi.FirebaseRulesTypes.BLOCK_COMMENT
 import co.anbora.labs.firebase.lang.core.psi.FirebaseRulesTypes.LINE_COMMENT
 import com.intellij.psi.tree.IElementType

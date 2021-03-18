@@ -1,6 +1,6 @@
 package co.anbora.labs.firebase.ide.formatter
 
-import co.anbora.labs.firebase.lang.core.FirebaseRulesLanguage
+import co.anbora.labs.firebase.lang.FirebaseRulesLanguage
 import co.anbora.labs.firebase.lang.core.psi.FirebaseRulesTypes.*
 import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
@@ -69,9 +69,9 @@ fun ASTNode.isBetweenBraces(): Boolean {
 
 fun ASTNode.isComposeBlock(): Boolean {
     val elementType: IElementType = this.elementType
-    return elementType == SERVICE_STATEMENT ||
-            elementType == MATCH_STATEMENT ||
-            elementType == FUNCTION_STATEMENT
+    return elementType == SERVICE_DEF ||
+            elementType == MATCH_DEF ||
+            elementType == FUNCTION_DEF
 }
 
 fun ASTNode?.isWhitespaceOrEmpty() = this == null || textLength == 0 || elementType == TokenType.WHITE_SPACE
