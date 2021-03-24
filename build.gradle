@@ -13,7 +13,7 @@ grammarKit {
 }
 
 group 'co.anbora.labs'
-version '2.5.0-SNAPSHOT'
+version '2.5.1-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -61,7 +61,7 @@ sourceSets {
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version = '2020.3.3'
+    version = 'LATEST-EAP-SNAPSHOT'
 }
 
 tasks.withType(JavaCompile) { options.encoding = 'UTF-8' }
@@ -77,6 +77,11 @@ publishPlugin {
 patchPluginXml {
     changeNotes """
       <ul>
+          <li><b>2.5.1</b> <em>(2021-03-23)</em> - Added compatibility with newest versions</li>
+              <ul>
+                  <li>Added compatibility with newest versions </li>
+              </ul>
+          </li>
           <li><b>2.5.0</b> <em>(2021-03-17)</em> - Added basic code completation</li>
               <ul>
                   <li>Added basic code completation </li>
