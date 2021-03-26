@@ -77,9 +77,11 @@ publishPlugin {
 patchPluginXml {
     changeNotes """
       <ul>
-          <li><b>2.5.1</b> <em>(2021-03-23)</em> - Added compatibility with newest versions</li>
+          <li><b>2.5.1</b> <em>(2021-03-25)</em> - Added compatibility with newest versions</li>
               <ul>
                   <li>Added compatibility with newest versions </li>
+                  <li>Fixed issue with access array </li>
+                  <li>Fixed issue with paths with dot </li>
               </ul>
           </li>
           <li><b>2.5.0</b> <em>(2021-03-17)</em> - Added basic code completation</li>
