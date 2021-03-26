@@ -102,7 +102,7 @@ private FullPathStatementItem ::= !('{') SLASH PathStatement {
 private FullPathStatementItem_recover ::= !(SLASH | '{' | IDENTIFIER | PATH_VARIABLE)
 //Match Definition End
 
-PathStatement ::= (IDENTIFIER|PATH_VARIABLE)
+PathStatement ::= (DOT? IDENTIFIER|PATH_VARIABLE)
 
 //Allow Statement Begin
 AllowStatement ::= ALLOW_KEYWORD PermissionStatement COLON ConditionalStatement DOT_COMMA
@@ -133,13 +133,13 @@ ConditionalExpression ::= Expression (BooleanOperator Expression)*
 
 ObjectStatement ::= IDENTIFIER(DOT IDENTIFIER)*
 
-ObjectMethodCallStatement ::= (BuiltInFunctionStatement|ArrayLiteralStatement (DOT IDENTIFIER)*|ObjectStatement)FunctionParameterStatement?ArrayLiteralStatement?
+ObjectMethodCallStatement ::= (BuiltInFunctionStatement|ArrayLiteralStatement (DOT IDENTIFIER)*|ObjectStatement)FunctionParameterStatement?ArrayAccessStatement?
 
 CallFunctionStatement ::= ObjectMethodCallStatement (DOT ObjectMethodCallStatement)*
 
 FullBuiltInParameterStatement ::= (SLASH PathBuiltInParameterStatement)+
 
-PathBuiltInParameterStatement ::= (IDENTIFIER|PATH_BUILT_IN)
+PathBuiltInParameterStatement ::= (DOT? IDENTIFIER|PATH_BUILT_IN)
 
 BuiltInFunctionStatement ::= (GET_KEYWORD|EXITS_KEYWORD)
 
@@ -203,6 +203,10 @@ NegatedExpression ::=
     NEGATE Expression
 
 ArrayLiteralStatement ::= LB (ParameterStatement|ArrayLiteralStatement) RB
+
+ArrayAccessStatement ::= LB (AccessArray|ArrayLiteralStatement) RB
+
+private AccessArray ::= number (COLON number)?
 
 LiteralStatement ::= (NumberLiteralStatement|StringLiteralStatement)
 
