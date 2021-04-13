@@ -193,8 +193,8 @@ Expression ::=
 
 ParensExpr ::= LP Expression RP
 NegateExpr ::= NEGATE Expression
-IndexExpr ::= Expression '[' Expression ']'
-RangeExpr ::= Expression ':' Expression
+IndexExpr ::= Expression '[' (RangeExpr|Expression) ']'
+private RangeExpr ::= Expression ':' Expression
 
 
 IdentifierExpr ::= IDENTIFIER
@@ -214,7 +214,6 @@ private AtomExpr ::=
         | ParensExpr
         | IndexExpr
         | DotExpr
-        | RangeExpr
         | LiteralExpr
 
 private MulExprItem ::= DivExpr | MulExpr | ModExpr
