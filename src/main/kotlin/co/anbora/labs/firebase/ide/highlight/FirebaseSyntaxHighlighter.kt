@@ -27,7 +27,7 @@ class FirebaseSyntaxHighlighter: SyntaxHighlighterBase() {
                         DELETE_KEYWORD, EXITS_KEYWORD -> FirebaseColors.PERMISSIONS
                     PATH_VARIABLE, PATH_BUILT_IN, STRING -> FirebaseColors.PATH_AND_STRING
                     LINE_COMMENT, BLOCK_COMMENT -> FirebaseColors.COMMENTS
-                    CALL_FUNCTION_STATEMENT -> FirebaseColors.CALL_FUNCTION
+                    CALL_EXPR -> FirebaseColors.CALL_FUNCTION
                     NUMBER -> FirebaseColors.NUMBERS
                     TokenType.BAD_CHARACTER -> FirebaseColors.BAD_CHAR
                     else -> null
