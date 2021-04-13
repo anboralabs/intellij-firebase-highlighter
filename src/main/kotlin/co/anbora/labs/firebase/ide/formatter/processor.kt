@@ -39,7 +39,7 @@ fun createSpacingBuilder(commonSettings: CodeStyleSettings): SpacingBuilder {
         .after(SERVICE_NAME).spacing(1, 1, 0, false, 0)
         //Function Statement
         .after(FUNCTION_KEYWORD).spacing(1, 1, 0, false, 0)
-        .after(CALL_FUNCTION_STATEMENT).spacing(1, 1, 0, false, 0)
+        .after(CALL_EXPR).spacing(1, 1, 0, false, 0)
         //Match Statement
         .after(MATCH_KEYWORD).spacing(1, 1, 0, false, 0)
         .after(FULL_PATH_STATEMENT).spacing(1, 1, 0, false, 0)
