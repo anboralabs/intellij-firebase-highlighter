@@ -13,7 +13,7 @@ grammarKit {
 }
 
 group 'co.anbora.labs'
-version '2.5.1-SNAPSHOT'
+version '2.5.3-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -82,6 +82,18 @@ publishPlugin {
 patchPluginXml {
     changeNotes """
       <ul>
+          <li><b>2.5.3</b> <em>(2021-04-12)</em> - Fixed minor issues</li>
+              <ul>
+                  <li>Support for empty array </li>
+                  <li>Array indexing with a variable </li>
+                  <li>Fixed Issue with math operations </li>
+              </ul>
+          </li>
+          <li><b>2.5.2</b> <em>(2021-04-08)</em> - Fixed blocker issue for android studio versions</li>
+              <ul>
+                  <li>Fixed critical issue with android studio versions </li>
+              </ul>
+          </li>
           <li><b>2.5.1</b> <em>(2021-03-25)</em> - Added compatibility with newest versions</li>
               <ul>
                   <li>Added compatibility with newest versions </li>
