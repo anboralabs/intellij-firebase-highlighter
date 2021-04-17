@@ -12,7 +12,8 @@ fun FirebaseFormatterBlock.computeIndent(): Indent? {
     val parent = node.treeParent
     return when {
         parent?.treeParent == null -> Indent.getNoneIndent()
-        node.isBetweenBraces() -> Indent.getNormalIndent()
+        node.areBraces() -> Indent.getNoneIndent()
+        parent.isComposeBlock() -> Indent.getNormalIndent()
         else -> Indent.getNoneIndent()
     }
 }
@@ -54,24 +55,15 @@ fun createSpacingBuilder(commonSettings: CodeStyleSettings): SpacingBuilder {
         .before(DOT_COMMA).spacing(0,0,0,false,0)
 }
 
-fun ASTNode.isBetweenBraces(): Boolean {
-    val elementType: IElementType = this.elementType
-    if (elementType === LEFT_BRACE || elementType === RIGHT_BRACE) return false
-
-    var sibling: ASTNode? = this.treePrev
-    while (sibling != null) {
-        if (sibling.elementType === LEFT_BRACE) return true
-        sibling = sibling.treePrev
-    }
-
-    return false
+fun ASTNode.areBraces(): Boolean {
+    return (elementType === LEFT_BRACE || elementType === RIGHT_BRACE)
 }
 
 fun ASTNode.isComposeBlock(): Boolean {
     val elementType: IElementType = this.elementType
-    return elementType == SERVICE_DEF ||
-            elementType == MATCH_DEF ||
-            elementType == FUNCTION_DEF
+    return elementType == SERVICE_BLOCK ||
+            elementType == MATCH_BLOCK ||
+            elementType == FUNCTION_BLOCK
 }
 
 fun ASTNode?.isWhitespaceOrEmpty() = this == null || textLength == 0 || elementType == TokenType.WHITE_SPACE
