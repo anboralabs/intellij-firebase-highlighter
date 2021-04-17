@@ -13,6 +13,7 @@ fun FirebaseFormatterBlock.computeIndent(): Indent? {
     return when {
         parent?.treeParent == null -> Indent.getNoneIndent()
         node.areBraces() -> Indent.getNoneIndent()
+        node.isBooleanOperator() -> Indent.getNormalIndent()
         parent.isComposeBlock() -> Indent.getNormalIndent()
         else -> Indent.getNoneIndent()
     }
@@ -40,7 +41,7 @@ fun createSpacingBuilder(commonSettings: CodeStyleSettings): SpacingBuilder {
         .after(SERVICE_NAME).spacing(1, 1, 0, false, 0)
         //Function Statement
         .after(FUNCTION_KEYWORD).spacing(1, 1, 0, false, 0)
-        .after(CALL_EXPR).spacing(1, 1, 0, false, 0)
+        .after(FUNCTION_PARAMETER_LIST).spacing(1, 1, 0, false, 0)
         //Match Statement
         .after(MATCH_KEYWORD).spacing(1, 1, 0, false, 0)
         .after(FULL_PATH_STATEMENT).spacing(1, 1, 0, false, 0)
@@ -59,11 +60,18 @@ fun ASTNode.areBraces(): Boolean {
     return (elementType === LEFT_BRACE || elementType === RIGHT_BRACE)
 }
 
+fun ASTNode.isBooleanOperator(): Boolean {
+    val elementType: IElementType = this.elementType
+    return elementType == OROR ||
+            elementType == ANDAND
+}
+
 fun ASTNode.isComposeBlock(): Boolean {
     val elementType: IElementType = this.elementType
     return elementType == SERVICE_BLOCK ||
             elementType == MATCH_BLOCK ||
-            elementType == FUNCTION_BLOCK
+            elementType == FUNCTION_BLOCK ||
+            elementType == RETURN_BLOCK
 }
 
 fun ASTNode?.isWhitespaceOrEmpty() = this == null || textLength == 0 || elementType == TokenType.WHITE_SPACE

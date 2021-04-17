@@ -177,9 +177,10 @@ private FunctionBlockItems ::= !('}' | <<eof>>) VariableStatement* ReturnStateme
 
 ParameterStatement ::= Expression(COMMA Expression)*
 
-ReturnStatement ::= RETURN_KEYWORD ConditionalExpression DOT_COMMA {
+ReturnStatement ::= RETURN_KEYWORD ReturnBlock {
     pin=1
 }
+ReturnBlock ::= ConditionalExpression DOT_COMMA
 
 Expression ::=
         OrExpr
