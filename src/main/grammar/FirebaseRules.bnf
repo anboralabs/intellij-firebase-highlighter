@@ -109,10 +109,9 @@ private FullPathStatementItem_recover ::= !(SLASH | '{' | IDENTIFIER | PATH_VARI
 PathStatement ::= (DOT? IDENTIFIER|PATH_VARIABLE)
 
 //Allow Statement Begin
-AllowStatement ::= ALLOW_KEYWORD PermissionStatement COLON ConditionalStatement DOT_COMMA
-{
-    pin=1
-}
+AllowStatement ::= EmptyAllowStm | ConditionalAllowStm
+private EmptyAllowStm ::= ALLOW_KEYWORD PermissionStatement DOT_COMMA
+private ConditionalAllowStm ::= ALLOW_KEYWORD PermissionStatement COLON ConditionalStatement DOT_COMMA
 
 PermissionKeyWord ::= (GET_KEYWORD | READ_KEYWORD | WRITE_KEYWORD | LIST_KEYWORD
                             | CREATE_KEYWORD | UPDATE_KEYWORD | DELETE_KEYWORD)
@@ -121,11 +120,11 @@ PermissionStatement ::= PermissionStatementItem+
 {
     pin=1
 }
-private PermissionStatementItem ::= !(':') PermissionKeyWord (',' | &':') {
+private PermissionStatementItem ::= !(':'|';') PermissionKeyWord (',' | &(':'|';')) {
     pin=1
     recoverWhile=Permission_recover
 }
-private Permission_recover ::= !(':' | GET_KEYWORD | READ_KEYWORD | WRITE_KEYWORD | LIST_KEYWORD
+private Permission_recover ::= !(':' |';' | GET_KEYWORD | READ_KEYWORD | WRITE_KEYWORD | LIST_KEYWORD
                                      | CREATE_KEYWORD | UPDATE_KEYWORD | DELETE_KEYWORD)
 
 ConditionalStatement ::= IF_KEYWORD ConditionalExpression {
