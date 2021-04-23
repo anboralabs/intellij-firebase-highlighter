@@ -14,6 +14,9 @@
   tokenTypeClass="co.anbora.labs.firebase.lang.core.psi.FirebaseTokenType"
 
   extends(".+Expression") = Expression
+  extends(".+Expr") = Expression
+
+  name(".*Expr")="expr"
 
   tokens = [
           WHITE_SPACE='WHITE_SPACE'
@@ -32,6 +35,7 @@
           EQ = '='
           DOT = '.'
           DOT_COMMA = ';'
+          MODULO         =  '%'
           char = 'regexp:[\n\r\u2028\u2029]'
           LINE_COMMENT='LINE_COMMENT'
           BLOCK_COMMENT='BLOCK_COMMENT'
@@ -105,10 +109,9 @@ private FullPathStatementItem_recover ::= !(SLASH | '{' | IDENTIFIER | PATH_VARI
 PathStatement ::= (DOT? IDENTIFIER|PATH_VARIABLE)
 
 //Allow Statement Begin
-AllowStatement ::= ALLOW_KEYWORD PermissionStatement COLON ConditionalStatement DOT_COMMA
-{
-    pin=1
-}
+AllowStatement ::= EmptyAllowStm | ConditionalAllowStm
+private EmptyAllowStm ::= ALLOW_KEYWORD PermissionStatement DOT_COMMA
+private ConditionalAllowStm ::= ALLOW_KEYWORD PermissionStatement COLON ConditionalStatement DOT_COMMA
 
 PermissionKeyWord ::= (GET_KEYWORD | READ_KEYWORD | WRITE_KEYWORD | LIST_KEYWORD
                             | CREATE_KEYWORD | UPDATE_KEYWORD | DELETE_KEYWORD)
@@ -117,11 +120,11 @@ PermissionStatement ::= PermissionStatementItem+
 {
     pin=1
 }
-private PermissionStatementItem ::= !(':') PermissionKeyWord (',' | &':') {
+private PermissionStatementItem ::= !(':'|';') PermissionKeyWord (',' | &(':'|';')) {
     pin=1
     recoverWhile=Permission_recover
 }
-private Permission_recover ::= !(':' | GET_KEYWORD | READ_KEYWORD | WRITE_KEYWORD | LIST_KEYWORD
+private Permission_recover ::= !(':' |';' | GET_KEYWORD | READ_KEYWORD | WRITE_KEYWORD | LIST_KEYWORD
                                      | CREATE_KEYWORD | UPDATE_KEYWORD | DELETE_KEYWORD)
 
 ConditionalStatement ::= IF_KEYWORD ConditionalExpression {
@@ -130,12 +133,6 @@ ConditionalStatement ::= IF_KEYWORD ConditionalExpression {
 
 ConditionalExpression ::= Expression (BooleanOperator Expression)*
 //Allow Statement End
-
-ObjectStatement ::= IDENTIFIER(DOT IDENTIFIER)*
-
-ObjectMethodCallStatement ::= (BuiltInFunctionStatement|ArrayLiteralStatement (DOT IDENTIFIER)*|ObjectStatement)FunctionParameterStatement?ArrayAccessStatement?
-
-CallFunctionStatement ::= ObjectMethodCallStatement (DOT ObjectMethodCallStatement)*
 
 FullBuiltInParameterStatement ::= (SLASH PathBuiltInParameterStatement)+
 
@@ -177,48 +174,77 @@ private FunctionBlockItems ::= !('}' | <<eof>>) VariableStatement* ReturnStateme
 }
 //Function Definition Ends
 
-FunctionParameterStatement ::= LP ParameterStatement? RP
-
 ParameterStatement ::= Expression(COMMA Expression)*
 
-ReturnStatement ::= RETURN_KEYWORD ConditionalExpression DOT_COMMA {
+ReturnStatement ::= RETURN_KEYWORD ReturnBlock {
     pin=1
 }
+ReturnBlock ::= ConditionalExpression DOT_COMMA
 
-Expression ::= BooleanStatement
-        | CallFunctionStatement
-        | ObjectStatement
-        | LiteralStatement
+Expression ::=
+        OrExpr
+        | AndExpr
+        | LogicalEqExprItem
+        | AddExprItem
+        | MulExprItem
+        | NegateExpr
+        | AtomExpr
+//{ name="expr" }
+
+ParensExpr ::= LP Expression RP
+NegateExpr ::= NEGATE Expression
+IndexExpr ::= Expression '[' (RangeExpr|Expression) ']'
+private RangeExpr ::= Expression ':' Expression
+
+
+IdentifierExpr ::= IDENTIFIER
+DotExpr ::= Expression DOT Expression
+CallExpr ::= Expression '(' ParameterStatement? ')'
+
+LiteralExpr ::= LiteralStatement
+        | BooleanStatement
         | NullStatement
-        | ArrayLiteralStatement
-        | ParenthesizedExpression
-        | NegatedExpression
+        | BuiltInFunctionStatement
+        | IdentifierExpr
         | FullBuiltInParameterStatement
-{ name="expr" }
 
-ParenthesizedExpression ::=
-    LP ConditionalExpression RP
+private AtomExpr ::=
+        ArrayLiteralExpr
+        | CallExpr
+        | ParensExpr
+        | IndexExpr
+        | DotExpr
+        | LiteralExpr
 
-NegatedExpression ::=
-    NEGATE Expression
+private MulExprItem ::= DivExpr | MulExpr | ModExpr
+private AddExprItem ::= PlusExpr | MinusExpr
+private LogicalEqExprItem ::= EqualsExpr | NotEqualsExpr | LessEqualsExpr | LessExpr | GreaterEqualsExpr | GreaterExpr
 
-ArrayLiteralStatement ::= LB (ParameterStatement|ArrayLiteralStatement) RB
+EqualsExpr ::= Expression EQEQ Expression
+NotEqualsExpr ::= Expression NE Expression
 
-ArrayAccessStatement ::= LB (AccessArray|ArrayLiteralStatement) RB
+OrExpr ::= Expression OROR Expression
+AndExpr ::= Expression ANDAND Expression
 
-private AccessArray ::= number (COLON number)?
+LessExpr ::= Expression LT Expression
+GreaterExpr ::= Expression GT Expression
+LessEqualsExpr ::= Expression LE Expression
+GreaterEqualsExpr ::= Expression GE Expression
 
-LiteralStatement ::= (NumberLiteralStatement|StringLiteralStatement)
+DivExpr ::= Expression '/' Expression
+MulExpr ::= Expression MULT_OP Expression
+ModExpr ::= Expression '%' Expression
+
+PlusExpr ::= Expression PLUS_OP Expression
+MinusExpr ::= Expression MINUS_OP Expression
+
+ArrayLiteralExpr ::= EmptyArrayExpr | ArrayExpr
+private EmptyArrayExpr ::= LB RB
+private ArrayExpr ::= LB (ParameterStatement) RB
+
+LiteralStatement ::= (number|string)
 
 VariableStatement ::= LET_KEYWORD IDENTIFIER EQ ConditionalExpression (DOT_COMMA?)
-
-NumberLiteralStatement ::= number (NumberOperator number)*
-
-StringLiteralStatement ::= string (StringOperator string)*
-
-StringOperator ::= (PLUS_OP|MULT_OP)
-
-NumberOperator ::= (PLUS_OP|MINUS_OP|MULT_OP|SLASH)
 
 NullStatement ::= NULL_KEYWORD
 

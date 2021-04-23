@@ -13,7 +13,7 @@ grammarKit {
 }
 
 group 'co.anbora.labs'
-version '2.5.2-SNAPSHOT'
+version '2.5.4-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -81,119 +81,7 @@ publishPlugin {
 }
 
 patchPluginXml {
-    changeNotes """
-      <ul>
-          <li><b>2.5.2</b> <em>(2021-04-08)</em> - Fixed blocker issue for android studio versions</li>
-              <ul>
-                  <li>Fixed critical issue with android studio versions </li>
-              </ul>
-          </li>
-          <li><b>2.5.1</b> <em>(2021-03-25)</em> - Added compatibility with newest versions</li>
-              <ul>
-                  <li>Added compatibility with newest versions </li>
-                  <li>Fixed issue with access array </li>
-                  <li>Fixed issue with paths with dot </li>
-              </ul>
-          </li>
-          <li><b>2.5.0</b> <em>(2021-03-17)</em> - Added basic code completation</li>
-              <ul>
-                  <li>Added basic code completation </li>
-                  <li>Fixed issue with access index array </li>
-              </ul>
-          </li>
-          <li><b>2.4.0</b> <em>(2021-02-14)</em> - Added code folding</li>
-              <ul>
-                  <li>Added code folding </li>
-                  <li>Added brace matcher </li>
-              </ul>
-          </li>
-          <li><b>2.3.0</b> <em>(2021-01-27)</em> - Added "is" keyword</li>
-              <ul>
-                  <li>Allow "is" keyword </li>
-                  <li>Fixed issue with built in functions </li>
-              </ul>
-          </li>
-          <li><b>2.2.1</b> <em>(2021-01-24)</em> - Added "let" keyword</li>
-              <ul>
-                  <li>Allow "let" keyword in functions body </li>
-              </ul>
-          </li>
-          <li><b>2.2.0</b> <em>(2021-01-23)</em> - Added actions</li>
-              <ul>
-                  <li>Added actions to create rule files </li>
-                  <li>Allowed path in comparisons </li>
-              </ul>
-          </li>
-          <li><b>2.1.1</b> <em>(2021-01-14)</em> - Upgrade plugin to intellij 2020.3</li>
-              <ul>
-                  <li>Upgrade plugin to intellij 2020.3 </li>
-              </ul>
-          </li>
-          <li><b>2.1.0</b> <em>(2021-01-10)</em> - Added Intellij formatting code support</li>
-              <ul>
-                  <li>Added formatting code support </li>
-                  <li>Added oficial firebase icons </li>
-                  <li>Improved language bnf rules </li>
-              </ul>
-          </li>
-          <li><b>2.0.0</b> <em>(2020-12-12)</em> - Added support block comments</li>
-              <ul>
-                  <li>Added support for block comments </li>
-                  <li>Added support for keyboard combination: CMD + / </li>
-                  <li>Fixed issue with parenthesis and negation on expressions </li>
-              </ul>
-          </li>
-          <li><b>1.1.5</b> <em>(2020-12-02)</em> - Added support for new IDE versions</li>
-              <ul>
-                  <li>Added support for IDE version from build 192 </li>
-              </ul>
-          </li>
-          <li><b>1.1.4</b> <em>(2020-11-29)</em> - Added operators support</li>
-              <ul>
-                  <li>Added operation with numbers support: +, -, *, / </li>
-                  <li>Added operation with strings support: +, * </li>
-              </ul>
-          </li>
-          <li><b>1.1.3</b> <em>(2020-11-19)</em> - comments issue</li>
-              <ul>
-                  <li>Fixed false positive with comments in match body statement</li>
-              </ul>
-          </li>
-          <li><b>1.1.2</b> <em>(2020-11-02)</em> - added arrays support</li>
-              <ul>
-                  <li>Added support for arrays</li>
-              </ul>
-          </li>
-          <li><b>1.1.1</b> <em>(2020-10-28)</em> - added built-in functions support</li>
-              <ul>
-                  <li>Added support for functions: get, exists</li>
-                  <li>Fixed issues with functions and comments</li>
-              </ul>
-          </li>
-          <li><b>1.1.0</b> <em>(2020-10-27)</em> - added highlight support</li>
-              <ul>
-                  <li>Added support for highlight one line comments</li>
-                  <li>Added support for color change: strings, numbers and comments</li>
-              </ul>
-          </li>
-          <li><b>1.0.2</b> <em>(2020-10-15)</em> - sintax checker</li>
-              <ul>
-                  <li>Added "in" operator for javascript functions</li>
-              </ul>
-          </li>
-          <li><b>1.0.1</b> <em>(2020-10-14)</em> - version compatibility</li>
-              <ul>
-                  <li>Added version compatibility for all Intellij products</li>
-              </ul>
-          </li>
-          <li><b>1.0.0</b> <em>(2020-10-10)</em> - initial release</li>
-              <ul>
-                  <li>Initial Release</li>
-                  <li>Added changed notes</li>
-                  <li>Fixed plugin description</li>
-              </ul>
-          </li>
-      </ul>
-    """
+    changeNotes = file("src/main/html/change-notes.html").getText().toString()
+    pluginDescription = file("src/main/html/description.html").getText().toString()
     sinceBuild = '201'
 }

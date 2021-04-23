@@ -12,7 +12,9 @@ fun FirebaseFormatterBlock.computeIndent(): Indent? {
     val parent = node.treeParent
     return when {
         parent?.treeParent == null -> Indent.getNoneIndent()
-        node.isBetweenBraces() -> Indent.getNormalIndent()
+        node.areBraces() -> Indent.getNoneIndent()
+        node.isBooleanOperator() -> Indent.getNormalIndent()
+        parent.isComposeBlock() -> Indent.getNormalIndent()
         else -> Indent.getNoneIndent()
     }
 }
@@ -39,7 +41,7 @@ fun createSpacingBuilder(commonSettings: CodeStyleSettings): SpacingBuilder {
         .after(SERVICE_NAME).spacing(1, 1, 0, false, 0)
         //Function Statement
         .after(FUNCTION_KEYWORD).spacing(1, 1, 0, false, 0)
-        .after(CALL_FUNCTION_STATEMENT).spacing(1, 1, 0, false, 0)
+        .after(FUNCTION_PARAMETER_LIST).spacing(1, 1, 0, false, 0)
         //Match Statement
         .after(MATCH_KEYWORD).spacing(1, 1, 0, false, 0)
         .after(FULL_PATH_STATEMENT).spacing(1, 1, 0, false, 0)
@@ -54,24 +56,22 @@ fun createSpacingBuilder(commonSettings: CodeStyleSettings): SpacingBuilder {
         .before(DOT_COMMA).spacing(0,0,0,false,0)
 }
 
-fun ASTNode.isBetweenBraces(): Boolean {
+fun ASTNode.areBraces(): Boolean {
+    return (elementType === LEFT_BRACE || elementType === RIGHT_BRACE)
+}
+
+fun ASTNode.isBooleanOperator(): Boolean {
     val elementType: IElementType = this.elementType
-    if (elementType === LEFT_BRACE || elementType === RIGHT_BRACE) return false
-
-    var sibling: ASTNode? = this.treePrev
-    while (sibling != null) {
-        if (sibling.elementType === LEFT_BRACE) return true
-        sibling = sibling.treePrev
-    }
-
-    return false
+    return elementType == OROR ||
+            elementType == ANDAND
 }
 
 fun ASTNode.isComposeBlock(): Boolean {
     val elementType: IElementType = this.elementType
-    return elementType == SERVICE_DEF ||
-            elementType == MATCH_DEF ||
-            elementType == FUNCTION_DEF
+    return elementType == SERVICE_BLOCK ||
+            elementType == MATCH_BLOCK ||
+            elementType == FUNCTION_BLOCK ||
+            elementType == RETURN_BLOCK
 }
 
 fun ASTNode?.isWhitespaceOrEmpty() = this == null || textLength == 0 || elementType == TokenType.WHITE_SPACE
