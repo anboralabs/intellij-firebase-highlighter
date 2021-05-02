@@ -127,11 +127,11 @@ private PermissionStatementItem ::= !(':'|';') PermissionKeyWord (',' | &(':'|';
 private Permission_recover ::= !(':' |';' | GET_KEYWORD | READ_KEYWORD | WRITE_KEYWORD | LIST_KEYWORD
                                      | CREATE_KEYWORD | UPDATE_KEYWORD | DELETE_KEYWORD)
 
-ConditionalStatement ::= IF_KEYWORD ConditionalExpression {
+ConditionalStatement ::= IF_KEYWORD ConditionalBlock {
     pin=1
 }
 
-ConditionalExpression ::= Expression (BooleanOperator Expression)*
+ConditionalBlock ::= Expression
 //Allow Statement End
 
 FullBuiltInParameterStatement ::= (SLASH PathBuiltInParameterStatement)+
@@ -139,6 +139,8 @@ FullBuiltInParameterStatement ::= (SLASH PathBuiltInParameterStatement)+
 PathBuiltInParameterStatement ::= (DOT? IDENTIFIER|PATH_BUILT_IN)
 
 BuiltInFunctionStatement ::= (GET_KEYWORD|EXITS_KEYWORD)
+
+BuiltInTypes ::= LIST_KEYWORD
 
 //Function Definition Begin
 FunctionDef ::= FUNCTION_KEYWORD IDENTIFIER FunctionParameterList FunctionBlock
@@ -179,7 +181,7 @@ ParameterStatement ::= Expression(COMMA Expression)*
 ReturnStatement ::= RETURN_KEYWORD ReturnBlock {
     pin=1
 }
-ReturnBlock ::= ConditionalExpression DOT_COMMA
+ReturnBlock ::= Expression DOT_COMMA
 
 Expression ::=
         OrExpr
@@ -205,6 +207,7 @@ LiteralExpr ::= LiteralStatement
         | BooleanStatement
         | NullStatement
         | BuiltInFunctionStatement
+        | BuiltInTypes
         | IdentifierExpr
         | FullBuiltInParameterStatement
 
@@ -219,6 +222,10 @@ private AtomExpr ::=
 private MulExprItem ::= DivExpr | MulExpr | ModExpr
 private AddExprItem ::= PlusExpr | MinusExpr
 private LogicalEqExprItem ::= EqualsExpr | NotEqualsExpr | LessEqualsExpr | LessExpr | GreaterEqualsExpr | GreaterExpr
+                                | InExpr | IsExpr
+
+InExpr ::= Expression IN_KEYWORD Expression
+IsExpr ::= Expression IS_KEYWORD Expression
 
 EqualsExpr ::= Expression EQEQ Expression
 NotEqualsExpr ::= Expression NE Expression
@@ -244,12 +251,8 @@ private ArrayExpr ::= LB (ParameterStatement) RB
 
 LiteralStatement ::= (number|string)
 
-VariableStatement ::= LET_KEYWORD IDENTIFIER EQ ConditionalExpression (DOT_COMMA?)
+VariableStatement ::= LET_KEYWORD IDENTIFIER EQ Expression (DOT_COMMA?)
 
 NullStatement ::= NULL_KEYWORD
-
-BooleanOperator ::= (PathOperator|OROR|ANDAND|LT|LE|GT|GE|IN_KEYWORD|IS_KEYWORD)
-
-PathOperator ::= (EQEQ|NE)
 
 BooleanStatement ::= (TRUE_KEYWORD|FALSE_KEYWORD)
