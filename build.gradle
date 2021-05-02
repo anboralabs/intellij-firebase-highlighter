@@ -4,16 +4,13 @@ plugins {
     id 'java'
     id 'org.jetbrains.intellij' version '0.6.5'
     id 'org.jetbrains.kotlin.jvm' version '1.4.10'
-    id "org.jetbrains.grammarkit" version "2020.3.2"
+    id "org.jetbrains.grammarkit" version "2021.1.2"
 }
 
-grammarKit {
-    jflexRelease = '1.7.0-1'
-    grammarKitRelease = 'f75d0d8'
-}
+apply plugin: 'org.jetbrains.grammarkit'
 
 group 'co.anbora.labs'
-version '2.5.5-SNAPSHOT'
+version '2.5.6-SNAPSHOT'
 
 repositories {
     mavenCentral()
