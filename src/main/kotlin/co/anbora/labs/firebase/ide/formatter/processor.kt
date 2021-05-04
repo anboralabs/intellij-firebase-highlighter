@@ -1,6 +1,7 @@
 package co.anbora.labs.firebase.ide.formatter
 
 import co.anbora.labs.firebase.lang.FirebaseRulesLanguage
+import co.anbora.labs.firebase.lang.core.psi.FirebaseRulesParameterStatement
 import co.anbora.labs.firebase.lang.core.psi.FirebaseRulesTypes.*
 import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
@@ -10,11 +11,14 @@ import com.intellij.psi.tree.IElementType
 
 fun FirebaseFormatterBlock.computeIndent(): Indent? {
     val parent = node.treeParent
+    val psi = node.psi
     return when {
         parent?.treeParent == null -> Indent.getNoneIndent()
         node.areBraces() -> Indent.getNoneIndent()
         node.isBooleanOperator() -> Indent.getNormalIndent()
         parent.isComposeBlock() -> Indent.getNormalIndent()
+        parent.isBooleanExpr() -> Indent.getNormalIndent()
+        parent.isCallExpr() && psi is FirebaseRulesParameterStatement -> Indent.getNormalIndent()
         else -> Indent.getNoneIndent()
     }
 }
@@ -52,7 +56,14 @@ fun createSpacingBuilder(commonSettings: CodeStyleSettings): SpacingBuilder {
         .after(COLON).spacing(1, 1, 0, false, 0)
         .after(IF_KEYWORD).spacing(1, 1, 0, false, 0)
         .after(EXPRESSION).spacing(1, 1, 0, false, 0)
-        .after(BOOLEAN_OPERATOR).spacing(1, 1, 0, false, 0)
+        .after(OROR).spacing(1, 1, 0, false, 0)
+        .after(ANDAND).spacing(1, 1, 0, false, 0)
+        .after(LT).spacing(1, 1, 0, false, 0)
+        .after(GT).spacing(1, 1, 0, false, 0)
+        .after(LE).spacing(1, 1, 0, false, 0)
+        .after(GE).spacing(1, 1, 0, false, 0)
+        .after(EQEQ).spacing(1, 1, 0, false, 0)
+        .after(NE).spacing(1, 1, 0, false, 0)
         .before(DOT_COMMA).spacing(0,0,0,false,0)
 }
 
@@ -64,6 +75,19 @@ fun ASTNode.isBooleanOperator(): Boolean {
     val elementType: IElementType = this.elementType
     return elementType == OROR ||
             elementType == ANDAND
+}
+
+fun ASTNode.isCallExpr(): Boolean {
+    return this.elementType == CALL_EXPR
+}
+
+fun ASTNode.isBooleanExpr(): Boolean {
+    return this.elementType == OR_EXPR
+            || this.elementType == AND_EXPR
+}
+
+fun ASTNode.isParenthesisBlock(): Boolean {
+    return this.elementType == PARENS_EXPR
 }
 
 fun ASTNode.isComposeBlock(): Boolean {
