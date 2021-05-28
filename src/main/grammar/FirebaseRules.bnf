@@ -34,6 +34,7 @@
           COMMA = ','
           EQ = '='
           DOT = '.'
+          Q_MARK = '?'
           DOT_COMMA = ';'
           MODULO         =  '%'
           char = 'regexp:[\n\r\u2028\u2029]'
@@ -189,6 +190,7 @@ Expression ::=
         | LogicalEqExprItem
         | AddExprItem
         | MulExprItem
+        | TernaryExpr
         | NegateExpr
         | AtomExpr
 //{ name="expr" }
@@ -197,6 +199,8 @@ ParensExpr ::= LP Expression RP
 NegateExpr ::= NEGATE Expression
 IndexExpr ::= Expression '[' (RangeExpr|Expression) ']'
 private RangeExpr ::= Expression ':' Expression
+
+TernaryExpr ::= Expression '?' Expression ':' Expression
 
 
 IdentifierExpr ::= IDENTIFIER

@@ -113,6 +113,7 @@ PathBuiltIn=[$][(][a-zA-Z_\-0-9]+[a-zA-Z_\.\-0-9]*[)]
   ">"                { return GT; }
   ">="               { return GE; }
   "!"                { return NEGATE; }
+  "?"                { return Q_MARK; }
 
   "+"                { return PLUS_OP; }
   "-"                { return MINUS_OP; }
