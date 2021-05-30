@@ -1,10 +1,13 @@
 <a href="https://www.buymeacoffee.com/dalgarins" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+
 # intellij-firebase-highlighter
 
 ![Plugin](/images/highlighted.png)
 
 ## What is it?
-intellij-firebase-highlighter is an Intellij plugin for highlighting firebase rules. 
+
+intellij-firebase-highlighter is an Intellij plugin for highlighting firebase
+rules.
 
 ## How to use it?
 
@@ -14,9 +17,11 @@ intellij-firebase-highlighter is an Intellij plugin for highlighting firebase ru
 ### Add plugin to Intellij IDE
 
 - Clone repo
+
 ```sh
 git clone https://github.com/anboralabs/intellij-firebase-highlighter
 ```
+
 ```
 - Find grammar directory
 - FirebaseRules.bnf -> Right click -> Generate Parser Code
@@ -24,11 +29,13 @@ git clone https://github.com/anboralabs/intellij-firebase-highlighter
 ```
 
 - Install from disk
+
 ```
 - Go to https://github.com/anboralabs/intellij-firebase-highlighter/releases/tag/v1.0.0
 - download firebase-syntax-highlighting-1.0-SNAPSHOT.jar
 - Plugins -> Install From disk -> choose the file downloaded
 ```
+
 - Install from plugin store
 
 ![Market Place](/images/market_place.png)
@@ -43,14 +50,16 @@ git clone https://github.com/anboralabs/intellij-firebase-highlighter
 
 ![Color Settings](/images/color_settings.png)
 
-
 ## Credits
+
 The main ideas used here were borrowed from:
+
 - https://github.com/ferronrsmith/intellij-fbp-highlighter
 - https://github.com/lark-parser/intellij-syntax-highlighting
 - https://github.com/klazuka/intellij-elm
 
 ## License
+
 ```
 MIT License
 
