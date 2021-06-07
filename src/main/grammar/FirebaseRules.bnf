@@ -13,7 +13,6 @@
   elementTypeClass="co.anbora.labs.firebase.lang.core.psi.FirebaseElementType"
   tokenTypeClass="co.anbora.labs.firebase.lang.core.psi.FirebaseTokenType"
 
-  extends(".+Expression") = Expression
   extends(".+Expr") = Expression
 
   name(".*Expr")="expr"
@@ -205,7 +204,9 @@ TernaryExpr ::= Expression '?' Expression ':' Expression
 
 IdentifierExpr ::= IDENTIFIER
 DotExpr ::= Expression DOT Expression
-CallExpr ::= Expression '(' ParameterStatement? ')'
+CallExpr ::= Expression CallArguments
+CallArguments ::= '(' ParameterStatement? ')'
+//CallArguments ::= '(' (Expression &(','|')'))? ')' { pin = 1 }
 
 LiteralExpr ::= LiteralStatement
         | BooleanStatement
