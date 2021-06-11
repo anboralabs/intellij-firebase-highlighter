@@ -22,6 +22,10 @@
         <lang.foldingBuilder language="firebase_rules" implementationClass="co.anbora.labs.firebase.ide.folding.RuleFoldingBuilder"/>
         <completion.contributor language="firebase_rules"
                                 implementationClass="co.anbora.labs.firebase.lang.core.completion.FirebaseCompletionContributor"/>
+        <codeStyleSettingsProvider
+                implementation="co.anbora.labs.firebase.ide.style.FirebaseCodeStyleSettingsProvider"/>
+        <langCodeStyleSettingsProvider
+                implementation="co.anbora.labs.firebase.ide.style.FirebaseLanguageCodeStyleSettingProvider"/>
     </extensions>
 
     <actions>
