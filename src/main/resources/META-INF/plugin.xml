@@ -26,6 +26,7 @@
                 implementation="co.anbora.labs.firebase.ide.style.FirebaseCodeStyleSettingsProvider"/>
         <langCodeStyleSettingsProvider
                 implementation="co.anbora.labs.firebase.ide.style.FirebaseLanguageCodeStyleSettingProvider"/>
+        <spellchecker.support language="firebase_rules" implementationClass="co.anbora.labs.firebase.ide.spelling.FirebaseSpellCheckingStrategy"/>
     </extensions>
 
     <actions>
