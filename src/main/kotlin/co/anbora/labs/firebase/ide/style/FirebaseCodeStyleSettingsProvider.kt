@@ -1,7 +1,7 @@
 package co.anbora.labs.firebase.ide.style
 
 import co.anbora.labs.firebase.lang.FirebaseRulesLanguage.LANGUAGE_NAME
-import com.intellij.openapi.options.Configurable
+import com.intellij.psi.codeStyle.CodeStyleConfigurable
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.codeStyle.CodeStyleSettingsProvider
 import com.intellij.psi.codeStyle.CustomCodeStyleSettings
@@ -14,8 +14,8 @@ object FirebaseCodeStyleSettingsProvider: CodeStyleSettingsProvider() {
 
     override fun getConfigurableDisplayName(): String = LANGUAGE_NAME
 
-    override fun createSettingsPage(
+    override fun createConfigurable(
         settings: CodeStyleSettings,
-        originalSettings: CodeStyleSettings?
-    ): Configurable = FirebaseCodeStyleConfigurable(settings, originalSettings)
+        originalSettings: CodeStyleSettings
+    ): CodeStyleConfigurable = FirebaseCodeStyleConfigurable(settings, originalSettings)
 }
