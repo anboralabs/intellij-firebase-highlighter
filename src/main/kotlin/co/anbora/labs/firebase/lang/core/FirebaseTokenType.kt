@@ -1,4 +1,4 @@
-package co.anbora.labs.firebase.lang.core.psi
+package co.anbora.labs.firebase.lang.core
 
 import co.anbora.labs.firebase.lang.FirebaseRulesLanguage
 import co.anbora.labs.firebase.lang.core.psi.FirebaseRulesTypes.BLOCK_COMMENT
