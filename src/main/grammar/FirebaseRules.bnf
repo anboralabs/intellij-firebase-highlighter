@@ -1,17 +1,20 @@
 // Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 {
   parserClass="co.anbora.labs.firebase.lang.core.parser.FirebaseRulesParser"
-  parserUtilClass="co.anbora.labs.firebase.lang.core.parser.FirebaseParserUtil"
-  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
-
   psiClassPrefix="FirebaseRules"
   psiImplClassSuffix="Impl"
+
+  implements="co.anbora.labs.firebase.lang.core.psi.FirebaseElement"
+  extends="co.anbora.labs.firebase.lang.core.psi.FirebaseElementImpl"
+
   psiPackage="co.anbora.labs.firebase.lang.core.psi"
   psiImplPackage="co.anbora.labs.firebase.lang.core.psi.impl"
+  parserUtilClass="co.anbora.labs.firebase.lang.core.parser.FirebaseParserUtil"
 
   elementTypeHolderClass="co.anbora.labs.firebase.lang.core.psi.FirebaseRulesTypes"
-  elementTypeClass="co.anbora.labs.firebase.lang.core.psi.FirebaseElementType"
-  tokenTypeClass="co.anbora.labs.firebase.lang.core.psi.FirebaseTokenType"
+
+  elementTypeClass="co.anbora.labs.firebase.lang.core.FirebaseElementType"
+  tokenTypeClass="co.anbora.labs.firebase.lang.core.FirebaseTokenType"
 
   extends(".+Expr") = Expression
 
