@@ -10,7 +10,7 @@ apply plugin: 'org.jetbrains.grammarkit'
 import org.jetbrains.grammarkit.tasks.*
 
 group 'co.anbora.labs'
-version '2.6.5'
+version '2.6.6'
 
 repositories {
     mavenCentral()

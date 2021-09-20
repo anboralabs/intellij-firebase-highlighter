@@ -146,7 +146,7 @@ BuiltInFunctionStatement ::= (GET_KEYWORD|EXITS_KEYWORD)
 BuiltInTypes ::= LIST_KEYWORD
 
 //Function Definition Begin
-FunctionDef ::= FUNCTION_KEYWORD IDENTIFIER FunctionParameterList FunctionBlock
+FunctionDef ::= FUNCTION_KEYWORD IdentifierExpr FunctionParameterList FunctionBlock
 {
     pin=1
 }
