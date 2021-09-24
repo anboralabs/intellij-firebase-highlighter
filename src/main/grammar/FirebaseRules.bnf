@@ -38,6 +38,7 @@
           DOT = '.'
           Q_MARK = '?'
           DOT_COMMA = ';'
+          WILD_CARD = '=**'
           MODULO         =  '%'
           char = 'regexp:[\n\r\u2028\u2029]'
           LINE_COMMENT='LINE_COMMENT'
@@ -106,10 +107,13 @@ private FullPathStatementItem ::= !('{') SLASH PathStatement {
     pin=1
     recoverWhile=FullPathStatementItem_recover
 }
-private FullPathStatementItem_recover ::= !(SLASH | '{' | IDENTIFIER | PATH_VARIABLE)
+private FullPathStatementItem_recover ::= !(SLASH | '{' | IDENTIFIER | VariableInPath)
 //Match Definition End
 
-PathStatement ::= (DOT? IDENTIFIER|PATH_VARIABLE)
+PathStatement ::= (DOT? IDENTIFIER|VariableInPath)
+VariableInPath ::= PATH_VARIABLE {
+    mixin="co.anbora.labs.firebase.lang.core.psi.mixings.IdentifierMixing"
+}
 
 //Allow Statement Begin
 AllowStatement ::= EmptyAllowStm | ConditionalAllowStm
@@ -205,7 +209,9 @@ private RangeExpr ::= Expression ':' Expression
 TernaryExpr ::= Expression '?' Expression ':' Expression
 
 
-IdentifierExpr ::= IDENTIFIER
+IdentifierExpr ::= IDENTIFIER {
+    mixin="co.anbora.labs.firebase.lang.core.psi.mixings.IdentifierMixing"
+}
 DotExpr ::= Expression DOT Expression
 CallExpr ::= Expression CallArguments
 CallArguments ::= '(' ParameterStatement? ')'
@@ -259,7 +265,7 @@ private ArrayExpr ::= LB (ParameterStatement) RB
 
 LiteralStatement ::= (number|string)
 
-VariableStatement ::= LET_KEYWORD IDENTIFIER EQ Expression (DOT_COMMA?)
+VariableStatement ::= LET_KEYWORD IdentifierExpr EQ Expression (DOT_COMMA?)
 
 NullStatement ::= NULL_KEYWORD
 

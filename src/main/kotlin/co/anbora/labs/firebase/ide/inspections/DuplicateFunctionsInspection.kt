@@ -1,7 +1,6 @@
 package co.anbora.labs.firebase.ide.inspections
 
-import co.anbora.labs.firebase.lang.core.psi.FirebaseFile
-import co.anbora.labs.firebase.lang.core.psi.FirebaseRulesFunctionDef
+import co.anbora.labs.firebase.lang.core.psi.*
 import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
@@ -16,6 +15,7 @@ class DuplicateFunctionsDeclarationInspection : LocalInspectionTool() {
                 super.visitElement(element)
                 when (element) {
                     is FirebaseFile -> checkFunctionSignature(element, holder)
+                    is FirebaseRulesFullPathStatement -> checkPathVariable(element, holder)
                 }
             }
         }
@@ -28,7 +28,22 @@ private fun checkFunctionSignature(element: FirebaseFile, holder: ProblemsHolder
     functions.forEach {
         val key = it.identifierExpr?.text + "_" + it.functionParameterList?.functionParameterList?.size
         mapFunctions.compute(key) { _, v ->
-            if (v != null) holder.registerProblem(it.identifierExpr ?: it, "Duplicate definitions with name `${it.identifierExpr?.text}`", ProblemHighlightType.ERROR)
+            if (v != null) markDuplicate(it.identifierExpr ?: it, holder)
         }
     }
+}
+
+private fun checkPathVariable(element: FirebaseRulesFullPathStatement, holder: ProblemsHolder) {
+    val variables = PsiTreeUtil.collectElementsOfType(element, FirebaseRulesVariableInPath::class.java)
+    val mapPathVariables = HashMap<String, Unit>()
+    variables.forEach {
+        val key = it.text
+        mapPathVariables.compute(key) { _, v ->
+            if (v != null) markDuplicate(it, holder)
+        }
+    }
+}
+
+private fun markDuplicate(element: FirebaseElement, holder: ProblemsHolder) {
+    holder.registerProblem(element, "Duplicate definitions with name `${element.text}`", ProblemHighlightType.ERROR)
 }
