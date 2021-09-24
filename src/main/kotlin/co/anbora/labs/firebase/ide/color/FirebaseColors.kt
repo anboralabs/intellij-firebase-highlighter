@@ -13,7 +13,8 @@ enum class FirebaseColors(humanName: String, default: TextAttributesKey) {
     PATH_AND_STRING("Path and Strings", DefaultLanguageHighlighterColors.STRING),
     COMMENTS("Comments", DefaultLanguageHighlighterColors.LINE_COMMENT),
     CALL_FUNCTION("Functions", DefaultLanguageHighlighterColors.FUNCTION_CALL),
-    NUMBERS("Numbers", DefaultLanguageHighlighterColors.NUMBER);
+    NUMBERS("Numbers", DefaultLanguageHighlighterColors.NUMBER),
+    SERVICE_NAME("Service name", DefaultLanguageHighlighterColors.NUMBER);
 
     val textAttributesKey = TextAttributesKey.createTextAttributesKey("co.anbora.labs.firebase.$name", default)
     val attributesDescriptor = AttributesDescriptor(humanName, textAttributesKey)
