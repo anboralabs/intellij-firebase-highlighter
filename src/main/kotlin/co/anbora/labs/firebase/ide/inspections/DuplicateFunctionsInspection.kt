@@ -8,7 +8,6 @@ import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.util.PsiTreeUtil
-import java.util.function.BiFunction
 
 class DuplicateFunctionsDeclarationInspection : LocalInspectionTool() {
     override fun buildVisitor(holder: ProblemsHolder, isOnTheFly: Boolean): PsiElementVisitor {
@@ -28,7 +27,7 @@ private fun checkFunctionSignature(element: FirebaseFile, holder: ProblemsHolder
     val mapFunctions = HashMap<String, Unit>()
     functions.forEach {
         val key = it.identifierExpr?.text + "_" + it.functionParameterList?.functionParameterList?.size
-        mapFunctions.compute(key) { k, v ->
+        mapFunctions.compute(key) { _, v ->
             if (v != null) holder.registerProblem(it.identifierExpr ?: it, "Duplicate definitions with name `${it.identifierExpr?.text}`", ProblemHighlightType.ERROR)
         }
     }
