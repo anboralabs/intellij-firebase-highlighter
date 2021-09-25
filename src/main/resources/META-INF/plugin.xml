@@ -17,6 +17,7 @@
                                        implementationClass="co.anbora.labs.firebase.ide.highlight.FirebaseSyntaxHighlighterFactory"/>
         <colorSettingsPage implementation="co.anbora.labs.firebase.ide.color.FirebaseColorSettingPage"/>
         <lang.commenter language="firebase_rules" implementationClass="co.anbora.labs.firebase.ide.commenter.FirebaseCommenter"/>
+        <quoteHandler fileType="firebase_rules" className="co.anbora.labs.firebase.ide.editor.FirebaseQuoteHandler"/>
         <lang.formatter language="firebase_rules" implementationClass="co.anbora.labs.firebase.ide.formatter.FirebaseFormattingModelBuilder"/>
         <lang.braceMatcher language="firebase_rules" implementationClass="co.anbora.labs.firebase.ide.typing.FirebasePairedBraceMatcher"/>
         <lang.foldingBuilder language="firebase_rules" implementationClass="co.anbora.labs.firebase.ide.folding.RuleFoldingBuilder"/>
@@ -27,6 +28,16 @@
         <langCodeStyleSettingsProvider
                 implementation="co.anbora.labs.firebase.ide.style.FirebaseLanguageCodeStyleSettingProvider"/>
         <spellchecker.support language="firebase_rules" implementationClass="co.anbora.labs.firebase.ide.spelling.FirebaseSpellCheckingStrategy"/>
+
+        <localInspection language="firebase_rules" groupName="Firebase"
+                         displayName="Weak rules"
+                         enabledByDefault="true" level="WARNING"
+                         implementationClass="co.anbora.labs.firebase.ide.inspections.FirebaseWeakRulesInspection"/>
+
+        <localInspection language="firebase_rules" groupName="Firebase"
+                         displayName="Conflicting declarations"
+                         enabledByDefault="true" level="ERROR"
+                         implementationClass="co.anbora.labs.firebase.ide.inspections.DuplicateFunctionsDeclarationInspection"/>
     </extensions>
 
     <actions>
