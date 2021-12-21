@@ -1,5 +1,6 @@
 package co.anbora.labs.firebase.ide.color
 
+import com.intellij.lang.annotation.HighlightSeverity
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors
 import com.intellij.openapi.editor.HighlighterColors
 import com.intellij.openapi.editor.colors.TextAttributesKey
@@ -18,4 +19,5 @@ enum class FirebaseColors(humanName: String, default: TextAttributesKey) {
 
     val textAttributesKey = TextAttributesKey.createTextAttributesKey("co.anbora.labs.firebase.$name", default)
     val attributesDescriptor = AttributesDescriptor(humanName, textAttributesKey)
+    val testSeverity: HighlightSeverity = HighlightSeverity(name, HighlightSeverity.INFORMATION.myVal)
 }

@@ -43,6 +43,14 @@
           char = 'regexp:[\n\r\u2028\u2029]'
           LINE_COMMENT='LINE_COMMENT'
           BLOCK_COMMENT='BLOCK_COMMENT'
+          EXITS_KEYWORD   = 'exists_kw'
+          GET_KEYWORD     = 'get_kw'
+          READ_KEYWORD    = 'read_kw'
+          WRITE_KEYWORD   = 'write_kw'
+          LIST_KEYWORD    = 'list_kw'
+          CREATE_KEYWORD  = 'create_kw'
+          UPDATE_KEYWORD  = 'update_kw'
+          DELETE_KEYWORD  = 'delete_kw'
       ]
 
 }
@@ -120,8 +128,16 @@ AllowStatement ::= EmptyAllowStm | ConditionalAllowStm
 private EmptyAllowStm ::= ALLOW_KEYWORD PermissionStatement DOT_COMMA
 private ConditionalAllowStm ::= ALLOW_KEYWORD PermissionStatement COLON ConditionalStatement DOT_COMMA
 
-PermissionKeyWord ::= (GET_KEYWORD | READ_KEYWORD | WRITE_KEYWORD | LIST_KEYWORD
-                            | CREATE_KEYWORD | UPDATE_KEYWORD | DELETE_KEYWORD)
+private get ::= <<getKeyword>>
+private read ::= <<readKeyword>>
+private write ::= <<writeKeyword>>
+private list ::= <<listKeyword>>
+private create ::= <<createKeyword>>
+private update ::= <<updateKeyword>>
+private delete ::= <<deleteKeyword>>
+
+PermissionKeyWord ::= (get | read | write | list
+                            | create | update | delete)
 
 PermissionStatement ::= PermissionStatementItem+
 {
@@ -131,8 +147,8 @@ private PermissionStatementItem ::= !(':'|';') PermissionKeyWord (',' | &(':'|';
     pin=1
     recoverWhile=Permission_recover
 }
-private Permission_recover ::= !(':' |';' | GET_KEYWORD | READ_KEYWORD | WRITE_KEYWORD | LIST_KEYWORD
-                                     | CREATE_KEYWORD | UPDATE_KEYWORD | DELETE_KEYWORD)
+private Permission_recover ::= !(':' |';' | get | read | write | list
+                                     | create | update | delete)
 
 ConditionalStatement ::= IF_KEYWORD ConditionalBlock {
     pin=1
@@ -145,9 +161,8 @@ FullBuiltInParameterStatement ::= (SLASH PathBuiltInParameterStatement)+
 
 PathBuiltInParameterStatement ::= (DOT? IDENTIFIER|PATH_BUILT_IN)
 
-BuiltInFunctionStatement ::= (GET_KEYWORD|EXITS_KEYWORD)
-
-BuiltInTypes ::= LIST_KEYWORD
+private existsFunction ::= <<existsFunction>>
+private getFunction ::= <<getFunction>>
 
 //Function Definition Begin
 FunctionDef ::= FUNCTION_KEYWORD IdentifierExpr FunctionParameterList FunctionBlock
@@ -208,11 +223,10 @@ private RangeExpr ::= Expression ':' Expression
 
 TernaryExpr ::= Expression '?' Expression ':' Expression
 
-
 IdentifierExpr ::= IDENTIFIER {
     mixin="co.anbora.labs.firebase.lang.core.psi.mixings.IdentifierMixing"
 }
-DotExpr ::= Expression DOT Expression
+DotExpr ::= Expression DOT AtomExpr
 CallExpr ::= Expression CallArguments
 CallArguments ::= '(' ParameterStatement? ')'
 //CallArguments ::= '(' (Expression &(','|')'))? ')' { pin = 1 }
@@ -220,8 +234,6 @@ CallArguments ::= '(' ParameterStatement? ')'
 LiteralExpr ::= LiteralStatement
         | BooleanStatement
         | NullStatement
-        | BuiltInFunctionStatement
-        | BuiltInTypes
         | IdentifierExpr
         | FullBuiltInParameterStatement
 

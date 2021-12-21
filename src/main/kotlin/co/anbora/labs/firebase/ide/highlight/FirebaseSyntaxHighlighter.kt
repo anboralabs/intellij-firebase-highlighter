@@ -22,9 +22,6 @@ class FirebaseSyntaxHighlighter: SyntaxHighlighterBase() {
                         TRUE_KEYWORD, FALSE_KEYWORD, NULL_KEYWORD,
                         IF_KEYWORD, FUNCTION_KEYWORD, RETURN_KEYWORD,
                         IN_KEYWORD, LET_KEYWORD, IS_KEYWORD -> FirebaseColors.KEY_WORD
-                    GET_KEYWORD, READ_KEYWORD, WRITE_KEYWORD,
-                        LIST_KEYWORD, CREATE_KEYWORD, UPDATE_KEYWORD,
-                        DELETE_KEYWORD, EXITS_KEYWORD -> FirebaseColors.PERMISSIONS
                     PATH_VARIABLE, PATH_BUILT_IN, STRING, VERSIONS -> FirebaseColors.PATH_AND_STRING
                     LINE_COMMENT, BLOCK_COMMENT -> FirebaseColors.COMMENTS
                     CALL_EXPR -> FirebaseColors.CALL_FUNCTION
