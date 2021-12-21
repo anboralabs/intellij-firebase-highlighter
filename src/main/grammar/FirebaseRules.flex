@@ -95,14 +95,14 @@ PathBuiltIn=[$][(][a-zA-Z_\-0-9]+[a-zA-Z_\.\-0-9]*[)]
   "function"         { return FUNCTION_KEYWORD; }
   "return"           { return RETURN_KEYWORD; }
 
-  "exists"           { return EXITS_KEYWORD; }
+  /*"exists"           { return EXITS_KEYWORD; }
   "get"              { return GET_KEYWORD; }
   "read"             { return READ_KEYWORD; }
   "write"            { return WRITE_KEYWORD; }
   "list"             { return LIST_KEYWORD; }
   "create"           { return CREATE_KEYWORD; }
   "update"           { return UPDATE_KEYWORD; }
-  "delete"           { return DELETE_KEYWORD; }
+  "delete"           { return DELETE_KEYWORD; }*/
 
   "=="               { return EQEQ; }
   "!="               { return NE; }

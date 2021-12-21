@@ -29,6 +29,9 @@
                 implementation="co.anbora.labs.firebase.ide.style.FirebaseLanguageCodeStyleSettingProvider"/>
         <spellchecker.support language="firebase_rules" implementationClass="co.anbora.labs.firebase.ide.spelling.FirebaseSpellCheckingStrategy"/>
 
+        <annotator language="firebase_rules"
+                   implementationClass="co.anbora.labs.firebase.ide.annotator.HighlightingAnnotator"/>
+
         <localInspection language="firebase_rules" groupName="Firebase"
                          displayName="Weak rules"
                          enabledByDefault="true" level="WARNING"
