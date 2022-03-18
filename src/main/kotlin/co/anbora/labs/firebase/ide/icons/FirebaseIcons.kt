@@ -8,6 +8,6 @@ object FirebaseIcons {
     val FILE = getIcon("icon_file.svg")
 
     private fun getIcon(path: String): Icon {
-        return IconLoader.findIcon("/icons/$path") as Icon
+        return IconLoader.findIcon("/icons/$path", FirebaseIcons::class.java.classLoader) as Icon
     }
 }
