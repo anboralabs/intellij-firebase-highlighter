@@ -191,11 +191,12 @@ FunctionBlock ::= LEFT_BRACE FunctionBlockItems RIGHT_BRACE
 {
     pin = 1
 }
-private FunctionBlockItems ::= !('}' | <<eof>>) VariableStatement* ReturnStatement
+private FunctionBlockItems ::= VariableStatement*
+                               ReturnStatement
 {
-    pin = 1
-    recoverWhile = Item_recover
+    recoverWhile = FunctionBlock_recover
 }
+private FunctionBlock_recover ::= !('}' | <<eof>>)
 //Function Definition Ends
 
 ParameterStatement ::= Expression(COMMA Expression)*
@@ -231,6 +232,23 @@ CallExpr ::= Expression CallArguments
 CallArguments ::= '(' ParameterStatement? ')'
 //CallArguments ::= '(' (Expression &(','|')'))? ')' { pin = 1 }
 
+StructLiteralExpr ::= '{' StructLiteralField_with_recover* '}' { pin = 1 }
+
+private StructLiteralField_with_recover ::= !'}' StructLiteralField (',' | &'}')
+{
+    pin = 1
+    recoverWhile = StructLiteralField_recover
+}
+private StructLiteralField_recover ::= !('}' | IDENTIFIER)
+
+StructLiteralField ::= LiteralExpr StructLiteralFieldAssignment?
+{
+    pin = 1
+}
+
+//private StructLiteralExprField_recover ::= !(',' | '}')
+StructLiteralFieldAssignment ::= ':' Expression { pin = 1 }
+
 LiteralExpr ::= LiteralStatement
         | BooleanStatement
         | NullStatement
@@ -241,6 +259,7 @@ private AtomExpr ::=
         ArrayLiteralExpr
         | CallExpr
         | ParensExpr
+        | StructLiteralExpr
         | IndexExpr
         | DotExpr
         | LiteralExpr
@@ -277,7 +296,7 @@ private ArrayExpr ::= LB (ParameterStatement) RB
 
 LiteralStatement ::= (number|string)
 
-VariableStatement ::= LET_KEYWORD IdentifierExpr EQ Expression (DOT_COMMA?)
+VariableStatement ::= LET_KEYWORD IdentifierExpr EQ Expression (DOT_COMMA?) { pin = 1 }
 
 NullStatement ::= NULL_KEYWORD
 
