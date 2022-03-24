@@ -26,7 +26,7 @@ class FirebaseSyntaxHighlighter: SyntaxHighlighterBase() {
                     LINE_COMMENT, BLOCK_COMMENT -> FirebaseColors.COMMENTS
                     CALL_EXPR -> FirebaseColors.CALL_FUNCTION
                     NUMBER -> FirebaseColors.NUMBERS
-                    SERVICE_NAME -> FirebaseColors.NUMBERS
+                    SERVICE_NAME -> FirebaseColors.SERVICE_NAME
                     TokenType.BAD_CHARACTER -> FirebaseColors.BAD_CHAR
                     else -> null
                 }
