@@ -157,7 +157,11 @@ ConditionalStatement ::= IF_KEYWORD ConditionalBlock {
 ConditionalBlock ::= Expression
 //Allow Statement End
 
-FullBuiltInParameterStatement ::= (SLASH PathBuiltInParameterStatement)+
+FullBuiltInParameterStatement ::= PathBuiltInItem+
+
+private PathBuiltInItem ::= SLASH PathBuiltInParameterStatement {
+    pin="SLASH"
+}
 
 PathBuiltInParameterStatement ::= (DOT? IDENTIFIER|PATH_BUILT_IN)
 
