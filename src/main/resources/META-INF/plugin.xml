@@ -2,6 +2,8 @@
     <id>co.anbora.labs.firebase-syntax-highlighting</id>
     <name>Firebase Rules Syntax Highlighter</name>
     <vendor email="anboralabs@gmail.com" url="https://labs.anbora.co">Anbora-labs</vendor>
+    <!-- TODO reminder: update the release-date and pluginVersion on new release, but change the release-version on new year only -->
+    <product-descriptor code="PFIREHIGHLIGHT" release-date="20220325" release-version="20221"/>
 
     <!-- please see https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
          on how to target different products -->
