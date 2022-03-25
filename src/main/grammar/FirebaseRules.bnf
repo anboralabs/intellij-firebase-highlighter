@@ -161,9 +161,6 @@ FullBuiltInParameterStatement ::= (SLASH PathBuiltInParameterStatement)+
 
 PathBuiltInParameterStatement ::= (DOT? IDENTIFIER|PATH_BUILT_IN)
 
-private existsFunction ::= <<existsFunction>>
-private getFunction ::= <<getFunction>>
-
 //Function Definition Begin
 FunctionDef ::= FUNCTION_KEYWORD IdentifierExpr FunctionParameterList FunctionBlock
 {
