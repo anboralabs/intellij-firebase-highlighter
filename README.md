@@ -1,6 +1,18 @@
-<a href="https://www.buymeacoffee.com/dalgarins" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+:rocket: With release 2022.1.1, Firebase Rules Syntax Highlighter is now a paid plugin: 5$/year (or 0.5$/month). Price decreases over time, and it's free for students, teachers and OSS developers. If you don't want to (or can't) support my work, feel free to use previous releases. You can also package your own version of the plugin and install it for free, it's still free (MIT license) and OpenSource. You only have to pay if you want to download and use my version of the plugin that is hosted on the JetBrains marketplace. I think it's a way to support my work. If you have questions about this, please read the [FAQ](./FAQ.md).
 
-# intellij-firebase-highlighter
+<h1 align="center">
+    <a href="https://plugins.jetbrains.com/plugin/15189-firebase-rules-syntax-highlighter">
+      <img src="./src/main/resources/META-INF/pluginIcon.svg" width="84" height="84" alt="logo"/>
+    </a><br/>
+    Firebase Rules Syntax Highlighter
+</h1>
+
+<p align="center">
+    <a href="https://plugins.jetbrains.com/plugin/11058-extra-icons"><img src="https://img.shields.io/jetbrains/plugin/v/15189-firebase-rules-syntax-highlighter.svg"/></a>
+    <a href="https://plugins.jetbrains.com/plugin/11058-extra-icons"><img src="https://img.shields.io/jetbrains/plugin/d/15189-firebase-rules-syntax-highlighter.svg"/></a>
+    <a href="https://github.com/anboralabs/intellij-firebase-highlighter/blob/master/LICENSE.txt"><img src="https://img.shields.io/github/license/anboralabs/intellij-firebase-highlighter"/></a>
+    <a href="https://github.com/anboralabs/intellij-firebase-highlighter/stargazers"><img src="https://img.shields.io/github/stars/anboralabs/intellij-firebase-highlighter"/></a><br>
+</p>
 
 ![Plugin](/images/highlighted.png)
 
@@ -57,6 +69,8 @@ The main ideas used here were borrowed from:
 - https://github.com/ferronrsmith/intellij-fbp-highlighter
 - https://github.com/lark-parser/intellij-syntax-highlighting
 - https://github.com/klazuka/intellij-elm
+- https://github.com/pontem-network/intellij-move
+- https://github.com/jonathanlermitage/intellij-extra-icons-plugin
 
 ## License
 
