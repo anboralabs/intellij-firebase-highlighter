@@ -8,8 +8,8 @@
 </h1>
 
 <p align="center">
-    <a href="https://plugins.jetbrains.com/plugin/11058-extra-icons"><img src="https://img.shields.io/jetbrains/plugin/v/15189-firebase-rules-syntax-highlighter.svg"/></a>
-    <a href="https://plugins.jetbrains.com/plugin/11058-extra-icons"><img src="https://img.shields.io/jetbrains/plugin/d/15189-firebase-rules-syntax-highlighter.svg"/></a>
+    <a href="https://plugins.jetbrains.com/plugin/15189-firebase-rules-syntax-highlighter"><img src="https://img.shields.io/jetbrains/plugin/v/15189-firebase-rules-syntax-highlighter.svg"/></a>
+    <a href="https://plugins.jetbrains.com/plugin/15189-firebase-rules-syntax-highlighter"><img src="https://img.shields.io/jetbrains/plugin/d/15189-firebase-rules-syntax-highlighter.svg"/></a>
     <a href="https://github.com/anboralabs/intellij-firebase-highlighter/blob/master/LICENSE.txt"><img src="https://img.shields.io/github/license/anboralabs/intellij-firebase-highlighter"/></a>
     <a href="https://github.com/anboralabs/intellij-firebase-highlighter/stargazers"><img src="https://img.shields.io/github/stars/anboralabs/intellij-firebase-highlighter"/></a><br>
 </p>
