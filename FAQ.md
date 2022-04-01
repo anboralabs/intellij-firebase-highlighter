@@ -16,8 +16,8 @@ licenses for you.
 Please note a coupon is not an activation code, it's a bit weird. You need to
 hit the "Buy" button (monthly or yearly subscription, it doesn't matter), then
 enter the coupon code. The form will now say you will get a 9-months license at
-no cost.
-You can activate your coupons when you want, they have no expiration date.
+no cost. You can activate your coupons when you want, they have no expiration
+date.
 
 ## Extra Notes
 
