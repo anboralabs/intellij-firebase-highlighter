@@ -192,9 +192,9 @@ FunctionBlock ::= LEFT_BRACE FunctionBlockItems RIGHT_BRACE
 {
     pin = 1
 }
-private FunctionBlockItems ::= VariableStatement*
-                               ReturnStatement
+private FunctionBlockItems ::= !('}' | <<eof>>) VariableStatement* ReturnStatement
 {
+    pin=1
     recoverWhile = FunctionBlock_recover
 }
 private FunctionBlock_recover ::= !('}' | <<eof>>)
