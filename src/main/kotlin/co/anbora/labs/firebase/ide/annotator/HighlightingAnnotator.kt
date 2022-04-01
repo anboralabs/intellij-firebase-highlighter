@@ -1,11 +1,8 @@
 package co.anbora.labs.firebase.ide.annotator
 
 import co.anbora.labs.firebase.ide.color.FirebaseColors
-import co.anbora.labs.firebase.lang.core.psi.FirebaseElement
 import co.anbora.labs.firebase.lang.core.psi.FirebaseRulesCallExpr
 import co.anbora.labs.firebase.lang.core.psi.FirebaseRulesIdentifierExpr
-import co.anbora.labs.firebase.lang.core.psi.FirebaseRulesLiteralExpr
-import co.anbora.labs.firebase.lang.core.psi.FirebaseRulesTypes.IDENTIFIER
 import co.anbora.labs.firebase.lang.core.psi.ext.elementType
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator

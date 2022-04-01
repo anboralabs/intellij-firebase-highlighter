@@ -18,15 +18,20 @@ class FirebaseSyntaxHighlighter: SyntaxHighlighterBase() {
     companion object {
         fun map(tokenType: IElementType?): FirebaseColors? =
                 when (tokenType) {
-                    RULES_VERSION, DOT_COMMA, SERVICE_KEYWORD, MATCH_KEYWORD, ALLOW_KEYWORD,
+                    RULES_VERSION, SERVICE_KEYWORD, MATCH_KEYWORD, ALLOW_KEYWORD,
                         TRUE_KEYWORD, FALSE_KEYWORD, NULL_KEYWORD,
                         IF_KEYWORD, FUNCTION_KEYWORD, RETURN_KEYWORD,
                         IN_KEYWORD, LET_KEYWORD, IS_KEYWORD -> FirebaseColors.KEY_WORD
-                    PATH_VARIABLE, PATH_BUILT_IN, STRING, VERSIONS -> FirebaseColors.PATH_AND_STRING
+                    DOT_COMMA -> FirebaseColors.SEMICOLON
+                    DOT -> FirebaseColors.DOT
+                    COMMA -> FirebaseColors.COMMA
+                    PATH_VARIABLE -> FirebaseColors.PATH_VARIABLE
+                    PATH_BUILT_IN -> FirebaseColors.PATH_BUILT_IN
+                    VERSIONS, STRING -> FirebaseColors.STRINGS
                     LINE_COMMENT, BLOCK_COMMENT -> FirebaseColors.COMMENTS
                     CALL_EXPR -> FirebaseColors.CALL_FUNCTION
                     NUMBER -> FirebaseColors.NUMBERS
-                    SERVICE_NAME -> FirebaseColors.NUMBERS
+                    SERVICE_NAME -> FirebaseColors.SERVICE_NAME
                     TokenType.BAD_CHARACTER -> FirebaseColors.BAD_CHAR
                     else -> null
                 }
