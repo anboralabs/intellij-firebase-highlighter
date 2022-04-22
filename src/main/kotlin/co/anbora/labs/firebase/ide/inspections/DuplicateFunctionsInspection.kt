@@ -14,15 +14,15 @@ class DuplicateFunctionsDeclarationInspection : LocalInspectionTool() {
             override fun visitElement(element: PsiElement) {
                 super.visitElement(element)
                 when (element) {
-                    is FirebaseFile -> checkFunctionSignature(element, holder)
-                    is FirebaseRulesFullPathStatement -> checkPathVariable(element, holder)
+                    //is FirebaseFile -> checkFunctionSignature(element, holder)
+                    //is FirebaseRulesFullPathStatement -> checkPathVariable(element, holder)
                 }
             }
         }
     }
 }
 
-private fun checkFunctionSignature(element: FirebaseFile, holder: ProblemsHolder) {
+/*private fun checkFunctionSignature(element: FirebaseFile, holder: ProblemsHolder) {
     val functions = PsiTreeUtil.collectElementsOfType(element, FirebaseRulesFunctionDef::class.java)
     val mapFunctions = HashMap<String, Unit>()
     functions.forEach {
@@ -46,4 +46,4 @@ private fun checkPathVariable(element: FirebaseRulesFullPathStatement, holder: P
 
 private fun markDuplicate(element: FirebaseElement, holder: ProblemsHolder) {
     holder.registerProblem(element, "Duplicate definitions with name `${element.text}`", ProblemHighlightType.ERROR)
-}
+}*/

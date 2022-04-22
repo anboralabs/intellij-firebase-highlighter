@@ -3,7 +3,7 @@ package co.anbora.labs.firebase.ide.formatter.impl
 import co.anbora.labs.firebase.ide.formatter.FirebaseFmtContext
 import co.anbora.labs.firebase.ide.formatter.FirebaseFormatterBlock
 import co.anbora.labs.firebase.lang.FirebaseRulesLanguage
-import co.anbora.labs.firebase.lang.core.psi.FirebaseRulesTypes.*
+import co.anbora.labs.firebase.lang.core.psi.FireRulesTypes.*
 import com.intellij.formatting.Block
 import com.intellij.formatting.Spacing
 import com.intellij.formatting.SpacingBuilder
@@ -14,7 +14,7 @@ fun FirebaseFormatterBlock.computeSpacing(child1: Block?, child2: Block, ctx: Fi
 fun createSpacingBuilder(commonSettings: CodeStyleSettings): SpacingBuilder {
     return SpacingBuilder(commonSettings, FirebaseRulesLanguage)
             //Rules Version
-            .after(RULES_VERSION).spacing(1, 1, 0, false, 0)
+            /*.after(RULES_VERSION).spacing(1, 1, 0, false, 0)
             .after(EQ).spacing(1, 1, 0, false, 0)
             .after(VERSIONS).spacing(0,0,0,false,0)
             //Service Statement
@@ -41,5 +41,5 @@ fun createSpacingBuilder(commonSettings: CodeStyleSettings): SpacingBuilder {
             .after(GE).spacing(1, 1, 0, false, 0)
             .after(EQEQ).spacing(1, 1, 0, false, 0)
             .after(NE).spacing(1, 1, 0, false, 0)
-            .before(DOT_COMMA).spacing(0,0,0,false,0)
+            .before(DOT_COMMA).spacing(0,0,0,false,0)*/
 }

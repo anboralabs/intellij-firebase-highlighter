@@ -2,7 +2,7 @@ package co.anbora.labs.firebase.ide.formatter.impl
 
 import co.anbora.labs.firebase.ide.formatter.FirebaseFormatterBlock
 import co.anbora.labs.firebase.lang.core.psi.*
-import co.anbora.labs.firebase.lang.core.psi.FirebaseRulesTypes.CONDITIONAL_BLOCK
+import co.anbora.labs.firebase.lang.core.psi.FireRulesTypes.CONDITION
 import com.intellij.formatting.Indent
 import com.intellij.lang.ASTNode
 
@@ -23,7 +23,7 @@ fun FirebaseFormatterBlock.computeIndent(child: ASTNode): Indent? {
         // except if RefExpr as lhs of assignment expr
 //        childPsi is MoveExpr
 //                && (parentType == LET_EXPR || parentType == ASSIGNMENT_EXPR || parentType == CONST_DEF) -> Indent.getNormalIndent()
-        childPsi is FirebaseRulesExpression
+        /*childPsi is FirebaseRulesExpression
                 && parentPsi is FirebaseRulesVariableStatement -> Indent.getNormalIndent()
 
         childPsi is FirebaseRulesConditionalBlock
@@ -31,19 +31,19 @@ fun FirebaseFormatterBlock.computeIndent(child: ASTNode): Indent? {
 
         childPsi is FirebaseRulesConditionalStatement -> Indent.getNormalIndent()
 
-        childPsi is FirebaseRulesConditionalBlock -> Indent.getNormalIndent()
+        childPsi is FirebaseRulesConditionalBlock -> Indent.getNormalIndent()*/
 //        if (true)
 //            create()
 //        else
 //            delete()
-        parentPsi is FirebaseRulesServiceBlock
+        /*parentPsi is FirebaseRulesServiceBlock
                 || parentPsi is FirebaseRulesMatchBlock
                 || parentPsi is FirebaseRulesFunctionBlock
-                || parentPsi is FirebaseRulesReturnBlock -> Indent.getNormalIndent()
+                || parentPsi is FirebaseRulesReturnBlock -> Indent.getNormalIndent()*/
 
         // binary expressions, chain calls
         // no indent on it's own, use parent indent
-        parentPsi is FirebaseRulesExpression -> Indent.getIndent(Indent.Type.NONE, true, true)
+        //parentPsi is FirebaseRulesExpression -> Indent.getIndent(Indent.Type.NONE, true, true)
 
         else -> Indent.getNoneIndent()
     }
@@ -53,7 +53,7 @@ fun getNormalIndentIfNotCurrentBlockDelimiter(child: ASTNode, parent: ASTNode): 
     if (child.isDelimiterOfCurrentBlock(parent)) {
         Indent.getNoneIndent()
     } else {
-        if (parent.elementType == CONDITIONAL_BLOCK) {
+        if (parent.elementType == CONDITION) {
             Indent.getNoneIndent()
         } else {
             Indent.getNormalIndent()

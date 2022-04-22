@@ -1,10 +1,11 @@
-package co.anbora.labs.firebase.lang.core.parser
+package co.anbora.labs.firebase.lang
 
-import co.anbora.labs.firebase.lang.FirebaseRulesLanguage
 import co.anbora.labs.firebase.lang.core.lexer.FirebaseLexer
 import co.anbora.labs.firebase.lang.core.FIREBASE_COMMENTS
+import co.anbora.labs.firebase.lang.core.FireRuleTokenType
+import co.anbora.labs.firebase.lang.core.parser.FirebaseRulesParser
+import co.anbora.labs.firebase.lang.core.psi.FireRulesTypes
 import co.anbora.labs.firebase.lang.core.psi.FirebaseFile
-import co.anbora.labs.firebase.lang.core.psi.FirebaseRulesTypes
 import com.intellij.lang.ASTNode
 import com.intellij.lang.ParserDefinition
 import com.intellij.lang.PsiParser
@@ -30,7 +31,13 @@ class FirebaseParserDefinition: ParserDefinition {
 
     override fun getStringLiteralElements(): TokenSet = TokenSet.EMPTY
 
-    override fun createElement(node: ASTNode?): PsiElement = FirebaseRulesTypes.Factory.createElement(node)
+    override fun createElement(node: ASTNode?): PsiElement = FireRulesTypes.Factory.createElement(node)
 
     override fun createFile(viewProvider: FileViewProvider): PsiFile = FirebaseFile(viewProvider)
+
+    companion object {
+        @JvmField val BLOCK_COMMENT = FireRuleTokenType("BLOCK_COMMENT")
+        @JvmField val EOL_COMMENT = FireRuleTokenType("EOL_COMMENT")
+        @JvmField val EOL_DOC_COMMENT = FireRuleTokenType("EOL_DOC_COMMENT")
+    }
 }

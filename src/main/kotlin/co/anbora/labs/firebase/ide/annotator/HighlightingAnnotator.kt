@@ -1,8 +1,7 @@
 package co.anbora.labs.firebase.ide.annotator
 
 import co.anbora.labs.firebase.ide.color.FirebaseColors
-import co.anbora.labs.firebase.lang.core.psi.FirebaseRulesCallExpr
-import co.anbora.labs.firebase.lang.core.psi.FirebaseRulesIdentifierExpr
+import co.anbora.labs.firebase.lang.core.psi.FireRulesCallExpr
 import co.anbora.labs.firebase.lang.core.psi.ext.elementType
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
@@ -14,7 +13,7 @@ val BUILTIN_FUNCTIONS = setOf("get", "exists")
 class HighlightingAnnotator: Annotator {
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
         val color = when {
-            element.parent is FirebaseRulesCallExpr -> highlightBuiltInFunctions(element)
+            element.parent is FireRulesCallExpr -> highlightBuiltInFunctions(element)
             element is LeafPsiElement -> highlightLeaf(element)
             else -> null
         } ?: return
@@ -29,10 +28,10 @@ class HighlightingAnnotator: Annotator {
 
     private fun highlightBuiltInFunctions(element: PsiElement): FirebaseColors? {
         val parent = element.parent
-        return if (parent is FirebaseRulesCallExpr) {
-            val name = (element as? FirebaseRulesIdentifierExpr)?.text
+        return if (parent is FireRulesCallExpr) {
+            /*val name = (element as? FirebaseRulesIdentifierExpr)?.text
             if (name != null) FirebaseColors.CALL_FUNCTION
-                else null
+                else*/ null
         } else {
             null
         }

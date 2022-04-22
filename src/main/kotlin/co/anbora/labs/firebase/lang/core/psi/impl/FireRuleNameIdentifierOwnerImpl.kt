@@ -1,11 +1,11 @@
 package co.anbora.labs.firebase.lang.core.psi.impl
 
-import co.anbora.labs.firebase.lang.core.psi.FirebaseNameIdentifierOwner
+import co.anbora.labs.firebase.lang.core.psi.FireRuleNameIdentifierOwner
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 
-abstract class FirebaseNameIdentifierOwnerImpl(
+abstract class FireRuleNameIdentifierOwnerImpl(
     node: ASTNode
-) : FirebaseNamedElementImpl(node), FirebaseNameIdentifierOwner {
+) : FireRuleNamedElementImpl(node), FireRuleNameIdentifierOwner {
     override fun getNameIdentifier(): PsiElement? = nameElement
 }

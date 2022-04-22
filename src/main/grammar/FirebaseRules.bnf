@@ -1,61 +1,352 @@
 // Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 {
   parserClass="co.anbora.labs.firebase.lang.core.parser.FirebaseRulesParser"
-  psiClassPrefix="FirebaseRules"
+  psiClassPrefix="FireRules"
   psiImplClassSuffix="Impl"
 
-  implements="co.anbora.labs.firebase.lang.core.psi.FirebaseElement"
-  extends="co.anbora.labs.firebase.lang.core.psi.FirebaseElementImpl"
+  implements="co.anbora.labs.firebase.lang.core.psi.FireRuleElement"
+  extends="co.anbora.labs.firebase.lang.core.psi.FireRuleElementImpl"
 
   psiPackage="co.anbora.labs.firebase.lang.core.psi"
   psiImplPackage="co.anbora.labs.firebase.lang.core.psi.impl"
-  parserUtilClass="co.anbora.labs.firebase.lang.core.parser.FirebaseParserUtil"
+  parserUtilClass="co.anbora.labs.firebase.lang.core.util.FirebaseParserUtil"
 
-  elementTypeHolderClass="co.anbora.labs.firebase.lang.core.psi.FirebaseRulesTypes"
+  elementTypeHolderClass="co.anbora.labs.firebase.lang.core.psi.FireRulesTypes"
 
-  elementTypeClass="co.anbora.labs.firebase.lang.core.FirebaseElementType"
-  tokenTypeClass="co.anbora.labs.firebase.lang.core.FirebaseTokenType"
+  elementTypeClass="co.anbora.labs.firebase.lang.core.FireRuleElementType"
+  tokenTypeClass="co.anbora.labs.firebase.lang.core.FireRuleTokenType"
 
-  extends(".+Expr") = Expression
-
-  name(".*Expr")="expr"
+  extends(".*Expr")=Expr
+  extends(".*Statement")=Statement
+  name(".*Expr")="expression"
 
   tokens = [
-          WHITE_SPACE='WHITE_SPACE'
-          LP = '('
-          RP = ')'
-          LB = '['
-          RB = ']'
-          LEFT_BRACE = '{'
-          RIGHT_BRACE = '}'
-          number='regexp:\d+(\.\d*)?'
-          string="regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")"
-          SLASH = '/'
-          op = '->'
-          COLON = ':'
-          COMMA = ','
-          EQ = '='
-          DOT = '.'
-          Q_MARK = '?'
-          DOT_COMMA = ';'
-          WILD_CARD = '=**'
-          MODULO         =  '%'
-          char = 'regexp:[\n\r\u2028\u2029]'
-          LINE_COMMENT='LINE_COMMENT'
-          BLOCK_COMMENT='BLOCK_COMMENT'
-          EXITS_KEYWORD   = 'exists_kw'
-          GET_KEYWORD     = 'get_kw'
-          READ_KEYWORD    = 'read_kw'
-          WRITE_KEYWORD   = 'write_kw'
-          LIST_KEYWORD    = 'list_kw'
-          CREATE_KEYWORD  = 'create_kw'
-          UPDATE_KEYWORD  = 'update_kw'
-          DELETE_KEYWORD  = 'delete_kw'
-      ]
+    WHITESPACE='regexp:[ \n\t\r\f]'
+
+    BOOL_LITERAL='regexp:(true)|(false)'
+    NUMBER_LITERAL='regexp:\d+(\.\d*)?'
+    STRING_LITERAL="regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")"
+    PATH_VARIABLE_LITERAL="regexp:\{[_a-zA-Z0-9]+(=\*\*)?}"
+    PATH_BUILT_IN_LITERAL="regexp:\$\([._a-zA-Z0-9]+\)"
+    IDENTIFIER='regexp:[_a-zA-Z0-9]+'
+
+    L_BRACE          =  '{'
+    R_BRACE          =  '}'
+    L_BRACK          =  '['
+    R_BRACK          =  ']'
+    L_PAREN          =  '('
+    R_PAREN          =  ')'
+    COLON_COLON      =  '::'
+    COLON           =  ':'
+    SEMICOLON   =  ';'
+    COMMA       =  ','
+    LT            =  '<'
+    GT         =  '>'
+    AND = '&'
+    OR = '|'
+    EQ_EQ = '=='
+    NOT_EQ = '!='
+    EQ = '='
+    DOT         =  '.'
+
+    EXCL        =  '!'
+    PLUS        =  '+'
+    MINUS       =  '-'
+    XOR         =  '^'
+    MUL         =  '*'
+    DIV         =  '/'
+    MODULO         =  '%'
+    AT         =  '@'
+    HASH         =  '#'
+    Q_MARK       =  '?'
+
+    // Contextual tokens
+    LT_EQ           = '<='
+    LT_LT           = '<<'
+    GT_EQ           = '>='
+    GT_GT           = '>>'
+    OR_OR           = '||'
+    AND_AND         = '&&'
+
+    /*SLASH = '/'
+    op = '->'
+    COLON = ':'
+    COMMA = ','
+    EQ = '='
+    DOT = '.'
+    Q_MARK = '?'
+    DOT_COMMA = ';'
+    WILD_CARD = '=**'
+    MODULO         =  '%'
+    char = 'regexp:[\n\r\u2028\u2029]'
+    LINE_COMMENT='LINE_COMMENT'
+    BLOCK_COMMENT='BLOCK_COMMENT'*/
+
+    RULES_VERSION = 'rules_version_kw'
+
+    NULL = 'null_kw'
+
+    FIRESTORE = 'firestore_kw'
+    STORAGE = 'storage_kw'
+
+    REQUEST  = 'request_kw'
+    RESOURCE = 'resource_kw'
+
+    RETURN  = 'return_kw'
+
+    //Permission keywords
+    EXITS   = 'exists_kw'
+    GET     = 'get_kw'
+    READ    = 'read_kw'
+    WRITE   = 'write_kw'
+    LIST    = 'list_kw'
+    CREATE  = 'create_kw'
+    UPDATE  = 'update_kw'
+    DELETE  = 'delete_kw'
+  ]
 
 }
 
-root ::= !<<eof>> property
+// Naming convention:
+//
+//   * tokens are lowercase: for, if, identifier
+//   * rules are PascalCase: StructItem
+//   * recovery related rules are PascalCase_with_snake_suffix: Item_recover
+
+File ::= (VersionDef? (FunctionDef)* ServiceDef)?
+
+//Rules version definition
+VersionDef ::= rules_version '=' Versions ';'? { pin = 2 }
+
+Versions ::= STRING_LITERAL {
+    mixin = "co.anbora.labs.firebase.lang.core.psi.mixins.FireRuleVersionMixin"
+}
+
+private rules_version ::= <<rulesVersionKeyword>>
+
+//Function Definition
+FunctionDef ::= function IDENTIFIER FunctionParameterList CodeBlock
+{
+    pin = 1
+    implements = [
+        "co.anbora.labs.firebase.lang.core.psi.FireRuleNameIdentifierOwner"
+        "co.anbora.labs.firebase.lang.core.psi.FireRuleParametersOwner"
+    ]
+    mixin = "co.anbora.labs.firebase.lang.core.psi.ext.FireRuleFunctionMixin"
+}
+
+FunctionParameterList ::= '(' FunctionParameter_with_recover* ')' { pin = 1 }
+private FunctionParameter_with_recover ::= !(')' | '{' | ';') FunctionParameter (',' | &')')
+{
+    pin = 1
+    recoverWhile = FunctionParameter_recover
+}
+private FunctionParameter_recover ::= !(')' | '{' | ';' | IDENTIFIER)
+
+FunctionParameter ::= IDENTIFIER {
+    implements = [
+      "co.anbora.labs.firebase.lang.core.psi.FireRuleNameIdentifierOwner"
+    ]
+    mixin = "co.anbora.labs.firebase.lang.core.psi.mixins.FireRuleFunctionParameterMixin"
+}
+
+CodeBlock ::= '{' CodeBlock_items '}' { pin = 1 }
+
+private CodeBlock_items ::= Statement*
+                            ExprStatement_items?
+{
+    recoverWhile = "CodeBlock_items_recover"
+}
+private CodeBlock_items_recover ::= !('}' | <<eof>>)
+
+Statement ::= LetStatement
+
+LetStatement ::= let IDENTIFIER Initializer ';'?
+{
+    pin = 1
+    implements = [
+      "co.anbora.labs.firebase.lang.core.psi.FireRuleNameIdentifierOwner"
+    ]
+    mixin = "co.anbora.labs.firebase.lang.core.psi.mixins.FireRuleLetStatementMixin"
+}
+
+Initializer ::= '=' Expr { pin = 1 }
+
+Expr ::= OrExpr
+       | AndExpr
+       | LogicalEqExprItem
+       | AddExprItem
+       | MulExprItem
+       | ControlFlowExpr
+       | UnaryExpr
+       | AtomExpr
+
+OrExpr ::= Expr oror Expr
+AndExpr ::= Expr andand Expr
+
+private LogicalEqExprItem ::= EqualsExpr | NotEqualsExpr | LessEqualsExpr | LessExpr | GreaterEqualsExpr | GreaterExpr
+                            | IsExpr | InExpr
+
+EqualsExpr ::= Expr '==' Expr
+NotEqualsExpr ::= Expr '!=' Expr
+LessExpr ::= Expr '<' Expr
+GreaterExpr ::= Expr '>' Expr
+LessEqualsExpr ::= Expr lteq Expr
+GreaterEqualsExpr ::= Expr gteq Expr
+
+IsExpr ::= Expr is Type
+InExpr ::= Expr in Expr
+
+Type ::= bool | int | float | number | string | list | map | timestamp | duration | path | latlng
+
+private MulExprItem ::= DivExpr | MulExpr | ModExpr
+private AddExprItem ::= PlusExpr | MinusExpr
+
+MulExpr ::= Expr '*' Expr
+DivExpr ::= Expr '/' Expr
+PlusExpr ::= Expr '+' Expr
+MinusExpr ::= Expr '-' Expr
+ModExpr ::= Expr '%' Expr
+
+private ControlFlowExpr ::= TernaryExpr
+
+TernaryExpr ::= Expr '?' Expr ':' Expr
+
+private UnaryExpr ::= DerefExpr | BangExpr
+
+BangExpr ::= '!' Expr
+DerefExpr ::= '-' Expr
+
+private AtomExpr ::= ArrayLitExpr
+                    | ParensExpr
+                    | StructLitExpr
+                    | DotExpr
+                    | IndexExpr
+                    | CallExpr
+                    | LitExpr
+
+ArrayLitExpr ::= '[' <<comma_sep_items (Expr &(','|']'))>>? ']'
+ParensExpr ::= '(' Expr !':' ')'
+
+StructLitExpr ::= '{' StructLitField_with_recover* '}' { pin = 1 }
+private StructLitField_with_recover ::= !'}' StructLitField (',' | &'}')
+{
+    pin = 1
+    recoverWhile = StructLitField_recover
+}
+private StructLitField_recover ::= !('}' | IDENTIFIER)
+
+StructLitField ::= LitExpr StructLitFieldInit?
+{
+    //implements = ["co.anbora.labs.firebase.lang.core.psi.resolve.FireRuleStructFieldLitReferenceElement"]
+    //mixin = "co.anbora.labs.firebase.lang.core.psi.ext.FireRuleStructLitFieldMixin"
+}
+
+private StructLitFieldInit ::= ':' Expr { pin = 1 }
+
+DotExpr ::= Expr '.' StructFieldRef
+StructFieldRef ::= IDENTIFIER
+{
+    //implements = ["co.anbora.labs.firebase.lang.core.psi.resolve.FireRuleStructFieldReferenceElement"]
+    //mixin = "co.anbora.labs.firebase.lang.core.psi.ext.FireRuleStructFieldRefMixin"
+}
+
+IndexExpr ::= Expr IndexArg
+// Do not inline this rule, it breaks expression parsing
+private IndexArg ::= '[' Expr ']'
+
+CallExpr ::= Expr CallArgumentList
+CallArgumentList ::= '(' <<comma_sep_items (Expr &(','|')'))>>? ')' { pin = 1 }
+
+private null ::= <<nullKeyword>>
+
+LitExpr ::= BOOL_LITERAL
+            | NUMBER_LITERAL
+            | STRING_LITERAL
+            | null
+            | IDENTIFIER
+            //path-built-in
+
+// top-level recovery
+private Item_first ::= function | match | service | allow
+private Item_recover ::= !('}' | <<eof>> | Item_first)
+
+//Service definition
+private firestore ::= <<firestoreKeyword>>
+private storage ::= <<storageKeyword>>
+
+ServiceName ::= firestore | storage
+
+ServiceDef ::= service ServiceName ServiceBlock { pin=1 }
+
+ServiceBlock ::= '{' ServiceBlockItems '}' { pin = 1 }
+
+private ServiceBlockItems ::= !('}' | <<eof>>) ServiceItems+
+{
+    pin=1
+    recoverWhile=Item_recover
+}
+private ServiceItems ::= MatchDef | FunctionDef
+
+//Match definition
+MatchDef ::= match FullPathStatement MatchBlock { pin=1 }
+
+FullPathStatement ::= FullPathStatementItem+ { pin=1 }
+
+private FullPathStatementItem ::= !('{') '/' PathStatement {
+    pin=1
+    recoverWhile=FullPathStatementItem_recover
+}
+private FullPathStatementItem_recover ::= !('/' | '{' | IDENTIFIER | PathVar)
+
+PathStatement ::= ('.'? IDENTIFIER | PathVar)
+PathVar ::= PATH_VARIABLE_LITERAL {
+    //implements = ["co.anbora.labs.firebase.lang.core.psi.resolve.FireRulePathVarReferenceElement"]
+    //mixin = "co.anbora.labs.firebase.lang.core.psi.resolve.ref.FireRulePathVarReferenceImpl"
+}
+
+MatchBlock ::= '{' MatchBlockItems '}' { pin=1 }
+private MatchBlockItems ::= !('}' | <<eof>>) MatchItems+ {
+    pin=1
+    recoverWhile=Item_recover
+}
+private MatchItems ::= AllowDef | MatchDef | FunctionDef
+
+AllowDef ::= allow PermissionStatement AllowPredicate? ';' { pin=1 }
+
+PermissionStatement ::= PermissionStatementItem+ { pin=1 }
+private PermissionStatementItem ::= !(':'|';') Permissions (',' | &(':'|';')) {
+    pin=1
+    recoverWhile=Permission_recover
+}
+private get ::= <<getKeyword>>
+private read ::= <<readKeyword>>
+private write ::= <<writeKeyword>>
+private list ::= <<listKeyword>>
+private create ::= <<createKeyword>>
+private update ::= <<updateKeyword>>
+private delete ::= <<deleteKeyword>>
+
+Permissions ::= (get | read | write | list
+                            | create | update | delete)
+
+private Permission_recover ::= !(':' |';' | get | read | write | list
+                                     | create | update | delete)
+
+AllowPredicate ::= ':' IfExpr { pin=1 }
+
+IfExpr ::= if Condition { pin = 1 }
+Condition ::= Expr
+
+//Meta rules
+private gteq   ::= <<gteqImpl>>
+private lteq   ::= <<lteqImpl>>
+private oror   ::= <<ororImpl>>
+private andand ::= <<andandImpl>>
+
+private meta comma_sep_items ::= <<param>> ( ',' <<param>> )* ','?
+
+/*root ::= !<<eof>> property
     {pin=1}
 
 private property ::= RuleVersionDef? (FunctionDef)* ServiceDef {
@@ -120,7 +411,7 @@ private FullPathStatementItem_recover ::= !(SLASH | '{' | IDENTIFIER | VariableI
 
 PathStatement ::= (DOT? IDENTIFIER|VariableInPath)
 VariableInPath ::= PATH_VARIABLE {
-    mixin="co.anbora.labs.firebase.lang.core.psi.mixings.IdentifierMixing"
+    mixin="co.anbora.labs.firebase.lang.core.psi.mixins.IdentifierMixing"
 }
 
 //Allow Statement Begin
@@ -226,7 +517,7 @@ private RangeExpr ::= Expression ':' Expression
 TernaryExpr ::= Expression '?' Expression ':' Expression
 
 IdentifierExpr ::= IDENTIFIER {
-    mixin="co.anbora.labs.firebase.lang.core.psi.mixings.IdentifierMixing"
+    mixin="co.anbora.labs.firebase.lang.core.psi.mixins.IdentifierMixing"
 }
 DotExpr ::= Expression DOT AtomExpr
 CallExpr ::= Expression CallArguments
@@ -301,4 +592,4 @@ VariableStatement ::= LET_KEYWORD IdentifierExpr EQ Expression (DOT_COMMA?) { pi
 
 NullStatement ::= NULL_KEYWORD
 
-BooleanStatement ::= (TRUE_KEYWORD|FALSE_KEYWORD)
+BooleanStatement ::= (TRUE_KEYWORD|FALSE_KEYWORD)*/

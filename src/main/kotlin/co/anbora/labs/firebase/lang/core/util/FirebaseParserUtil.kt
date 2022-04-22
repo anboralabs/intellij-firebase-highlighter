@@ -1,22 +1,17 @@
-package co.anbora.labs.firebase.lang.core.parser
+package co.anbora.labs.firebase.lang.core.util
 
-import co.anbora.labs.firebase.lang.core.psi.FirebaseRulesTypes.*
+import co.anbora.labs.firebase.lang.core.psi.FireRulesTypes.*
 import co.anbora.labs.firebase.lang.core.tokenSetOf
 import com.intellij.lang.PsiBuilder
+import com.intellij.lang.PsiBuilderUtil
 import com.intellij.lang.parser.GeneratedParserUtilBase
 import com.intellij.psi.tree.IElementType
 
 @Suppress("UNUSED_PARAMETER")
 object FirebaseParserUtil : GeneratedParserUtilBase() {
 
-    /*@JvmStatic
-    fun gtgtImpl(b: PsiBuilder, level: Int): Boolean = collapse(b, GT_GT, GT, GT)
-
     @JvmStatic
     fun gteqImpl(b: PsiBuilder, level: Int): Boolean = collapse(b, GT_EQ, GT, EQ)
-
-    @JvmStatic
-    fun ltltImpl(b: PsiBuilder, level: Int): Boolean = collapse(b, LT_LT, LT, LT)
 
     @JvmStatic
     fun lteqImpl(b: PsiBuilder, level: Int): Boolean = collapse(b, LT_EQ, LT, EQ)
@@ -26,12 +21,6 @@ object FirebaseParserUtil : GeneratedParserUtilBase() {
 
     @JvmStatic
     fun andandImpl(b: PsiBuilder, level: Int): Boolean = collapse(b, AND_AND, AND, AND)
-
-    @JvmStatic
-    fun eqeqgtImpl(b: PsiBuilder, level: Int): Boolean = collapse(b, EQ_EQ_GT, EQ_EQ, GT)
-
-    @JvmStatic
-    fun lteqeqgtImpl(b: PsiBuilder, level: Int): Boolean = collapse(b, LT_EQ_EQ_GT, LT, EQ_EQ, GT)
 
     @JvmStatic
     private fun collapse(b: PsiBuilder, tokenType: IElementType, vararg parts: IElementType): Boolean {
@@ -47,7 +36,7 @@ object FirebaseParserUtil : GeneratedParserUtilBase() {
         return true
     }
 
-    @JvmStatic
+    /*@JvmStatic
     fun hexIntegerLiteral(b: PsiBuilder, level: Int): Boolean {
         if (b.tokenType == HEX_INTEGER_LITERAL) {
             b.advanceLexer();
@@ -203,44 +192,60 @@ object FirebaseParserUtil : GeneratedParserUtilBase() {
     @JvmStatic
     fun toKeyword(b: PsiBuilder, level: Int): Boolean = contextualKeyword(b, "to", TO)*/
 
-    private val CALL_EXPR_START_TOKENS = tokenSetOf(LP)
+    private val CALL_EXPR_START_TOKENS = tokenSetOf(L_PAREN)
     private val PERMISSION_START_TOKENS = tokenSetOf(COMMA, COLON)
 
     @JvmStatic
+    fun rulesVersionKeyword(b: PsiBuilder, level: Int): Boolean =
+        contextualKeyword(b, "rules_version", RULES_VERSION)
+
+    @JvmStatic
+    fun nullKeyword(b: PsiBuilder, level: Int): Boolean =
+        contextualKeyword(b, "null", NULL)
+
+    @JvmStatic
+    fun firestoreKeyword(b: PsiBuilder, level: Int): Boolean =
+        contextualKeyword(b, "cloud.firestore", FIRESTORE)
+
+    @JvmStatic
+    fun storageKeyword(b: PsiBuilder, level: Int): Boolean =
+        contextualKeyword(b, "firebase.storage", STORAGE)
+
+    @JvmStatic
     fun existsFunction(b: PsiBuilder, level: Int): Boolean =
-        contextualKeyword(b, "exists", EXITS_KEYWORD) { it in CALL_EXPR_START_TOKENS }
+        contextualKeyword(b, "exists", EXITS) { it in CALL_EXPR_START_TOKENS }
 
     @JvmStatic
     fun getFunction(b: PsiBuilder, level: Int): Boolean =
-        contextualKeyword(b, "get", GET_KEYWORD) { it in CALL_EXPR_START_TOKENS }
+        contextualKeyword(b, "get", GET) { it in CALL_EXPR_START_TOKENS }
 
     @JvmStatic
     fun getKeyword(b: PsiBuilder, level: Int): Boolean =
-        contextualKeyword(b, "get", GET_KEYWORD)
+        contextualKeyword(b, "get", GET)
 
     @JvmStatic
     fun readKeyword(b: PsiBuilder, level: Int): Boolean =
-        contextualKeyword(b, "read", READ_KEYWORD)
+        contextualKeyword(b, "read", READ)
 
     @JvmStatic
     fun writeKeyword(b: PsiBuilder, level: Int): Boolean =
-        contextualKeyword(b, "write", WRITE_KEYWORD)
+        contextualKeyword(b, "write", WRITE)
 
     @JvmStatic
     fun listKeyword(b: PsiBuilder, level: Int): Boolean =
-        contextualKeyword(b, "list", LIST_KEYWORD)
+        contextualKeyword(b, "list", LIST)
 
     @JvmStatic
     fun createKeyword(b: PsiBuilder, level: Int): Boolean =
-        contextualKeyword(b, "create", CREATE_KEYWORD)
+        contextualKeyword(b, "create", CREATE)
 
     @JvmStatic
     fun updateKeyword(b: PsiBuilder, level: Int): Boolean =
-        contextualKeyword(b, "update", UPDATE_KEYWORD)
+        contextualKeyword(b, "update", UPDATE)
 
     @JvmStatic
     fun deleteKeyword(b: PsiBuilder, level: Int): Boolean =
-        contextualKeyword(b, "delete", DELETE_KEYWORD)
+        contextualKeyword(b, "delete", DELETE)
 
 
     private fun contextualKeyword(
