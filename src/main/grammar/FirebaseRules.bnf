@@ -82,17 +82,8 @@
     LINE_COMMENT='LINE_COMMENT'
     BLOCK_COMMENT='BLOCK_COMMENT'*/
 
-    RULES_VERSION = 'rules_version_kw'
-
-    NULL = 'null_kw'
-
-    FIRESTORE = 'firestore_kw'
-    STORAGE = 'storage_kw'
-
     REQUEST  = 'request_kw'
     RESOURCE = 'resource_kw'
-
-    RETURN  = 'return_kw'
 
     //Permission keywords
     EXITS   = 'exists_kw'
@@ -116,8 +107,6 @@
 File ::= (VersionDef? (FunctionDef)* ServiceDef)?
 
 //Rules version definition
-private rules_version ::= <<rulesVersionKeyword>>
-
 VersionDef ::= rules_version '=' Versions ';'? { pin = 2 }
 
 Versions ::= STRING_LITERAL {
@@ -259,8 +248,6 @@ private IndexArg ::= '[' Expr ']'
 
 CallExpr ::= Expr CallArgumentList
 CallArgumentList ::= '(' <<comma_sep_items (Expr &(','|')'))>>? ')' { pin = 1 }
-
-private null ::= <<nullKeyword>>
 
 LitExpr ::= BOOL_LITERAL
             | NUMBER_LITERAL

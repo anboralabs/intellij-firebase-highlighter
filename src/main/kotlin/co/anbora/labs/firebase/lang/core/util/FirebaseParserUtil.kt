@@ -196,14 +196,6 @@ object FirebaseParserUtil : GeneratedParserUtilBase() {
     private val PERMISSION_START_TOKENS = tokenSetOf(COMMA, COLON)
 
     @JvmStatic
-    fun rulesVersionKeyword(b: PsiBuilder, level: Int): Boolean =
-        contextualKeyword(b, "rules_version", RULES_VERSION)
-
-    @JvmStatic
-    fun nullKeyword(b: PsiBuilder, level: Int): Boolean =
-        contextualKeyword(b, "null", NULL)
-
-    @JvmStatic
     fun existsFunction(b: PsiBuilder, level: Int): Boolean =
         contextualKeyword(b, "exists", EXITS) { it in CALL_EXPR_START_TOKENS }
 

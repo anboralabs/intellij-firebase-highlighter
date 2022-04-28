@@ -139,6 +139,7 @@ PathBuiltIn=[$][(][a-zA-Z_\-0-9]+[a-zA-Z_\.\-0-9]*[)]*/
     "allow"            { return ALLOW; }
     "function"         { return FUNCTION; }
     "return"           { return RETURN; }
+    "rules_version"    { return RULES_VERSION; }
 
     {SERVICE_NAME}             { return SERVICE_NAME; }
     {BOOL_LITERAL}             { return BOOL_LITERAL; }
