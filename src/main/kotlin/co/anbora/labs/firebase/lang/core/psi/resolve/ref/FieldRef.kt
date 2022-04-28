@@ -3,17 +3,9 @@ package co.anbora.labs.firebase.lang.core.psi.resolve.ref
 import co.anbora.labs.firebase.lang.core.psi.FireRuleNamedElement
 import co.anbora.labs.firebase.lang.core.psi.FireRulesStructLitField
 import co.anbora.labs.firebase.lang.core.psi.psiFactory
-import co.anbora.labs.firebase.lang.core.psi.resolve.FireRuleMandatoryReferenceElement
-import co.anbora.labs.firebase.lang.core.psi.resolve.FireRulePathVarReferenceElement
 import co.anbora.labs.firebase.lang.core.psi.resolve.resolveItem
 import com.intellij.psi.PsiElement
 
-class FireRuleStructFieldReferenceImpl(
-    element: FireRuleMandatoryReferenceElement
-) : FireRuleReferenceCached<FireRuleMandatoryReferenceElement>(element) {
-
-    override fun resolveInner() = resolveItem(element, Namespace.STRUCT_FIELD)
-}
 
 /*class FireRuleStructLitShorthandFieldReferenceImpl(
     element: FireRulesStructLitField,

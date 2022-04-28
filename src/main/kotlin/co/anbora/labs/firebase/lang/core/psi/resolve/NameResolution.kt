@@ -3,11 +3,10 @@ package co.anbora.labs.firebase.lang.core.psi.resolve
 import co.anbora.labs.firebase.lang.core.psi.*
 import co.anbora.labs.firebase.lang.core.psi.ext.ancestorOrSelf
 import co.anbora.labs.firebase.lang.core.psi.ext.isMslAvailable
+import co.anbora.labs.firebase.lang.core.psi.ext.letStatements
 import co.anbora.labs.firebase.lang.core.psi.ext.wrapWithList
 import co.anbora.labs.firebase.lang.core.psi.resolve.ref.Namespace
 import co.anbora.labs.firebase.lang.core.psi.resolve.ref.Visibility
-import com.intellij.psi.util.PsiTreeUtil
-import com.intellij.psi.util.PsiUtilCore
 
 enum class MslScope {
     NONE, EXPR, LET;
@@ -98,7 +97,23 @@ fun processLexicalDeclarations(
         Namespace.DOT_ACCESSED_FIELD -> false
         Namespace.STRUCT_FIELD -> false
         Namespace.SCHEMA_FIELD -> false
-        Namespace.NAME -> false
+        Namespace.NAME -> when (scope) {
+            is FireRulesCodeBlock -> {
+                val precedingLetDecls = scope.letStatements
+
+                val namedElements = precedingLetDecls
+
+                // skip shadowed (already visited) elements
+                val visited = mutableSetOf<String>()
+                val processorWithShadowing = MatchingProcessor { entry ->
+                    ((entry.name !in visited)
+                            && processor.match(entry).also { visited += entry.name })
+                }
+
+                return processorWithShadowing.matchAll(namedElements)
+            }
+            else -> false
+        }
         Namespace.TYPE -> false
         Namespace.SPEC_ITEM -> false
         Namespace.SCHEMA -> false

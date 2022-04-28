@@ -264,8 +264,15 @@ LitExpr ::= BOOL_LITERAL
             | NUMBER_LITERAL
             | STRING_LITERAL
             | null
-            | IDENTIFIER
+            | IdentifierExpr
             //path-built-in
+
+IdentifierExpr ::= IDENTIFIER {
+    implements = [
+      "co.anbora.labs.firebase.lang.core.psi.resolve.FireRuleReferenceElement"
+    ]
+    mixin="co.anbora.labs.firebase.lang.core.psi.mixins.FireRuleIdentifierMixin"
+}
 
 // top-level recovery
 private Item_first ::= function | match | service | allow

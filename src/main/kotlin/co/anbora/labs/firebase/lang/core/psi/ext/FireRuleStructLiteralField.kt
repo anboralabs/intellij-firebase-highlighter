@@ -5,7 +5,6 @@ import co.anbora.labs.firebase.lang.core.psi.FireRulesStructLitExpr
 import co.anbora.labs.firebase.lang.core.psi.FireRulesStructLitField
 import co.anbora.labs.firebase.lang.core.psi.FireRulesTypes
 import co.anbora.labs.firebase.lang.core.psi.resolve.ref.FireRuleReference
-import co.anbora.labs.firebase.lang.core.psi.resolve.ref.FireRuleStructFieldReferenceImpl
 //import co.anbora.labs.firebase.lang.core.psi.resolve.ref.FireRuleStructLitShorthandFieldReferenceImpl
 import com.intellij.lang.ASTNode
 
