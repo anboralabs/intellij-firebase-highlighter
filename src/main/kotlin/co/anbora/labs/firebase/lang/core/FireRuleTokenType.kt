@@ -14,9 +14,9 @@ fun tokenSetOf(vararg tokens: IElementType) = TokenSet.create(*tokens)
 
 val KEYWORDS = tokenSetOf(
         RULES_VERSION, REQUEST, RESOURCE,
-        CREATE, DELETE, EXITS, GET, READ, UPDATE, WRITE,
+        //CREATE, DELETE, EXITS, GET, READ, UPDATE, WRITE,
         IF, IN, IS,
-        LET,
+        LET, RETURN,
         MATCH, SERVICE, FUNCTION, ALLOW
 )
 

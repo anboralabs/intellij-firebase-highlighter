@@ -26,10 +26,10 @@ class FirebaseSyntaxHighlighter: SyntaxHighlighterBase() {
                     COMMA -> FirebaseColors.COMMA
                     //PATH_VARIABLE -> FirebaseColors.PATH_VARIABLE
                     //PATH_BUILT_IN -> FirebaseColors.PATH_BUILT_IN
-                    VERSIONS, STRING -> FirebaseColors.STRINGS
+                    STRING_LITERAL -> FirebaseColors.STRINGS
                     in FIREBASE_COMMENTS -> FirebaseColors.COMMENTS
                     CALL_EXPR -> FirebaseColors.CALL_FUNCTION
-                    NUMBER -> FirebaseColors.NUMBERS
+                    NUMBER_LITERAL -> FirebaseColors.NUMBERS
                     SERVICE_NAME -> FirebaseColors.SERVICE_NAME
                     TokenType.BAD_CHARACTER -> FirebaseColors.BAD_CHAR
                     else -> null

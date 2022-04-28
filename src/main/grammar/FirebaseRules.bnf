@@ -116,13 +116,13 @@
 File ::= (VersionDef? (FunctionDef)* ServiceDef)?
 
 //Rules version definition
+private rules_version ::= <<rulesVersionKeyword>>
+
 VersionDef ::= rules_version '=' Versions ';'? { pin = 2 }
 
 Versions ::= STRING_LITERAL {
     mixin = "co.anbora.labs.firebase.lang.core.psi.mixins.FireRuleVersionMixin"
 }
-
-private rules_version ::= <<rulesVersionKeyword>>
 
 //Function Definition
 FunctionDef ::= function IDENTIFIER FunctionParameterList CodeBlock
@@ -152,9 +152,9 @@ FunctionParameter ::= IDENTIFIER {
 
 CodeBlock ::= '{' CodeBlock_items '}' { pin = 1 }
 
-private CodeBlock_items ::= Statement*
-                            ExprStatement_items?
+private CodeBlock_items ::= !('}' | <<eof>>) Statement* ReturnExpr
 {
+    pin = 1
     recoverWhile = "CodeBlock_items_recover"
 }
 private CodeBlock_items_recover ::= !('}' | <<eof>>)
@@ -171,6 +171,8 @@ LetStatement ::= let IDENTIFIER Initializer ';'?
 }
 
 Initializer ::= '=' Expr { pin = 1 }
+
+ReturnExpr ::= return Expr ';' { pin=1 }
 
 Expr ::= OrExpr
        | AndExpr
@@ -279,10 +281,8 @@ private Item_first ::= function | match | service | allow
 private Item_recover ::= !('}' | <<eof>> | Item_first)
 
 //Service definition
-private firestore ::= <<firestoreKeyword>>
-private storage ::= <<storageKeyword>>
 
-ServiceName ::= firestore | storage
+private ServiceName ::= SERVICE_NAME
 
 ServiceDef ::= service ServiceName ServiceBlock { pin=1 }
 

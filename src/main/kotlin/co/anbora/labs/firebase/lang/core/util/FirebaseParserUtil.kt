@@ -204,14 +204,6 @@ object FirebaseParserUtil : GeneratedParserUtilBase() {
         contextualKeyword(b, "null", NULL)
 
     @JvmStatic
-    fun firestoreKeyword(b: PsiBuilder, level: Int): Boolean =
-        contextualKeyword(b, "cloud.firestore", FIRESTORE)
-
-    @JvmStatic
-    fun storageKeyword(b: PsiBuilder, level: Int): Boolean =
-        contextualKeyword(b, "firebase.storage", STORAGE)
-
-    @JvmStatic
     fun existsFunction(b: PsiBuilder, level: Int): Boolean =
         contextualKeyword(b, "exists", EXITS) { it in CALL_EXPR_START_TOKENS }
 

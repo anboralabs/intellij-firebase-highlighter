@@ -72,6 +72,8 @@ PATH_VARIABLE_LITERAL=\{{IDENTIFIER}(\=\*\*)?\}
 PATH_BUILT_IN_LITERAL=\$\({IDENTIFIER}(\.{IDENTIFIER})*\)
 STRING_LITERAL=('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")
 
+SERVICE_NAME=(cloud.firestore|firebase.storage)
+
 IDENTIFIER=[a-zA-Z_\-0-9]+
 
 /*ServiceName=(cloud.firestore|firebase.storage)
@@ -138,6 +140,7 @@ PathBuiltIn=[$][(][a-zA-Z_\-0-9]+[a-zA-Z_\.\-0-9]*[)]*/
     "function"         { return FUNCTION; }
     "return"           { return RETURN; }
 
+    {SERVICE_NAME}             { return SERVICE_NAME; }
     {BOOL_LITERAL}             { return BOOL_LITERAL; }
     {NUMBER_LITERAL}           { return NUMBER_LITERAL; }
     {STRING_LITERAL}           { return STRING_LITERAL; }
