@@ -3,6 +3,7 @@ package co.anbora.labs.firebase.ide.highlight
 import co.anbora.labs.firebase.ide.color.FirebaseColors
 import co.anbora.labs.firebase.lang.core.FIREBASE_COMMENTS
 import co.anbora.labs.firebase.lang.core.KEYWORDS
+import co.anbora.labs.firebase.lang.core.RULES_PERMISSIONS
 import co.anbora.labs.firebase.lang.core.lexer.FirebaseLexer
 import co.anbora.labs.firebase.lang.core.psi.FireRulesTypes.*
 import com.intellij.lexer.Lexer
@@ -24,8 +25,8 @@ class FirebaseSyntaxHighlighter: SyntaxHighlighterBase() {
                     SEMICOLON -> FirebaseColors.SEMICOLON
                     DOT -> FirebaseColors.DOT
                     COMMA -> FirebaseColors.COMMA
-                    //PATH_VARIABLE -> FirebaseColors.PATH_VARIABLE
-                    //PATH_BUILT_IN -> FirebaseColors.PATH_BUILT_IN
+                    PATH_VARIABLE_LITERAL -> FirebaseColors.PATH_VARIABLE
+                    PATH_BUILT_IN_LITERAL -> FirebaseColors.PATH_BUILT_IN
                     STRING_LITERAL -> FirebaseColors.STRINGS
                     in FIREBASE_COMMENTS -> FirebaseColors.COMMENTS
                     CALL_EXPR -> FirebaseColors.CALL_FUNCTION

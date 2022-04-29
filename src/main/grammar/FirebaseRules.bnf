@@ -210,10 +210,10 @@ DerefExpr ::= '-' Expr
 
 private AtomExpr ::= ArrayLitExpr
                     | ParensExpr
-                    | StructLitExpr
-                    | DotExpr
-                    | IndexExpr
                     | CallExpr
+                    | DotExpr
+                    | StructLitExpr
+                    | IndexExpr
                     | LitExpr
 
 ArrayLitExpr ::= '[' <<comma_sep_items (Expr &(','|']'))>>? ']'
@@ -235,12 +235,12 @@ StructLitField ::= LitExpr StructLitFieldInit?
 
 private StructLitFieldInit ::= ':' Expr { pin = 1 }
 
-DotExpr ::= Expr '.' StructFieldRef
-StructFieldRef ::= IDENTIFIER
+DotExpr ::= Expr '.' AtomExpr
+/*StructFieldRef ::= IDENTIFIER
 {
     //implements = ["co.anbora.labs.firebase.lang.core.psi.resolve.FireRuleStructFieldReferenceElement"]
     //mixin = "co.anbora.labs.firebase.lang.core.psi.ext.FireRuleStructFieldRefMixin"
-}
+}*/
 
 IndexExpr ::= Expr IndexArg
 // Do not inline this rule, it breaks expression parsing
@@ -252,9 +252,20 @@ CallArgumentList ::= '(' <<comma_sep_items (Expr &(','|')'))>>? ')' { pin = 1 }
 LitExpr ::= BOOL_LITERAL
             | NUMBER_LITERAL
             | STRING_LITERAL
-            | null
+            | NullLit
             | IdentifierExpr
-            //path-built-in
+            | FullBuiltInParameterLit
+
+FullBuiltInParameterLit ::= PathBuiltInItem+
+
+private PathBuiltInItem ::= '/' PathBuiltInVar {
+    pin=1
+}
+
+PathBuiltInVar ::= PathHidden | PATH_BUILT_IN_LITERAL
+private PathHidden ::= '.'? IdentifierExpr
+
+private NullLit ::= null
 
 IdentifierExpr ::= IDENTIFIER {
     implements = [
