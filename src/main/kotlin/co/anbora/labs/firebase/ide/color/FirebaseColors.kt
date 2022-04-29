@@ -26,6 +26,13 @@ enum class FirebaseColors(humanName: String, default: TextAttributesKey) {
             TextAttributes(Color.decode("#E8C32A"), null, null, null, Font.PLAIN)
         )
     ),
+    FIELDS(
+        "Fields",
+        TextAttributesKey.createTempTextAttributesKey(
+            "FIREBASE_FIELDS",
+            TextAttributes(Color.decode("#8A653B"), null, null, null, Font.PLAIN)
+        )
+    ),
     SEMICOLON("Operators//Semicolon", DefaultLanguageHighlighterColors.SEMICOLON),
     DOT("Operators//Dot", DefaultLanguageHighlighterColors.DOT),
     COMMA("Operators//Comma", DefaultLanguageHighlighterColors.COMMA),
