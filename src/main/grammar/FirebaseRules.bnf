@@ -107,7 +107,7 @@
 File ::= (VersionDef? (FunctionDef)* ServiceDef)?
 
 //Rules version definition
-VersionDef ::= rules_version '=' Versions ';'? { pin = 2 }
+VersionDef ::= RULES_VERSION '=' Versions ';'? { pin = 2 }
 
 Versions ::= STRING_LITERAL {
     mixin = "co.anbora.labs.firebase.lang.core.psi.mixins.FireRuleVersionMixin"
