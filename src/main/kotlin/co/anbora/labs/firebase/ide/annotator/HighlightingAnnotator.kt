@@ -38,8 +38,8 @@ class HighlightingAnnotator: Annotator {
 
     private fun highlightFields(element: PsiElement): FirebaseColors? {
         return when(element) {
-            is FireRulesIdentifierExpr -> {
-                if (FireRulesTypes.DOT == element.prevSibling) FirebaseColors.FIELDS
+            is FireRulesDotExpr -> {
+                if ("." == element.prevSibling?.text) FirebaseColors.FIELDS
                 else null
             }
             else -> null
