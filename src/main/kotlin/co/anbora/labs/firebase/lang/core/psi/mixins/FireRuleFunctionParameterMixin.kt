@@ -11,4 +11,6 @@ abstract class FireRuleFunctionParameterMixin(
 ): FireRuleNameIdentifierOwnerImpl(node), FireRulesFunctionParameter {
 
     override fun getIcon(flags: Int): Icon? = FirebaseIcons.PARAMETER
+
+
 }

@@ -1,10 +1,7 @@
 package co.anbora.labs.firebase.lang.core.psi.resolve
 
 import co.anbora.labs.firebase.lang.core.psi.*
-import co.anbora.labs.firebase.lang.core.psi.ext.ancestorOrSelf
-import co.anbora.labs.firebase.lang.core.psi.ext.isMslAvailable
-import co.anbora.labs.firebase.lang.core.psi.ext.letStatements
-import co.anbora.labs.firebase.lang.core.psi.ext.wrapWithList
+import co.anbora.labs.firebase.lang.core.psi.ext.*
 import co.anbora.labs.firebase.lang.core.psi.resolve.ref.Namespace
 import co.anbora.labs.firebase.lang.core.psi.resolve.ref.Visibility
 
@@ -98,6 +95,10 @@ fun processLexicalDeclarations(
         Namespace.STRUCT_FIELD -> false
         Namespace.SCHEMA_FIELD -> false
         Namespace.NAME -> when (scope) {
+            is FireRulesFunctionDef -> {
+                val namedElements = scope.functionParameterList?.functionParameterList ?: emptyList()
+                return processor.matchAll(namedElements)
+            }
             is FireRulesCodeBlock -> {
                 val precedingLetDecls = scope.letStatements
 
@@ -110,7 +111,9 @@ fun processLexicalDeclarations(
                             && processor.match(entry).also { visited += entry.name })
                 }
 
-                return processorWithShadowing.matchAll(namedElements)
+                return processorWithShadowing.matchAll(
+                    namedElements
+                )
             }
             else -> false
         }
