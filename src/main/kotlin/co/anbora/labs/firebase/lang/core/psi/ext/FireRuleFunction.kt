@@ -27,5 +27,10 @@ val MvSpecFunction.typeParamsUsedOnlyInReturnType: List<MvTypeParameter>
 abstract class FireRuleFunctionMixin(node: ASTNode) : FireRuleNameIdentifierOwnerImpl(node),
                                                     FireRulesFunctionDef {
 
+    var builtIn = false
+
+    override fun canNavigate(): Boolean = !builtIn
+    override fun canNavigateToSource(): Boolean = !builtIn
+
     override fun getIcon(flags: Int): Icon = FirebaseIcons.FUNCTION
 }

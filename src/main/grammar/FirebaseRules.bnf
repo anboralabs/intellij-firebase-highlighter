@@ -104,7 +104,9 @@
 //   * rules are PascalCase: StructItem
 //   * recovery related rules are PascalCase_with_snake_suffix: Item_recover
 
-File ::= (VersionDef? (FunctionDef)* ServiceDef)?
+File ::= FileStructure
+
+FileStructure ::= VersionDef? (FunctionDef)* ServiceDef?
 
 //Rules version definition
 VersionDef ::= RULES_VERSION '=' Versions ';'? { pin = 2 }
@@ -263,7 +265,7 @@ private PathBuiltInItem ::= '/' PathBuiltInVar {
 }
 
 PathBuiltInVar ::= PathHidden | PATH_BUILT_IN_LITERAL
-private PathHidden ::= '.'? IdentifierExpr
+private PathHidden ::= '.'? IDENTIFIER
 
 private NullLit ::= null
 
@@ -282,7 +284,12 @@ private Item_recover ::= !('}' | <<eof>> | Item_first)
 
 private ServiceName ::= SERVICE_NAME
 
-ServiceDef ::= service ServiceName ServiceBlock { pin=1 }
+ServiceDef ::= service ServiceName ServiceBlock
+{
+    pin=1
+    recoverWhile=ServiceDef_recover
+}
+private ServiceDef_recover ::= !(service ServiceName)
 
 ServiceBlock ::= '{' ServiceBlockItems '}' { pin = 1 }
 

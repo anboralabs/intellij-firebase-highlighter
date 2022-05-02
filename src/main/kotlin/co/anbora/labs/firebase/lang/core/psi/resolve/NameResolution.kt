@@ -4,6 +4,7 @@ import co.anbora.labs.firebase.lang.core.psi.*
 import co.anbora.labs.firebase.lang.core.psi.ext.*
 import co.anbora.labs.firebase.lang.core.psi.resolve.ref.Namespace
 import co.anbora.labs.firebase.lang.core.psi.resolve.ref.Visibility
+import com.intellij.psi.util.PsiTreeUtil
 
 enum class MslScope {
     NONE, EXPR, LET;
@@ -55,7 +56,7 @@ fun processItems(
 ): Boolean {
     return walkUpThroughScopes(
         element,
-        stopAfter = { it is FireRulesFunctionDef || it is FireRulesMatchDef }
+        stopAfter = { it is FireRulesFileStructure }
     ) { cameFrom, scope ->
         processLexicalDeclarations(
             scope, cameFrom, itemVis, processor
@@ -95,9 +96,26 @@ fun processLexicalDeclarations(
         Namespace.STRUCT_FIELD -> false
         Namespace.SCHEMA_FIELD -> false
         Namespace.NAME -> when (scope) {
+            is FireRulesFileStructure -> {
+                return processor.matchAll(
+                    scope.functions(),
+                    scope.builtInFunctions()
+                )
+            }
             is FireRulesFunctionDef -> {
-                val namedElements = scope.functionParameterList?.functionParameterList ?: emptyList()
-                return processor.matchAll(namedElements)
+                return processor.matchAll(
+                    scope.parameters()
+                )
+            }
+            is FireRulesServiceBlock -> {
+                return processor.matchAll(
+                    scope.functions()
+                )
+            }
+            is FireRulesMatchBlock -> {
+                return processor.matchAll(
+                    scope.functions()
+                )
             }
             is FireRulesCodeBlock -> {
                 val precedingLetDecls = scope.letStatements

@@ -14,6 +14,10 @@ class FireRulePsiFactory(private val project: Project ) {
         createFromText("function test() { let a = { $name: $value }; }")
             ?: error("Failed to create FireRulesStructLitField")
 
+    fun createFunction(text: String): PsiElement =
+        createFromText<FireRulesFunctionDef>(text)
+            ?: error("Failed to create identifier: `$text`")
+
     fun createIdentifier(text: String): PsiElement =
         createFromText<FireRulesFunctionDef>("function $text() {}")?.nameIdentifier
             ?: error("Failed to create identifier: `$text`")
