@@ -2,6 +2,7 @@ package co.anbora.labs.firebase.lang.core.psi.impl
 
 import co.anbora.labs.firebase.lang.core.psi.FireRuleElementImpl
 import co.anbora.labs.firebase.lang.core.psi.FireRuleNamedElement
+import co.anbora.labs.firebase.lang.core.psi.FireRulePsiFactory
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 
@@ -11,7 +12,7 @@ abstract class FireRuleNamedElementImpl(
     override fun getName(): String? = nameElement?.text
 
     override fun setName(name: String): PsiElement {
-        //nameElement?.replace(MovePsiFactory(project).createIdentifier(name))
+        nameElement?.replace(FireRulePsiFactory(project).createIdentifier(name))
         return this
     }
 

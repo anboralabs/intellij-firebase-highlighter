@@ -112,6 +112,11 @@ fun processLexicalDeclarations(
                     scope.functions()
                 )
             }
+            is FireRulesMatchDef -> {
+                return processor.matchAll(
+                    scope.pathVars()
+                )
+            }
             is FireRulesMatchBlock -> {
                 return processor.matchAll(
                     scope.functions()

@@ -301,9 +301,7 @@ private ServiceBlockItems ::= !('}' | <<eof>>) ServiceItems+
 private ServiceItems ::= MatchDef | FunctionDef
 
 //Match definition
-MatchDef ::= match FullPathStatement MatchBlock { pin=1 }
-
-FullPathStatement ::= FullPathStatementItem+ { pin=1 }
+FullPath ::= FullPathStatementItem+ { pin=1 }
 
 private FullPathStatementItem ::= !('{') '/' PathStatement {
     pin=1
@@ -313,9 +311,11 @@ private FullPathStatementItem_recover ::= !('/' | '{' | IDENTIFIER | PathVar)
 
 PathStatement ::= ('.'? IDENTIFIER | PathVar)
 PathVar ::= PATH_VARIABLE_LITERAL {
-    //implements = ["co.anbora.labs.firebase.lang.core.psi.resolve.FireRulePathVarReferenceElement"]
-    //mixin = "co.anbora.labs.firebase.lang.core.psi.resolve.ref.FireRulePathVarReferenceImpl"
+    implements = ["co.anbora.labs.firebase.lang.core.psi.FireRulePathIdentifierOwner"]
+    mixin = "co.anbora.labs.firebase.lang.core.psi.mixins.FireRulePathVarMixin"
 }
+
+MatchDef ::= match FullPath MatchBlock { pin=1 }
 
 MatchBlock ::= '{' MatchBlockItems '}' { pin=1 }
 private MatchBlockItems ::= !('}' | <<eof>>) MatchItems+ {
