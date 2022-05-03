@@ -1,6 +1,7 @@
 package co.anbora.labs.firebase.lang.core.psi.resolve
 
 import co.anbora.labs.firebase.lang.core.psi.FireRuleElement
+import co.anbora.labs.firebase.lang.core.psi.FireRulesTypes
 import co.anbora.labs.firebase.lang.core.psi.resolve.ref.FireRuleReference
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiReference
@@ -21,6 +22,23 @@ interface PsiReferenceElement : PsiElement {
 }
 
 interface FireRuleReferenceElement : PsiReferenceElement, FireRuleElement {
+
+    override fun getReference(): FireRuleReference?
+}
+
+interface FireRulePathReferenceElement: FireRuleReferenceElement {
+
+    val pathBuiltInLiteral: PsiElement
+
+    override val identifier: PsiElement get() = pathBuiltInLiteral
+
+    override val referenceNameElement: PsiElement?
+        get() = identifier
+
+    override val referenceName: String?
+        get() = super.referenceName?.replace("$(", "")
+            ?.replace(")", "")
+            ?.substringBefore(".")
 
     override fun getReference(): FireRuleReference?
 }

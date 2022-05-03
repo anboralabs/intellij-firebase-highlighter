@@ -69,7 +69,7 @@ OUTER_EOL_DOC = ({EOL_DOC_LINE}{EOL_WS})*{EOL_DOC_LINE}
 BOOL_LITERAL=(true)|(false)
 NUMBER_LITERAL=[0-9]+(\.[0-9]*)?
 PATH_VARIABLE_LITERAL=\{{IDENTIFIER}(\=\*\*)?\}
-PATH_BUILT_IN_LITERAL=\$\({IDENTIFIER}(\.{IDENTIFIER})*\)
+PATH_BUILT_IN_LITERAL=\$\({IDENTIFIER}[a-zA-Z_\.\-0-9]*\)
 STRING_LITERAL=('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")
 
 SERVICE_NAME=(cloud.firestore|firebase.storage)

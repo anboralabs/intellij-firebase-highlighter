@@ -264,8 +264,15 @@ private PathBuiltInItem ::= '/' PathBuiltInVar {
     pin=1
 }
 
-PathBuiltInVar ::= PathHidden | PATH_BUILT_IN_LITERAL
+PathBuiltInVar ::= PathHidden | PathBuiltInLit
 private PathHidden ::= '.'? IDENTIFIER
+
+PathBuiltInLit ::= PATH_BUILT_IN_LITERAL {
+    implements = [
+      "co.anbora.labs.firebase.lang.core.psi.resolve.FireRulePathReferenceElement"
+    ]
+    mixin = "co.anbora.labs.firebase.lang.core.psi.mixins.FireRulePathBuiltMixin"
+}
 
 private NullLit ::= null
 
@@ -309,7 +316,7 @@ private FullPathStatementItem ::= !('{') '/' PathStatement {
 }
 private FullPathStatementItem_recover ::= !('/' | '{' | IDENTIFIER | PathVar)
 
-PathStatement ::= ('.'? IDENTIFIER | PathVar)
+PathStatement ::= (PathHidden | PathVar)
 PathVar ::= PATH_VARIABLE_LITERAL {
     implements = ["co.anbora.labs.firebase.lang.core.psi.FireRulePathIdentifierOwner"]
     mixin = "co.anbora.labs.firebase.lang.core.psi.mixins.FireRulePathVarMixin"
