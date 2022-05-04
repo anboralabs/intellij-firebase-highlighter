@@ -23,27 +23,27 @@ fun FirebaseFormatterBlock.computeIndent(child: ASTNode): Indent? {
         // except if RefExpr as lhs of assignment expr
 //        childPsi is MoveExpr
 //                && (parentType == LET_EXPR || parentType == ASSIGNMENT_EXPR || parentType == CONST_DEF) -> Indent.getNormalIndent()
-        /*childPsi is FirebaseRulesExpression
-                && parentPsi is FirebaseRulesVariableStatement -> Indent.getNormalIndent()
+        childPsi is FireRulesExpr
+                && parentPsi is FireRulesInitializer -> Indent.getNormalIndent()
 
-        childPsi is FirebaseRulesConditionalBlock
-                && parentPsi is FirebaseRulesConditionalStatement -> Indent.getNormalIndent()
+        childPsi is FireRulesIfExpr
+                && parentPsi is FireRulesAllowPredicate -> Indent.getNormalIndent()
 
-        childPsi is FirebaseRulesConditionalStatement -> Indent.getNormalIndent()
-
-        childPsi is FirebaseRulesConditionalBlock -> Indent.getNormalIndent()*/
+        childPsi is FireRulesCondition -> Indent.getNormalIndent()
 //        if (true)
 //            create()
 //        else
 //            delete()
-        /*parentPsi is FirebaseRulesServiceBlock
-                || parentPsi is FirebaseRulesMatchBlock
-                || parentPsi is FirebaseRulesFunctionBlock
-                || parentPsi is FirebaseRulesReturnBlock -> Indent.getNormalIndent()*/
+        parentPsi is FireRulesServiceBlock
+                || parentPsi is FireRulesMatchBlock
+                || parentPsi is FireRulesCodeBlock
+                || parentPsi is FireRulesReturnExpr -> Indent.getNormalIndent()
+
+        //parentPsi is FireRulesExpr -> Indent.getNormalIndent()
 
         // binary expressions, chain calls
         // no indent on it's own, use parent indent
-        //parentPsi is FirebaseRulesExpression -> Indent.getIndent(Indent.Type.NONE, true, true)
+        parentPsi is FireRulesExpr -> Indent.getIndent(Indent.Type.NONE, true, true)
 
         else -> Indent.getNoneIndent()
     }
@@ -53,9 +53,10 @@ fun getNormalIndentIfNotCurrentBlockDelimiter(child: ASTNode, parent: ASTNode): 
     if (child.isDelimiterOfCurrentBlock(parent)) {
         Indent.getNoneIndent()
     } else {
-        if (parent.elementType == CONDITION) {
+        /*if (parent.elementType == CONDITION) {
             Indent.getNoneIndent()
         } else {
             Indent.getNormalIndent()
-        }
+        }*/
+        Indent.getNormalIndent()
     }

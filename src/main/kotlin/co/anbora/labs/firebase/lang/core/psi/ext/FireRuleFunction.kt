@@ -6,24 +6,6 @@ import co.anbora.labs.firebase.lang.core.psi.impl.FireRuleNameIdentifierOwnerImp
 import com.intellij.lang.ASTNode
 import javax.swing.Icon
 
-/*val MvSpecFunction.typeParameters get() = this.typeParameterList?.typeParameterList.orEmpty()
-
-val MvSpecFunction.parameters get() = this.functionParameterList?.functionParameterList.orEmpty()
-
-val MvSpecFunction.parameterBindings get() = this.parameters.map { it.bindingPat }
-
-val MvSpecFunction.typeParamsUsedOnlyInReturnType: List<MvTypeParameter>
-    get() {
-        val usedTypeParams = mutableSetOf<MvTypeParameter>()
-        this.parameters
-            .map { it.declaredTy }
-            .forEach {
-                it.foldTyTypeParameterWith { paramTy -> usedTypeParams.add(paramTy.parameter); paramTy }
-            }
-        return this.typeParameters.filter { it !in usedTypeParams }
-    }*/
-
-
 abstract class FireRuleFunctionMixin(node: ASTNode) : FireRuleNameIdentifierOwnerImpl(node),
                                                     FireRulesFunctionDef {
 
