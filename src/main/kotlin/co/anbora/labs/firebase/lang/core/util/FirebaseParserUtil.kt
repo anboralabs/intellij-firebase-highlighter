@@ -232,6 +232,47 @@ object FirebaseParserUtil : GeneratedParserUtilBase() {
         contextualKeyword(b, "delete", DELETE)
 
 
+    @JvmStatic
+    fun boolType(b: PsiBuilder, level: Int): Boolean =
+        contextualKeyword(b, "bool", BOOL)
+
+    @JvmStatic
+    fun intType(b: PsiBuilder, level: Int): Boolean =
+        contextualKeyword(b, "int", INT)
+
+    @JvmStatic
+    fun floatType(b: PsiBuilder, level: Int): Boolean =
+        contextualKeyword(b, "float", FLOAT)
+
+    @JvmStatic
+    fun numberType(b: PsiBuilder, level: Int): Boolean =
+        contextualKeyword(b, "number", NUMBER)
+
+    @JvmStatic
+    fun stringType(b: PsiBuilder, level: Int): Boolean =
+        contextualKeyword(b, "string", STRING)
+
+    @JvmStatic
+    fun mapType(b: PsiBuilder, level: Int): Boolean =
+        contextualKeyword(b, "map", MAP)
+
+    @JvmStatic
+    fun timestampType(b: PsiBuilder, level: Int): Boolean =
+        contextualKeyword(b, "timestamp", TIMESTAMP)
+
+    @JvmStatic
+    fun durationType(b: PsiBuilder, level: Int): Boolean =
+        contextualKeyword(b, "duration", DURATION)
+
+    @JvmStatic
+    fun pathType(b: PsiBuilder, level: Int): Boolean =
+        contextualKeyword(b, "path", PATH)
+
+    @JvmStatic
+    fun latlngType(b: PsiBuilder, level: Int): Boolean =
+        contextualKeyword(b, "latlng", LATLNG)
+
+
     private fun contextualKeyword(
         b: PsiBuilder,
         keyword: String,

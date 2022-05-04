@@ -14,6 +14,13 @@ enum class FirebaseColors(humanName: String, default: TextAttributesKey) {
     KEY_WORD("Keywords", DefaultLanguageHighlighterColors.KEYWORD),
     BAD_CHAR("Bad Character", HighlighterColors.BAD_CHARACTER),
     PERMISSIONS("Permissions", DefaultLanguageHighlighterColors.CONSTANT),
+    TYPES(
+        "Types",
+        TextAttributesKey.createTempTextAttributesKey(
+            "FIREBASE_TYPES",
+            TextAttributes(Color.decode("#507874"), null, null, null, Font.PLAIN)
+        )
+    ),
     STRINGS("Literals//Strings", DefaultLanguageHighlighterColors.STRING),
     PATH_VARIABLE("Literals//Path Variable", TextAttributesKey.createTextAttributesKey("DEFAULT_PATH_VARIABLE", DefaultLanguageHighlighterColors.STRING)),
     PATH_BUILT_IN("Literals//Path", TextAttributesKey.createTextAttributesKey("DEFAULT_PATH_BUILT_IN", DefaultLanguageHighlighterColors.STRING)),

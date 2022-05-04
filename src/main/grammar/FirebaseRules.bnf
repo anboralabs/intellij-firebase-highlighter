@@ -94,6 +94,18 @@
     CREATE  = 'create_kw'
     UPDATE  = 'update_kw'
     DELETE  = 'delete_kw'
+
+    //Types
+    BOOL        = 'bool_kw'
+    INT         = 'int_kw'
+    FLOAT       = 'float_kw'
+    NUMBER      = 'number_kw'
+    STRING      = 'string_kw'
+    MAP         = 'map_kw'
+    TIMESTAMP   = 'timestamp_kw'
+    DURATION    = 'duration_kw'
+    PATH        = 'path_kw'
+    LATLNG      = 'latlng_kw'
   ]
 
 }
@@ -190,6 +202,18 @@ GreaterEqualsExpr ::= Expr gteq Expr
 IsExpr ::= Expr is Type
 InExpr ::= Expr in Expr
 
+//Types
+private bool ::= <<boolType>>
+private int ::= <<intType>>
+private float ::= <<floatType>>
+private number ::= <<numberType>>
+private string ::= <<stringType>>
+private map ::= <<mapType>>
+private timestamp ::= <<timestampType>>
+private duration ::= <<durationType>>
+private path ::= <<pathType>>
+private latlng ::= <<latlngType>>
+
 Type ::= bool | int | float | number | string | list | map | timestamp | duration | path | latlng
 
 private MulExprItem ::= DivExpr | MulExpr | ModExpr
@@ -244,9 +268,10 @@ DotExpr ::= Expr '.' AtomExpr
     //mixin = "co.anbora.labs.firebase.lang.core.psi.ext.FireRuleStructFieldRefMixin"
 }*/
 
-IndexExpr ::= Expr IndexArg
+IndexExpr ::= Expr (IndexArg | RangeExpr)
 // Do not inline this rule, it breaks expression parsing
 private IndexArg ::= '[' Expr ']'
+private RangeExpr ::= '[' Expr ':' Expr ']'
 
 CallExpr ::= Expr CallArgumentList
 CallArgumentList ::= '(' <<comma_sep_items (Expr &(','|')'))>>? ')' { pin = 1 }
