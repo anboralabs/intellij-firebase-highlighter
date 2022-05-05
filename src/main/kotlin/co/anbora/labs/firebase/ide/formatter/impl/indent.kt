@@ -39,7 +39,7 @@ fun FirebaseFormatterBlock.computeIndent(child: ASTNode): Indent? {
                 || parentPsi is FireRulesCodeBlock
                 || parentPsi is FireRulesReturnExpr -> Indent.getNormalIndent()
 
-        //parentPsi is FireRulesExpr -> Indent.getNormalIndent()
+        parentPsi is FireRulesIfExpr -> Indent.getNormalIndent()
 
         // binary expressions, chain calls
         // no indent on it's own, use parent indent
@@ -53,10 +53,9 @@ fun getNormalIndentIfNotCurrentBlockDelimiter(child: ASTNode, parent: ASTNode): 
     if (child.isDelimiterOfCurrentBlock(parent)) {
         Indent.getNoneIndent()
     } else {
-        /*if (parent.elementType == CONDITION) {
+        if (parent.elementType == CONDITION) {
             Indent.getNoneIndent()
         } else {
             Indent.getNormalIndent()
-        }*/
-        Indent.getNormalIndent()
+        }
     }
