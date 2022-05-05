@@ -1,7 +1,7 @@
 package co.anbora.labs.firebase.ide.inspections
 
-//import co.anbora.labs.firebase.lang.core.psi.FirebaseRulesConditionalBlock
-//import co.anbora.labs.firebase.lang.core.psi.FirebaseRulesLiteralExpr
+import co.anbora.labs.firebase.lang.core.psi.FireRulesCondition
+import co.anbora.labs.firebase.lang.core.psi.FireRulesLitExpr
 import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.codeInspection.ProblemsHolder
@@ -16,18 +16,18 @@ class FirebaseWeakRulesInspection: LocalInspectionTool() {
             override fun visitElement(element: PsiElement) {
                 super.visitElement(element)
                 when (element) {
-                    //is FirebaseRulesConditionalBlock -> checkWeakRule(element, holder)
+                    is FireRulesCondition -> checkWeakRule(element, holder)
                 }
             }
         }
     }
 }
 
-/*private fun checkWeakRule(element: FirebaseRulesConditionalBlock, holder: ProblemsHolder) {
-    val decl = element.expression
-    val literal = decl as? FirebaseRulesLiteralExpr
-    val booleanStm = literal?.booleanStatement
+private fun checkWeakRule(element: FireRulesCondition, holder: ProblemsHolder) {
+    val decl = element.expr
+    val literal = decl as? FireRulesLitExpr
+    val booleanStm = literal?.boolLiteral
     if (booleanStm?.text == FIREBASE_TRUE) {
         holder.registerProblem(booleanStm, "Weak rule, this is not recommended for production environments.", ProblemHighlightType.WEAK_WARNING)
     }
-}*/
+}
