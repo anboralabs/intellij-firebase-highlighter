@@ -2,11 +2,7 @@ package co.anbora.labs.firebase.ide.annotator
 
 import co.anbora.labs.firebase.ide.color.FirebaseColors
 import co.anbora.labs.firebase.lang.core.RULES_PERMISSIONS
-import co.anbora.labs.firebase.lang.core.TYPES
-import co.anbora.labs.firebase.lang.core.psi.FireRulesCallExpr
-import co.anbora.labs.firebase.lang.core.psi.FireRulesDotExpr
-import co.anbora.labs.firebase.lang.core.psi.FireRulesIdentifierExpr
-import co.anbora.labs.firebase.lang.core.psi.FireRulesTypes
+import co.anbora.labs.firebase.lang.core.psi.*
 import co.anbora.labs.firebase.lang.core.psi.ext.elementType
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
@@ -18,16 +14,13 @@ class HighlightingAnnotator: Annotator {
         val color = when {
             element.parent is FireRulesCallExpr -> highlightCallFunctions(element)
             element.parent is FireRulesDotExpr -> highlightFields(element)
-            isTypeElement(element) -> FirebaseColors.TYPES
+            element.parent is FireRulesBuiltInType -> FirebaseColors.TYPES
             element is LeafPsiElement -> highlightPermissions(element)
             else -> null
         } ?: return
         val severity = color.testSeverity
         holder.newSilentAnnotation(severity).textAttributes(color.textAttributesKey).create()
     }
-
-    private fun isTypeElement(element: PsiElement) =
-        element is LeafPsiElement && element.parent is FireRulesTypes
 
     private fun highlightPermissions(element: PsiElement): FirebaseColors? {
         return when {

@@ -199,7 +199,7 @@ GreaterExpr ::= Expr '>' Expr
 LessEqualsExpr ::= Expr lteq Expr
 GreaterEqualsExpr ::= Expr gteq Expr
 
-IsExpr ::= Expr is Type
+IsExpr ::= Expr is BuiltInType
 InExpr ::= Expr in Expr
 
 //Types
@@ -214,7 +214,7 @@ private duration ::= <<durationType>>
 private path ::= <<pathType>>
 private latlng ::= <<latlngType>>
 
-Type ::= bool | int | float | number | string | list | map | timestamp | duration | path | latlng
+BuiltInType ::= bool | int | float | number | string | list | map | timestamp | duration | path | latlng
 
 private MulExprItem ::= DivExpr | MulExpr | ModExpr
 private AddExprItem ::= PlusExpr | MinusExpr
