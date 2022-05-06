@@ -29,7 +29,7 @@ private fun checkFunctionSignature(element: FirebaseFile, holder: ProblemsHolder
     functions.forEach {
         val key = "${it.scope()}_${it.identifier?.text}_${it.functionParameterList?.functionParameterList?.size}"
         mapFunctions.compute(key) { _, v ->
-            if (v != null) markDuplicate(it.functionParameterList ?: it, holder)
+            if (v != null) markDuplicate(it.identifier ?: it, holder)
         }
     }
 }
@@ -45,6 +45,6 @@ private fun checkPathVariable(element: FireRulesFullPath, holder: ProblemsHolder
     }
 }
 
-private fun markDuplicate(element: FireRuleElement, holder: ProblemsHolder) {
+private fun markDuplicate(element: PsiElement, holder: ProblemsHolder) {
     holder.registerProblem(element, "Duplicate definitions with name `${element.text}`", ProblemHighlightType.ERROR)
 }
