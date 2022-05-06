@@ -4,7 +4,7 @@ val kotlinVersion = "1.6.20"
 val publishingToken = System.getenv("PUBLISH_TOKEN")
 
 group = "co.anbora.labs"
-version = "2022.1.2"
+version = "2022.1.3"
 
 plugins {
     id("java")
@@ -81,24 +81,3 @@ tasks {
         token.set(publishingToken)
     }
 }
-
-// Include the generated files in the source set
-/*def genRoot = file('src/main/gen')
-
-sourceSets {
-    main {
-        kotlin.srcDir 'src/main/kotlin'
-        java.srcDir genRoot
-        resources.srcDir 'src/main/resources'
-    }
-}
-
-publishPlugin {
-    token = System.getenv("PUBLISH_TOKEN")
-}
-
-patchPluginXml {
-    changeNotes = file("src/main/html/change-notes.html").getText().toString()
-    pluginDescription = file("src/main/html/description.html").getText().toString()
-    sinceBuild = '203'
-}*/
