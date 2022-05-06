@@ -45,6 +45,11 @@
                          displayName="Conflicting declarations"
                          enabledByDefault="true" level="ERROR"
                          implementationClass="co.anbora.labs.firebase.ide.inspections.DuplicateFunctionsDeclarationInspection"/>
+
+        <localInspection language="firebase_rules" groupName="Firebase"
+                         displayName="Unused elements"
+                         enabledByDefault="true" level="WARNING"
+                         implementationClass="co.anbora.labs.firebase.ide.inspections.FindUsagesInspection"/>
     </extensions>
 
     <actions>
