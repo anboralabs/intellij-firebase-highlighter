@@ -1,7 +1,7 @@
 package co.anbora.labs.firebase.ide.formatter
 
 import co.anbora.labs.firebase.ide.formatter.impl.*
-import co.anbora.labs.firebase.lang.core.psi.FirebaseRulesTypes.*
+import co.anbora.labs.firebase.lang.core.psi.FireRulesTypes.*
 import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
 import com.intellij.psi.formatter.common.AbstractBlock
@@ -47,7 +47,7 @@ class FirebaseFormatterBlock(
 
     override fun getChildAttributes(newChildIndex: Int): ChildAttributes {
         val indent = when {
-            node.elementType == CONDITIONAL_BLOCK -> Indent.getNoneIndent()
+            node.elementType == CONDITION -> Indent.getNoneIndent()
             node.isDelimitedBlock -> Indent.getNormalIndent()
             // Otherwise we don't want any indentation (null means continuation indent)
             else -> Indent.getNoneIndent()

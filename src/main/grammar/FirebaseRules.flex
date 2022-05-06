@@ -1,143 +1,168 @@
 // Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
-package co.anbora.labs.firebase.lang.core.lexer;
+package co.anbora.labs.firebase.lang;
 
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
-import static co.anbora.labs.firebase.lang.core.psi.FirebaseRulesTypes.*;
-import com.intellij.psi.TokenType;
+
+import static com.intellij.psi.TokenType.BAD_CHARACTER;
+import static com.intellij.psi.TokenType.WHITE_SPACE;
+import static co.anbora.labs.firebase.lang.core.psi.FireRulesTypes.*;
+import static co.anbora.labs.firebase.lang.FirebaseParserDefinition.*;
 
 %%
+
+%{
+    /**
+        * Dedicated storage for starting position of some previously successful
+        * match
+    */
+    private int zzPostponedMarkedPos = -1;
+
+    /**
+        * Dedicated nested-comment level counter
+    */
+    private int zzNestedCommentLevel = 0;
+%}
 
 %{
   public FirebaseRulesLexer() {
     this(null);
   }
+
+  IElementType imbueBlockComment() {
+      assert(zzNestedCommentLevel == 0);
+      yybegin(YYINITIAL);
+
+      zzStartRead = zzPostponedMarkedPos;
+      zzPostponedMarkedPos = -1;
+
+      return BLOCK_COMMENT;
+  }
 %}
 
+%public
 %class FirebaseRulesLexer
 %implements FlexLexer
-%unicode
 %function advance
 %type IElementType
 %unicode
 
-%{
-    private int commentLevel = 0;
-    private int charLength = 0;
-    private boolean docComment = false;
+%s IN_BLOCK_COMMENT
 
-    private void startComment() {
-        commentLevel = 1;
-        yybegin(COMMENT);
-    }
-%}
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Whitespaces
+///////////////////////////////////////////////////////////////////////////////////////////////////
+EOL_WS           = \n | \r | \r\n
+LINE_WS          = [\ \t]
+WHITE_SPACE_CHAR = {EOL_WS} | {LINE_WS}
+WHITE_SPACE      = {WHITE_SPACE_CHAR}+
 
-%xstate COMMENT TYPE_PENDING
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Comments
+///////////////////////////////////////////////////////////////////////////////////////////////////
+EOL_DOC_LINE  = {LINE_WS}*("///".*)
+OUTER_EOL_DOC = ({EOL_DOC_LINE}{EOL_WS})*{EOL_DOC_LINE}
 
-WhiteSpace = [ \n\t\f]+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Literals
+///////////////////////////////////////////////////////////////////////////////////////////////////
+BOOL_LITERAL=(true)|(false)
+NUMBER_LITERAL=[0-9]+(\.[0-9]*)?
+PATH_VARIABLE_LITERAL=\{{IDENTIFIER}(\=\*\*)?\}
+PATH_BUILT_IN_LITERAL=\$\({IDENTIFIER}[a-zA-Z_\.\-0-9]*\)
+STRING_LITERAL=('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")
 
-Number=[0-9]+(\.[0-9]*)?
-String=('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")
-Slash=\/
-LineComment=("//")[^\r\n]*
+SERVICE_NAME=(cloud.firestore|firebase.storage)
 
-ServiceName=(cloud.firestore|firebase.storage)
+IDENTIFIER=[a-zA-Z_\-0-9]+
+
+/*ServiceName=(cloud.firestore|firebase.storage)
 RulesVersion=rules_version
 Versions=('1'|'2')
 Identifier=[a-zA-Z_\-0-9]+
 PathVariable=[{][a-zA-Z_\-0-9]+(=\*\*)?[}]
-PathBuiltIn=[$][(][a-zA-Z_\-0-9]+[a-zA-Z_\.\-0-9]*[)]
+PathBuiltIn=[$][(][a-zA-Z_\-0-9]+[a-zA-Z_\.\-0-9]*[)]*/
 
 %%
 
-<COMMENT> {
-    "/*" {
-        commentLevel++;
-    }
-    "*/" {
-            if (--commentLevel == 0) {
-                yybegin(YYINITIAL);
-                return BLOCK_COMMENT;
-            }
-        }
-
-    <<EOF>> { commentLevel = 0; yybegin(YYINITIAL); return BLOCK_COMMENT; }
-
-    [^] { }
-}
-
-<TYPE_PENDING> {
-    {WhiteSpace}    { return TokenType.WHITE_SPACE; }
+<YYINITIAL> {
+      {WHITE_SPACE}        { return WHITE_SPACE; }
+      {OUTER_EOL_DOC}                 { return EOL_DOC_COMMENT; }
+      "//" .*              { return EOL_COMMENT; }
+      "/*"                 {
+          yybegin(IN_BLOCK_COMMENT); yypushback(2);
+       }
 }
 
 <YYINITIAL> {
-  {LineComment}     { return LINE_COMMENT; }
-  "/*" {
-      startComment();
-  }
+    // operators
+    "{"        { return L_BRACE; }
+    "}"        { return R_BRACE; }
 
-  {PathBuiltIn}      { return PATH_BUILT_IN; }
-  {PathVariable}     { return PATH_VARIABLE; }
-  "true"             { return TRUE_KEYWORD; }
-  "false"            { return FALSE_KEYWORD; }
-  "let"              { return LET_KEYWORD; }
-  "if"               { return IF_KEYWORD; }
-  "null"             { return NULL_KEYWORD; }
-  "in"               { return IN_KEYWORD; }
-  "is"               { return IS_KEYWORD; }
+    "["        { return L_BRACK; }
+    "]"        { return R_BRACK; }
+    "("        { return L_PAREN; }
+    ")"        { return R_PAREN; }
+    "::"       { return COLON_COLON; }
+    ":"        { return COLON; }
+    ";"        { return SEMICOLON; }
+    ","        { return COMMA; }
+    "."        { return DOT; }
+    "="        { return EQ; }
+    "=="       { return EQ_EQ; }
+    "!="       { return NOT_EQ; }
 
-  "service"          { return SERVICE_KEYWORD; }
-  {ServiceName}      { return SERVICE_NAME; }
-  "match"            { return MATCH_KEYWORD; }
-  "allow"            { return ALLOW_KEYWORD; }
-  {RulesVersion}     { return RULES_VERSION; }
-  {Versions}         { return VERSIONS; }
-  "function"         { return FUNCTION_KEYWORD; }
-  "return"           { return RETURN_KEYWORD; }
+    "!"        { return EXCL; }
+    "+"        { return PLUS; }
+    "-"        { return MINUS; }
+    "*"        { return MUL; }
+    "/"        { return DIV; }
+    "%"        { return MODULO; }
+    "^"        { return XOR; }
 
-  /*"exists"           { return EXITS_KEYWORD; }
-  "get"              { return GET_KEYWORD; }
-  "read"             { return READ_KEYWORD; }
-  "write"            { return WRITE_KEYWORD; }
-  "list"             { return LIST_KEYWORD; }
-  "create"           { return CREATE_KEYWORD; }
-  "update"           { return UPDATE_KEYWORD; }
-  "delete"           { return DELETE_KEYWORD; }*/
+    "<"        { return LT; }
+    ">"        { return GT; }
+    "&"        { return AND; }
+    "|"        { return OR; }
+    "@"        { return AT; }
+    "#"        { return HASH; }
+    "?"        { return Q_MARK; }
 
-  "=="               { return EQEQ; }
-  "!="               { return NE; }
-  "||"               { return OROR; }
-  "&&"               { return ANDAND; }
-  "<"                { return LT; }
-  "<="               { return LE; }
-  ">"                { return GT; }
-  ">="               { return GE; }
-  "!"                { return NEGATE; }
-  "?"                { return Q_MARK; }
+    // keywords
+    "let"              { return LET; }
+    "if"               { return IF; }
+    "in"               { return IN; }
+    "is"               { return IS; }
+    "null"             { return NULL; }
+    "service"          { return SERVICE; }
+    "match"            { return MATCH; }
+    "allow"            { return ALLOW; }
+    "function"         { return FUNCTION; }
+    "return"           { return RETURN; }
+    "rules_version"    { return RULES_VERSION; }
 
-  "+"                { return PLUS_OP; }
-  "-"                { return MINUS_OP; }
-  "*"                { return MULT_OP; }
-
-  "("                { return LP; }
-  ")"                { return RP; }
-  "["                { return LB; }
-  "]"                { return RB; }
-  "{"                { return LEFT_BRACE; }
-  "}"                { return RIGHT_BRACE; }
-  "->"               { return OP; }
-  ":"                { return COLON; }
-  ","                { return COMMA; }
-  "="                { return EQ; }
-  "."                { return DOT; }
-  ";"                { return DOT_COMMA; }
-
-  {Number}           { return NUMBER; }
-  {String}           { return STRING; }
-  {Identifier}       { return IDENTIFIER; }
-  {Slash}            { return SLASH; }
-
-  {WhiteSpace}       { return com.intellij.psi.TokenType.WHITE_SPACE; }
-
-  [^] { return com.intellij.psi.TokenType.BAD_CHARACTER; }
+    {SERVICE_NAME}             { return SERVICE_NAME; }
+    {BOOL_LITERAL}             { return BOOL_LITERAL; }
+    {NUMBER_LITERAL}           { return NUMBER_LITERAL; }
+    {STRING_LITERAL}           { return STRING_LITERAL; }
+    {PATH_VARIABLE_LITERAL}    { return PATH_VARIABLE_LITERAL; }
+    {PATH_BUILT_IN_LITERAL}    { return PATH_BUILT_IN_LITERAL; }
+    {IDENTIFIER}               { return IDENTIFIER; }
 }
+
+<IN_BLOCK_COMMENT> {
+  "/*"    {
+          if (zzNestedCommentLevel++ == 0)
+              zzPostponedMarkedPos = zzStartRead;
+      }
+  "*/"    {
+          if (--zzNestedCommentLevel == 0)
+              return imbueBlockComment();
+      }
+  <<EOF>> {
+          zzNestedCommentLevel = 0; return imbueBlockComment();
+ }
+  [^]     { }
+}
+
+[^] { return BAD_CHARACTER; }

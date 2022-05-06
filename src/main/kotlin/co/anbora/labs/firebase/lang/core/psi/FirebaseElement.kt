@@ -4,11 +4,8 @@ import com.intellij.extapi.psi.ASTWrapperPsiElement
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 
-interface FirebaseElement: PsiElement {
-}
+interface FireRuleElement: PsiElement
 
-abstract class FirebaseElementImpl(
+abstract class FireRuleElementImpl(
     node: ASTNode
-) : ASTWrapperPsiElement(node), FirebaseElement {
-
-}
+) : ASTWrapperPsiElement(node), FireRuleElement

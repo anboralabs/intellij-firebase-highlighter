@@ -1,7 +1,7 @@
 package co.anbora.labs.firebase.ide.spelling
 
 import co.anbora.labs.firebase.lang.FirebaseRulesLanguage
-import co.anbora.labs.firebase.lang.core.psi.FirebaseRulesTypes
+import co.anbora.labs.firebase.lang.core.psi.FireRulesTypes
 import com.intellij.psi.PsiElement
 import com.intellij.psi.util.elementType
 import com.intellij.spellchecker.inspections.PlainTextSplitter
@@ -13,7 +13,7 @@ class FirebaseSpellCheckingStrategy: SpellcheckingStrategy() {
 
     override fun getTokenizer(element: PsiElement?): Tokenizer<*> =
             when (element?.elementType) {
-                FirebaseRulesTypes.STRING -> FIREBASE_STRING_TOKENIZER
+                FireRulesTypes.STRING -> FIREBASE_STRING_TOKENIZER
                 else -> super.getTokenizer(element)
             }
 

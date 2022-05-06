@@ -1,17 +1,18 @@
 package co.anbora.labs.firebase.lang.core.psi.impl
 
-import co.anbora.labs.firebase.lang.core.psi.FirebaseElementImpl
-import co.anbora.labs.firebase.lang.core.psi.FirebaseNamedElement
+import co.anbora.labs.firebase.lang.core.psi.FireRuleElementImpl
+import co.anbora.labs.firebase.lang.core.psi.FireRuleNamedElement
+import co.anbora.labs.firebase.lang.core.psi.FireRulePsiFactory
 import com.intellij.lang.ASTNode
 import com.intellij.psi.PsiElement
 
-abstract class FirebaseNamedElementImpl(
+abstract class FireRuleNamedElementImpl(
     node: ASTNode
-) : FirebaseElementImpl(node), FirebaseNamedElement {
+) : FireRuleElementImpl(node), FireRuleNamedElement {
     override fun getName(): String? = nameElement?.text
 
     override fun setName(name: String): PsiElement {
-        //nameElement?.replace(MovePsiFactory(project).createIdentifier(name))
+        nameElement?.replace(FireRulePsiFactory(project).createIdentifier(name))
         return this
     }
 

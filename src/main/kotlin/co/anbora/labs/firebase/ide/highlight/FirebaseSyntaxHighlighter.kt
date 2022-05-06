@@ -1,8 +1,11 @@
 package co.anbora.labs.firebase.ide.highlight
 
 import co.anbora.labs.firebase.ide.color.FirebaseColors
+import co.anbora.labs.firebase.lang.core.FIREBASE_COMMENTS
+import co.anbora.labs.firebase.lang.core.KEYWORDS
+import co.anbora.labs.firebase.lang.core.RULES_PERMISSIONS
 import co.anbora.labs.firebase.lang.core.lexer.FirebaseLexer
-import co.anbora.labs.firebase.lang.core.psi.FirebaseRulesTypes.*
+import co.anbora.labs.firebase.lang.core.psi.FireRulesTypes.*
 import com.intellij.lexer.Lexer
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
@@ -18,19 +21,16 @@ class FirebaseSyntaxHighlighter: SyntaxHighlighterBase() {
     companion object {
         fun map(tokenType: IElementType?): FirebaseColors? =
                 when (tokenType) {
-                    RULES_VERSION, SERVICE_KEYWORD, MATCH_KEYWORD, ALLOW_KEYWORD,
-                        TRUE_KEYWORD, FALSE_KEYWORD, NULL_KEYWORD,
-                        IF_KEYWORD, FUNCTION_KEYWORD, RETURN_KEYWORD,
-                        IN_KEYWORD, LET_KEYWORD, IS_KEYWORD -> FirebaseColors.KEY_WORD
-                    DOT_COMMA -> FirebaseColors.SEMICOLON
+                    in KEYWORDS, BOOL_LITERAL -> FirebaseColors.KEY_WORD
+                    SEMICOLON -> FirebaseColors.SEMICOLON
                     DOT -> FirebaseColors.DOT
                     COMMA -> FirebaseColors.COMMA
-                    PATH_VARIABLE -> FirebaseColors.PATH_VARIABLE
-                    PATH_BUILT_IN -> FirebaseColors.PATH_BUILT_IN
-                    VERSIONS, STRING -> FirebaseColors.STRINGS
-                    LINE_COMMENT, BLOCK_COMMENT -> FirebaseColors.COMMENTS
+                    PATH_VARIABLE_LITERAL -> FirebaseColors.PATH_VARIABLE
+                    PATH_BUILT_IN_LITERAL -> FirebaseColors.PATH_BUILT_IN
+                    STRING_LITERAL -> FirebaseColors.STRINGS
+                    in FIREBASE_COMMENTS -> FirebaseColors.COMMENTS
                     CALL_EXPR -> FirebaseColors.CALL_FUNCTION
-                    NUMBER -> FirebaseColors.NUMBERS
+                    NUMBER_LITERAL -> FirebaseColors.NUMBERS
                     SERVICE_NAME -> FirebaseColors.SERVICE_NAME
                     TokenType.BAD_CHARACTER -> FirebaseColors.BAD_CHAR
                     else -> null

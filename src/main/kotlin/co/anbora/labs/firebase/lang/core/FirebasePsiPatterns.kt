@@ -21,16 +21,16 @@ object FirebasePsiPatterns {
             psiElementWithParent<FirebaseFile>()
 
     fun serviceStatement(): PsiElementPattern.Capture<PsiElement> =
-            psiElementWithParent<FirebaseRulesServiceDef>()
+            psiElementWithParent<FireRulesServiceDef>()
 
     fun pathStatement(): PsiElementPattern.Capture<PsiElement> =
-            psiElementWithParent<FirebaseRulesPathStatement>()
+            psiElementWithParent<FireRulesPathStatement>()
 
     fun permissionStatement(): PsiElementPattern.Capture<PsiElement> =
-            psiElementWithParent<FirebaseRulesPermissionStatement>()
+            psiElementWithParent<FireRulesPermissionStatement>()
 
     fun allowStatement(): PsiElementPattern.Capture<PsiElement> =
-            psiElementWithParent<FirebaseRulesAllowStatement>()
+            psiElementWithParent<FireRulesAllowDef>()
 
     inline fun <reified I : PsiElement> psiElementWithParent() =
         PlatformPatterns.psiElement().withParent(

@@ -14,7 +14,7 @@
         <fileType name="Firebase Rules" implementationClass="co.anbora.labs.firebase.lang.FirebaseFileType"
                   fieldName="INSTANCE" language="firebase_rules" extensions="rules"/>
         <lang.parserDefinition language="firebase_rules"
-                               implementationClass="co.anbora.labs.firebase.lang.core.parser.FirebaseParserDefinition"/>
+                               implementationClass="co.anbora.labs.firebase.lang.FirebaseParserDefinition"/>
         <lang.syntaxHighlighterFactory language="firebase_rules"
                                        implementationClass="co.anbora.labs.firebase.ide.highlight.FirebaseSyntaxHighlighterFactory"/>
         <colorSettingsPage implementation="co.anbora.labs.firebase.ide.color.FirebaseColorSettingPage"/>
@@ -23,6 +23,8 @@
         <lang.formatter language="firebase_rules" implementationClass="co.anbora.labs.firebase.ide.formatter.FirebaseFormattingModelBuilder"/>
         <lang.braceMatcher language="firebase_rules" implementationClass="co.anbora.labs.firebase.ide.typing.FirebasePairedBraceMatcher"/>
         <lang.foldingBuilder language="firebase_rules" implementationClass="co.anbora.labs.firebase.ide.folding.RuleFoldingBuilder"/>
+        <lang.namesValidator language="firebase_rules"
+                             implementationClass="co.anbora.labs.firebase.ide.refactoring.FireNamesValidator"/>
         <completion.contributor language="firebase_rules"
                                 implementationClass="co.anbora.labs.firebase.lang.core.completion.FirebaseCompletionContributor"/>
         <codeStyleSettingsProvider
@@ -43,6 +45,11 @@
                          displayName="Conflicting declarations"
                          enabledByDefault="true" level="ERROR"
                          implementationClass="co.anbora.labs.firebase.ide.inspections.DuplicateFunctionsDeclarationInspection"/>
+
+        <localInspection language="firebase_rules" groupName="Firebase"
+                         displayName="Unused elements"
+                         enabledByDefault="true" level="WARNING"
+                         implementationClass="co.anbora.labs.firebase.ide.inspections.FindUsagesInspection"/>
     </extensions>
 
     <actions>
