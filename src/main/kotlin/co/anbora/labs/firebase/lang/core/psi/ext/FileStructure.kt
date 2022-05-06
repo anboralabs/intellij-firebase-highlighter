@@ -11,13 +11,13 @@ fun FireRulesFileStructure.builtInFunctions(): List<FireRulesFunctionDef> {
     return listOf(
         createBuiltinFunction(
             """
-            // Retrieves data from the given path. 
+            // Retrieves data from the given path.
             function get(path) { return path; }
             """, project
         ),
         createBuiltinFunction(
             """
-            /// Return true if the given path exists. 
+            /// Return true if the given path exists.
             function exists(path) { return true; }
             """, project
         )

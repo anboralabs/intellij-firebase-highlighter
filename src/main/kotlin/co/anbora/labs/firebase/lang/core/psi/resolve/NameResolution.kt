@@ -146,4 +146,3 @@ fun processLexicalDeclarations(
         Namespace.MODULE -> false
     }
 }
-
