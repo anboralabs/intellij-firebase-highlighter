@@ -138,13 +138,7 @@ FunctionDef ::= function IDENTIFIER FunctionParameterList CodeBlock
     mixin = "co.anbora.labs.firebase.lang.core.psi.ext.FireRuleFunctionMixin"
 }
 
-FunctionParameterList ::= '(' FunctionParameter_with_recover* ')' { pin = 1 }
-private FunctionParameter_with_recover ::= !(')' | '{' | ';') FunctionParameter (',' | &')')
-{
-    pin = 1
-    recoverWhile = FunctionParameter_recover
-}
-private FunctionParameter_recover ::= !(')' | '{' | ';' | IDENTIFIER)
+FunctionParameterList ::= '(' <<comma_sep_items (FunctionParameter &(','|')'))>>? ')' { pin = 1 }
 
 FunctionParameter ::= IDENTIFIER {
     implements = [
