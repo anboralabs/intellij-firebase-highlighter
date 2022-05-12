@@ -4,7 +4,7 @@ val kotlinVersion = "1.6.20"
 val publishingToken = System.getenv("PUBLISH_TOKEN")
 
 group = "co.anbora.labs"
-version = "2022.1.3"
+version = "2022.1.4"
 
 plugins {
     id("java")

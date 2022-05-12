@@ -118,7 +118,7 @@
 
 File ::= FileStructure
 
-FileStructure ::= VersionDef? (FunctionDef)* ServiceDef?
+FileStructure ::= VersionDef? (FunctionDef | ServiceDef)*
 
 //Rules version definition
 VersionDef ::= RULES_VERSION '=' Versions ';'? { pin = 2 }
@@ -138,13 +138,7 @@ FunctionDef ::= function IDENTIFIER FunctionParameterList CodeBlock
     mixin = "co.anbora.labs.firebase.lang.core.psi.ext.FireRuleFunctionMixin"
 }
 
-FunctionParameterList ::= '(' FunctionParameter_with_recover* ')' { pin = 1 }
-private FunctionParameter_with_recover ::= !(')' | '{' | ';') FunctionParameter (',' | &')')
-{
-    pin = 1
-    recoverWhile = FunctionParameter_recover
-}
-private FunctionParameter_recover ::= !(')' | '{' | ';' | IDENTIFIER)
+FunctionParameterList ::= '(' <<comma_sep_items (FunctionParameter &(','|')'))>>? ')' { pin = 1 }
 
 FunctionParameter ::= IDENTIFIER {
     implements = [
@@ -313,16 +307,12 @@ private Item_first ::= function | match | service | allow
 private Item_recover ::= !('}' | <<eof>> | Item_first)
 
 //Service definition
+ServiceNameDef ::= service SERVICE_NAME { pin = 1 }
 
-private ServiceName ::= SERVICE_NAME
-
-ServiceDef ::= service ServiceName ServiceBlock
+ServiceDef ::= ServiceNameDef ServiceBlock
 {
     pin=1
-    recoverWhile=ServiceDef_recover
 }
-private ServiceDef_recover ::= !(service ServiceName)
-
 ServiceBlock ::= '{' ServiceBlockItems '}' { pin = 1 }
 
 private ServiceBlockItems ::= !('}' | <<eof>>) ServiceItems+
@@ -358,11 +348,8 @@ private MatchItems ::= AllowDef | MatchDef | FunctionDef
 
 AllowDef ::= allow PermissionStatement AllowPredicate? ';' { pin=1 }
 
-PermissionStatement ::= PermissionStatementItem+ { pin=1 }
-private PermissionStatementItem ::= !(':'|';') Permissions (',' | &(':'|';')) {
-    pin=1
-    recoverWhile=Permission_recover
-}
+PermissionStatement ::= <<comma_sep_items (Permissions &(','|':'|';'))>>
+
 private get ::= <<getKeyword>>
 private read ::= <<readKeyword>>
 private write ::= <<writeKeyword>>
@@ -373,9 +360,6 @@ private delete ::= <<deleteKeyword>>
 
 Permissions ::= (get | read | write | list
                             | create | update | delete)
-
-private Permission_recover ::= !(':' |';' | get | read | write | list
-                                     | create | update | delete)
 
 AllowPredicate ::= ':' IfExpr { pin=1 }
 
