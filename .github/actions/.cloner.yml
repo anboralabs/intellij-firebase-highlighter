@@ -1,5 +1,0 @@
-uses: dpanayotov/issue-cloner@v0.2
-with:
-  label: "clone"
-  targetRepo: anboralabs/intellij-firebase
-  token: ${{ secrets.CLONE_ISSUE_TOKEN }}
