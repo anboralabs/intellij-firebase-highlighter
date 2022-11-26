@@ -17,4 +17,4 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew publishPlugin
         env:
-          PUBLISH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
+          PUBLISH_TOKEN: ${{ secrets.PUBLISH_T }}

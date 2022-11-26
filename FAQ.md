@@ -1,9 +1,7 @@
-## I am a student or an OSS developer, can I get a license for free?
+## I am a student, can I get a license for free?
 
 Sure! Please follow
-[https://jetbrains.com/student/](https://jetbrains.com/student/) (students) or
-[https://jetbrains.com/buy/opensource/](https://jetbrains.com/buy/opensource/)
-(OSS developer) instructions. If you are facing issues, please contact JetBrains
+[https://jetbrains.com/student/](https://jetbrains.com/student/) (students) instructions. If you are facing issues, please contact JetBrains
 support directly. Unfortunately, I can do nothing, this is on the JetBrains
 side.
 
@@ -28,7 +26,3 @@ Firebase Rules Syntax Highlighter is still:
   JetBrains license, repackage the plugin, then install it in your IDE at no
   cost. This is legal, and this is why I will stick to the MIT license. You only
   have to pay if you want to install the plugin from the JetBrains marketplace.
-- opensource: you can learn from the project's source code, you can contribute
-  (I will send free licenses to contributors, because I think
-  `contributing == supporting`) and - this is only my opinion - this is the
-  meaning of OSS: sharing **and** contribution.
