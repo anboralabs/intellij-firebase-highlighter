@@ -5,6 +5,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    if: ${{ github.event.pull_request.merged && contains(github.event.pull_request.labels.*.name, 'publish') }}
     steps:
       - uses: actions/checkout@v2
       - name: Set up JDK 11
